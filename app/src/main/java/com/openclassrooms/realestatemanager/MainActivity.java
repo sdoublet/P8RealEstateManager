@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.openclassrooms.realestatemanager.util.Utils;
+
 
 public class MainActivity extends AppCompatActivity {
 

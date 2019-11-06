@@ -3,13 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+    <data>
+        <variable
+            name="splash"
+            type="com.openclassrooms.realestatemanager.feature.splash.SpashModel" />
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.splashScreen.SplashScreenActivity"
+        tools:context=".feature.splash.SplashScreenActivity"
         android:background="@color/blackLight">
 
         <ImageView
@@ -18,7 +24,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/real_estate"
+            app:imageresource="@{splash.logo}"
             tools:ignore="ContentDescription"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="-52dp" />
@@ -31,7 +37,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            android:text="REAL ESTATE MANAGER"
+            android:text="@{splash.estateName}"
             android:textSize="25sp"
             android:textColor="@color/gold"/>
 

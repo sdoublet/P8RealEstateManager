@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.feature.splashScreen;
+package com.openclassrooms.realestatemanager.feature.splash;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -20,6 +20,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         activitySplashScreenBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen);
+        SpashModel spashModel = new SpashModel(R.drawable.real_estate, "Real Estate Manager");
+        activitySplashScreenBinding.setSplash(spashModel);
 
         //Handler Post Delayed
         new Handler().postDelayed(() -> {

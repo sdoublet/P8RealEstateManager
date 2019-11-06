@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group >
+        <item
+            android:id="@+id/profile_menu"
+            android:icon="@drawable/ic_account"
+            android:title="Profile" />
+        <item
+            android:id="@+id/settings_menu"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+        <item
+            android:id="@+id/credit_calculator_menu"
+            android:title="Credit calculator"
+            android:icon="@drawable/ic_credit"/>
+    </group>
+
+    <item android:title="Property type">
+        <menu>
+            <item
+                android:id="@+id/all_property"
+                android:title="All property"/>
+
+            <item
+                android:id="@+id/house_menu"
+                android:title="House" />
+            <item
+                android:id="@+id/appartement_menu"
+                android:title="Appartement" />
+            <item
+                android:id="@+id/locative_menu"
+                android:title="Locative" />
+            <item
+                android:id="@+id/enterprise_menu"
+                android:title="Enterprise" />
+        </menu>
+
+
+    </item>
+</menu>

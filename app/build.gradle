@@ -36,4 +36,6 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    //Nav View
+    implementation 'com.google.android.material:material:1.0.0'
 }

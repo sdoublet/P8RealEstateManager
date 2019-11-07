@@ -10,7 +10,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.R;
 
 public class GlideBindingAdapters {
-    @BindingAdapter("imageresource")
+    @BindingAdapter("image_resource")
     public static void setImageResource(ImageView view, int imageUrl){
         Context context = view.getContext();
 

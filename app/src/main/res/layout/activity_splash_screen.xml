@@ -5,8 +5,9 @@
     >
     <data>
         <variable
-            name="splash"
-            type="com.openclassrooms.realestatemanager.feature.splash.SpashModel" />
+            name="view_model"
+            type="com.openclassrooms.realestatemanager.feature.splash.SplashViewModel" />
+
 
     </data>
 
@@ -24,7 +25,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:imageresource="@{splash.logo}"
             tools:ignore="ContentDescription"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="-52dp" />
@@ -37,7 +37,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            android:text="@{splash.estateName}"
+            android:text="@{view_model.splash.estateName}"
             android:textSize="25sp"
             android:textColor="@color/gold"/>
 

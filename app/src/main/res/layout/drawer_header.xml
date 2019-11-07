@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="user"
+            type="com.openclassrooms.realestatemanager.data.User" />
+
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="RealEstate"
+            android:textColor="@color/goldLight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+
+        <ImageView
+            android:id="@+id/header_photo_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:image_resource="@{user.photo}"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/header_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@{user.name}"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/goldLight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/header_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/goldLight"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@{user.email}" />
+    </LinearLayout>
+
+</layout>

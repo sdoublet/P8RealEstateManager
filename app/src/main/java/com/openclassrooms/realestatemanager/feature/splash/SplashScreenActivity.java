@@ -7,21 +7,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.openclassrooms.realestatemanager.BR;
 import com.openclassrooms.realestatemanager.MainActivity;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.data.Spash;
 import com.openclassrooms.realestatemanager.databinding.ActivitySplashScreenBinding;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
+    private SplashViewModel splashViewModel;
     public static final int SLPASH_SCREEN_TIMEOUT = 5000;
     private ActivitySplashScreenBinding activitySplashScreenBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        splashViewModel = new SplashViewModel();
         activitySplashScreenBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen);
-        SpashModel spashModel = new SpashModel(R.drawable.real_estate, "Real Estate Manager");
-        activitySplashScreenBinding.setSplash(spashModel);
+       // Spash spashModel = new Spash(R.drawable.real_estate, "Real Estate Manager");
+       // activitySplashScreenBinding.setSplash(spashModel);
+        activitySplashScreenBinding.setVariable(com.openclassrooms.realestatemanager.BR.view_model, splashViewModel);
+
 
         //Handler Post Delayed
         new Handler().postDelayed(() -> {

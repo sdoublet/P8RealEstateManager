@@ -5,19 +5,19 @@ import androidx.databinding.Observable;
 import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.ViewModel;
 
-import com.openclassrooms.realestatemanager.data.Spash;
+import com.openclassrooms.realestatemanager.data.Splash;
 
 public class SplashViewModel extends ViewModel implements Observable {
 
     @Bindable
-    Spash spash;
+    Splash splash;
     SplashModel splashModel;
     @Bindable
     PropertyChangeRegistry callbacks;
 
     public SplashViewModel() {
         splashModel = new SplashRepository();
-        spash = splashModel.getSplash();
+        splash = splashModel.getSplash();
         callbacks = new PropertyChangeRegistry();
     }
 

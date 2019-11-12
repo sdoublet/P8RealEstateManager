@@ -37,9 +37,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            android:text="@{view_model.splash.estateName}"
             android:textSize="25sp"
             android:textColor="@color/gold"/>
+        <!-- android:text="@{view_model.splash.estateName}"-->
 
         <ProgressBar
             android:layout_width="wrap_content"

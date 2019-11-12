@@ -1,10 +1,10 @@
 package com.openclassrooms.realestatemanager.data;
 
-public class Spash {
+public class Splash {
     private int logo;
     private String estateName;
 
-    public Spash(int logo, String estateName) {
+    public Splash(int logo, String estateName) {
         this.logo = logo;
         this.estateName = estateName;
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.openclassrooms.realestatemanager.EstateActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.EstateAgency;
 import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
@@ -45,15 +46,30 @@ public class MainFragment extends Fragment {
         estateAgency.setName("Agence de la fontaine");
         estateAgency.setAdress("19 rue du bois 39380 CHAMBLAY");
         binding.setAgency(estateAgency);
-//        handlers = new MyHandlers();
-//        handlers.onClickSimulator(view);
-//        binding.setHandlers(handlers);
+
+        onClickSimulator();
+        onClickEstate();
         return view;
     }
 
-    public void onClickSimulator() {
-        //Context context = view.getContext();
-        Intent intent = new Intent(getContext(), CreditSimulatorActivity.class);
-        startActivity(intent);
+
+    private void onClickSimulator(){
+        binding.buttonSimulator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CreditSimulatorActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void onClickEstate(){
+        binding.buttonEstate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), EstateActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -87,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.settings_menu:
                 Toast.makeText(getApplicationContext(), "not available yet",Toast.LENGTH_SHORT ).show();
                 break;
+            case R.id.all_property:
+                Intent intent1 = new Intent(this, EstateActivity.class);
+                startActivity(intent1);
+                break;
 
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);

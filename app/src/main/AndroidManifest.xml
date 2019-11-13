@@ -13,10 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.credit_simulator.CreditSimulatorActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+        <activity android:name=".feature.map.MapActivity"></activity>
+        <activity android:name=".feature.add_property.AddPropertyActivity" />
+        <activity
+            android:name=".EstateActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".feature.credit_simulator.CreditSimulatorActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".feature.splash.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -26,10 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SecondActivity" />
     </application>
 

@@ -102,6 +102,7 @@
                     android:textColor="@color/goldLight" />
 
                 <Button
+                    android:id="@+id/button_add_property"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -123,6 +124,7 @@
                     android:textColor="@color/goldLight" />
 
                 <Button
+                    android:id="@+id/button_map"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

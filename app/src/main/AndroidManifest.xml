@@ -13,8 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.map.MapActivity"></activity>
-        <activity android:name=".feature.add_property.AddPropertyActivity" />
+        <activity android:name=".feature.user_profile.ProfileActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".feature.setting.SettingActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".feature.map.MapActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".feature.add_property.AddPropertyActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".EstateActivity"
             android:parentActivityName=".MainActivity" />

@@ -11,11 +11,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.openclassrooms.realestatemanager.EstateActivity;
+import com.openclassrooms.realestatemanager.MainActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.EstateAgency;
 import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
 import com.openclassrooms.realestatemanager.databinding.MyHandlers;
+import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
+import com.openclassrooms.realestatemanager.feature.map.MapActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +52,8 @@ public class MainFragment extends Fragment {
 
         onClickSimulator();
         onClickEstate();
+        onClickMap();
+        onClickAddProperty();
         return view;
     }
 
@@ -72,4 +77,24 @@ public class MainFragment extends Fragment {
             }
         });
     }
+
+    private void onClickMap(){
+        binding.buttonMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MapActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void onClickAddProperty(){
+        binding.buttonAddProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddPropertyActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 }

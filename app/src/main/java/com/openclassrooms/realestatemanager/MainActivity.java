@@ -3,8 +3,6 @@ package com.openclassrooms.realestatemanager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,6 +18,8 @@ import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
+import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
+import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.navView.addHeaderView(headerBinding.getRoot());
         User userModel = new User();
         userModel.setName("Seb");
-        userModel.setPhoto(R.drawable.real_estate);
+        userModel.setPhoto(R.drawable.photo_seb);
         userModel.setEmail("doubletsebastien@sfr.fr");
         headerBinding.setUser(userModel);
         //for nav item selected
@@ -69,8 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_view, fragment);
         fragmentTransaction.commit();
     }
+
     //configure drawer layout
-    private void configureDrawerLayout(){
+    private void configureDrawerLayout() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar,
                 R.string.open_drawer, R.string.close_drawer);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -79,25 +80,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.credit_calculator_menu:
                 Intent intent = new Intent(this, CreditSimulatorActivity.class);
                 startActivity(intent);
                 break;
             case R.id.settings_menu:
-                Toast.makeText(getApplicationContext(), "not available yet",Toast.LENGTH_SHORT ).show();
+                Intent intent1 = new Intent(this, SettingActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.all_property:
-                Intent intent1 = new Intent(this, EstateActivity.class);
-                startActivity(intent1);
+                Intent intent2 = new Intent(this, EstateActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.profile_menu:
+                Intent intent3 = new Intent(this, ProfileActivity.class);
+                startActivity(intent3);
                 break;
 
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
 
 }

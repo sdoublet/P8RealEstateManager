@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.credit_simulator.CreditSimulatorActivity">
+        <activity android:name=".feature.credit_simulator.CreditSimulatorActivity"
+            android:parentActivityName=".MainActivity">
 
         </activity>
         <activity

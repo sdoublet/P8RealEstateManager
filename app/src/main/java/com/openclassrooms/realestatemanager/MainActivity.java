@@ -1,21 +1,28 @@
 package com.openclassrooms.realestatemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.data.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
+import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private ActivityMainBinding binding;
@@ -39,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         userModel.setPhoto(R.drawable.real_estate);
         userModel.setEmail("doubletsebastien@sfr.fr");
         headerBinding.setUser(userModel);
+        //for nav item selected
+        binding.navView.setNavigationItemSelectedListener(this);
 
         //frag
         displayFragment(FRAGMENT_MAIN);
@@ -67,5 +76,24 @@ public class MainActivity extends AppCompatActivity {
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.credit_calculator_menu:
+                Intent intent = new Intent(this, CreditSimulatorActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.settings_menu:
+                Toast.makeText(getApplicationContext(), "not available yet",Toast.LENGTH_SHORT ).show();
+                break;
+
+        }
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+
 
 }

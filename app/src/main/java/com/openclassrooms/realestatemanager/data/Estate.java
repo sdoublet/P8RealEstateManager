@@ -1,6 +1,14 @@
 package com.openclassrooms.realestatemanager.data;
 
+
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity(foreignKeys = @ForeignKey(entity = User.class,
+        parentColumns = "id", childColumns = "userId"))
 public class Estate {
+    @PrimaryKey(autoGenerate = true)
     private int Id;
     private String type;
     private float price;

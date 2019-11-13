@@ -1,6 +1,12 @@
 package com.openclassrooms.realestatemanager.data;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class User {
+    @PrimaryKey
+    private int id;
     private String name;
     private int photo;
     private String email;
@@ -8,10 +14,19 @@ public class User {
     public User() {
     }
 
-    public User(String name, int photo, String email) {
+    public User(int id, String name, int photo, String email) {
         this.name = name;
         this.photo = photo;
         this.email = email;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

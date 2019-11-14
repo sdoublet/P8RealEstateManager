@@ -100,8 +100,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
 
+        }
+    }
 }

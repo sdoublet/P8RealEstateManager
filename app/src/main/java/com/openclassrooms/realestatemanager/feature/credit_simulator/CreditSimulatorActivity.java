@@ -25,8 +25,8 @@ public class CreditSimulatorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               double  p = Double.parseDouble(binding.priceEdit.getText().toString());
-               String s = binding.tauxEdit.getText().toString();
-               float t = Float.parseFloat(s);
+              // String s = binding.tauxEdit.getText().toString();
+               float t = Float.parseFloat(binding.tauxEdit.getText().toString());
                int d = Integer.parseInt(binding.durationEdit.getText().toString());
                 double calcul =(calculResult(p, d, t));
                 // result.setText(Double.toString(calcul));

@@ -59,41 +59,29 @@ public class MainFragment extends Fragment {
 
 
     private void onClickSimulator(){
-        binding.buttonSimulator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CreditSimulatorActivity.class);
-                startActivity(intent);
-            }
+        binding.buttonSimulator.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CreditSimulatorActivity.class);
+            startActivity(intent);
         });
     }
 
     private void onClickEstate(){
-        binding.buttonEstate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EstateActivity.class);
-                startActivity(intent);
-            }
+        binding.buttonEstate.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EstateActivity.class);
+            startActivity(intent);
         });
     }
 
     private void onClickMap(){
-        binding.buttonMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), MapActivity.class);
-                startActivity(intent);
-            }
+        binding.buttonMap.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MapActivity.class);
+            startActivity(intent);
         });
     }
     private void onClickAddProperty(){
-        binding.buttonAddProperty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddPropertyActivity.class);
-                startActivity(intent);
-            }
+        binding.buttonAddProperty.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), AddPropertyActivity.class);
+            startActivity(intent);
         });
     }
 

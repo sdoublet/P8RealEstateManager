@@ -23,6 +23,9 @@ public class Utils {
         return (int) Math.round(dollars * 0.812);
     }
 
+    // convert euros to dollars
+    public static int convertEuroToDollar(int euros){return (int)Math.round(euros/0.812);}
+
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -30,6 +33,12 @@ public class Utils {
      */
     public static String getTodayDate(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        return dateFormat.format(new Date());
+    }
+
+    // convert to the good format
+    public static String convertDate(){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
         return dateFormat.format(new Date());
     }
 

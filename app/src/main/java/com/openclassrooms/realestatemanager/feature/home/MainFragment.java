@@ -11,14 +11,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.openclassrooms.realestatemanager.EstateActivity;
-import com.openclassrooms.realestatemanager.MainActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.EstateAgency;
 import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
 import com.openclassrooms.realestatemanager.databinding.MyHandlers;
 import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
-import com.openclassrooms.realestatemanager.feature.map.MapActivity;
+import com.openclassrooms.realestatemanager.feature.map.MapsActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,7 +73,7 @@ public class MainFragment extends Fragment {
 
     private void onClickMap(){
         binding.buttonMap.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), MapActivity.class);
+            Intent intent = new Intent(getContext(), MapsActivity.class);
             startActivity(intent);
         });
     }

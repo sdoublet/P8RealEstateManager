@@ -1,23 +1,461 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.add_property.AddPropertyActivity">
+        tools:context=".feature.add_property.AddPropertyActivity"
+        >
 
         <TextView
+            android:id="@+id/center_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Type"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_type"
+            app:layout_constraintLeft_toRightOf="@+id/tv_type"
+            app:layout_constraintTop_toTopOf="@+id/tv_type" />
+
+        <EditText
+            android:id="@+id/edit_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Price"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:textColor="#800080"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_type"
+            app:layout_constraintLeft_toRightOf="@+id/spinner_type"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_type" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="#800080"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_price"
+            app:layout_constraintLeft_toRightOf="@+id/edit_price"
+            app:layout_constraintTop_toTopOf="@+id/edit_price" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Description"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_type"
+            app:layout_constraintTop_toBottomOf="@+id/tv_type" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_add_a_photo"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/edit_description"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+        <EditText
+            android:id="@+id/edit_description"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/shape_rec"
+            android:gravity="start"
+            android:hint="Put your description"
+            android:inputType="textMultiLine"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_description"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_description" />
+
+        <TextView
+            android:id="@+id/tv_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Room"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_type"
+            app:layout_constraintTop_toBottomOf="@+id/edit_description" />
+
+
+        <Spinner
+            android:id="@+id/spinner_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_room"
+            app:layout_constraintLeft_toRightOf="@+id/tv_room"
+            app:layout_constraintTop_toTopOf="@+id/tv_room" />
+
+        <TextView
+            android:id="@+id/tv_bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Bedroom"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toRightOf="@+id/spinner_room"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_description" />
+
+
+        <Spinner
+            android:id="@+id/spinner_bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_room"
+            app:layout_constraintLeft_toRightOf="@+id/tv_bedroom"
+            app:layout_constraintTop_toTopOf="@+id/tv_room" />
+
+        <TextView
+            android:id="@+id/tv_bathroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Bathroom"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintRight_toRightOf="@+id/tv_bedroom"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bedroom" />
+
+
+        <Spinner
+            android:id="@+id/spinner_bathroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_bathroom"
+            app:layout_constraintLeft_toRightOf="@+id/tv_bathroom"
+            app:layout_constraintTop_toTopOf="@+id/tv_bathroom" />
+
+        <TextView
+            android:id="@+id/tv_heating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Heating"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_room"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bedroom" />
+
+
+        <Spinner
+            android:id="@+id/spinner_heating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_bathroom"
+            app:layout_constraintLeft_toRightOf="@+id/tv_heating"
+            app:layout_constraintTop_toTopOf="@+id/tv_bathroom" />
+
+        <TextView
+            android:id="@+id/tv_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Surface m2"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@id/tv_heating"
+            app:layout_constraintTop_toBottomOf="@+id/tv_heating" />
+
+        <EditText
+            android:id="@+id/edit_estate_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rec"
+            android:hint="Estate"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            app:layout_constraintBottom_toBottomOf="@id/tv_surface"
+            app:layout_constraintRight_toRightOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@id/tv_surface" />
+
+        <EditText
+            android:id="@+id/edit_land_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rec"
+            android:hint="Land"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            app:layout_constraintBottom_toBottomOf="@id/tv_surface"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_surface" />
+
+        <TextView
+            android:id="@+id/tv_swimming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Swimming Pool"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_surface"
+            app:layout_constraintTop_toBottomOf="@+id/tv_surface" />
+
+        <CheckBox
+            android:id="@+id/checkbox_swimming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_swimming"
+            app:layout_constraintRight_toRightOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@id/tv_swimming" />
+
+        <TextView
+            android:id="@+id/tv_tennis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tennis"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_surface"
+            app:layout_constraintTop_toBottomOf="@+id/tv_swimming" />
+
+        <CheckBox
+            android:id="@+id/checkbox_tennis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_tennis"
+            app:layout_constraintRight_toRightOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@id/tv_tennis" />
+
+        <TextView
+            android:id="@+id/tv_poi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Point of Interest"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout"
+            app:layout_constraintRight_toRightOf="@+id/center_layout"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tennis" />
+
+        <TextView
+            android:id="@+id/tv_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="School"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@id/tv_tennis"
+            app:layout_constraintTop_toBottomOf="@id/tv_poi" />
+
+        <TextView
+            android:id="@+id/tv_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Shop"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@id/tv_tennis"
+            app:layout_constraintTop_toBottomOf="@id/tv_school" />
+
+        <TextView
+            android:id="@+id/tv_park"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Park"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="@id/tv_tennis"
+            app:layout_constraintTop_toBottomOf="@id/tv_shop" />
+
+        <CheckBox
+            android:id="@+id/checkbox_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_school"
+            app:layout_constraintRight_toRightOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@id/tv_school" />
+
+        <CheckBox
+            android:id="@+id/checkbox_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_shop"
+            app:layout_constraintRight_toRightOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@id/tv_shop" />
+
+        <CheckBox
+            android:id="@+id/checkbox_park"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_park"
+            app:layout_constraintRight_toRightOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@id/tv_park" />
+
+        <TextView
+            android:id="@+id/tv_hospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Hospital"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_school"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@+id/tv_school" />
+
+        <TextView
+            android:id="@+id/tv_transports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Transports"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_shop"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@+id/tv_shop" />
+
+        <TextView
+            android:id="@+id/tv_administration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Administration"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_park"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout"
+            app:layout_constraintTop_toTopOf="@+id/tv_park" />
+
+        <CheckBox
+            android:id="@+id/checkbox_hospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_hospital"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_hospital" />
+
+        <CheckBox
+            android:id="@+id/checkbox_transport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_transports"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_transports" />
+
+        <CheckBox
+            android:id="@+id/checkbox_administration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_administration"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_administration" />
+        <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_park"
+            android:hint="Address"
+            android:inputType="textPostalAddress"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_park"
+            android:layout_marginTop="20dp"/>
+         <EditText
+             android:id="@+id/edit_zip_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edit_address"
+            android:hint="Zip code"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_park"
+            android:layout_marginTop="5dp"
+             android:inputType="number"/>
+
+         <EditText
+             android:id="@+id/edit_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edit_address"
+            android:hint="City"
+            app:layout_constraintLeft_toLeftOf="@+id/edit_zip_code"
+             app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="5dp"
+             android:inputType="text" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ADD PROPERTY"
-            android:textSize="40sp"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/edit_zip_code"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="SAVE"
+                android:textColor="@color/goldLight"
+                android:background="@color/colorAccent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/button_sold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="SOLD"
+                android:textColor="@color/goldLight"
+                android:background="@color/colorAccent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <Button
+                android:id="@+id/button_geolocation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="GEOLOCATION"
+                android:textColor="@color/goldLight"
+                android:background="@color/colorAccent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+</ScrollView>
 </layout>

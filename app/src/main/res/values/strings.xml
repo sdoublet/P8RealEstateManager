@@ -6,4 +6,46 @@
     <string name="logo_image_description">logo image</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">close drawer</string>
+
+
+
+    //------------------ Array for spinner------------------
+    <string-array name="numbers">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>+10</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>flat</item>
+        <item>house</item>
+        <item>duplex</item>
+        <item>triplex</item>
+        <item>commercial</item>
+        <item>land</item>
+    </string-array>
+
+    <string-array name="heating">
+        <item>central</item>
+        <item>electric</item>
+        <item>firewood</item>
+        <item>subfloor</item>
+        <item>geothermal</item>
+        <item>oil-fired</item>
+        <item>warm air</item>
+        <item>solar</item>
+        <item>gas</item>
+        <item>community</item>
+
+    </string-array>
+
+
 </resources>

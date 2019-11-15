@@ -28,7 +28,7 @@ public class Estate {
     private double latitude;
     private double longitude;
 
-    public Estate() {
+   public Estate() {
     }
 
     public Estate(int id, String type, float price, float surface, int nbRoom, int bedroom, int bathroom, String description, int photo, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, int agentId, double latitude, double longitude) {

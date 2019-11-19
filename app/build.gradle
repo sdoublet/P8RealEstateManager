@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.openclassrooms.realestatemanager"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -55,6 +55,9 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    //HERE map
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     //Easy perm
     implementation 'pub.devrel:easypermissions:3.0.0'

@@ -17,6 +17,7 @@ import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
 import com.openclassrooms.realestatemanager.databinding.MyHandlers;
 import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
+import com.openclassrooms.realestatemanager.feature.map.HereMapActivity;
 import com.openclassrooms.realestatemanager.feature.map.MapsActivity;
 
 /**
@@ -73,7 +74,7 @@ public class MainFragment extends Fragment {
 
     private void onClickMap(){
         binding.buttonMap.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), MapsActivity.class);
+            Intent intent = new Intent(getContext(), HereMapActivity.class);
             startActivity(intent);
         });
     }

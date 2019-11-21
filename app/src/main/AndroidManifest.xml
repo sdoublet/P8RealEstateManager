@@ -39,7 +39,9 @@
         <activity
             android:name=".feature.map.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+
+        </activity>
         <activity
             android:name=".feature.user_profile.ProfileActivity"
             android:parentActivityName=".MainActivity" />
@@ -76,6 +78,18 @@
 
         <meta-data android:name="com.here.sdk.access_key_id" android:value="_gHUvyg8eULxO1vwpvZ3BQ" />
         <meta-data android:name="com.here.sdk.access_key_secret" android:value="TBzTxBIL8uXHlR7JHm7ietHxxkbArhEYflOx6fTyW7w-8jClN_6VZJLm1OEsV_b44KSjNgazpuB-ZWLWou2CLQ" />
+
+        <provider
+            android:authorities="com.openclassrooms.realestatemanager.fileProvider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+
+            </meta-data>
+        </provider>
     </application>
 
 </manifest>

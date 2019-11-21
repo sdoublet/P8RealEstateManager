@@ -8,12 +8,17 @@ import androidx.room.Query;
 
 import com.openclassrooms.realestatemanager.data.User;
 
+import java.util.List;
+
 @Dao
 public interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void createUser(User user);
+    long createUser(User user);
 
     @Query("SELECT * FROM User WHERE id = :id")
-    LiveData<User> getUser(int id);
+    LiveData<User> getUser(long id);
+
+    @Query("SELECT * FROM User")
+    LiveData<List<User>> getUser();
 }

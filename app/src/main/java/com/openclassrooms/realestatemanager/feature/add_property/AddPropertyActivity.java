@@ -168,9 +168,9 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
+    // Add property in database
+    private void createNewEstate(){
 
-
-
-
+    }
 
 }

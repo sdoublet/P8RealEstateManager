@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
         parentColumns = "id", childColumns = "agentId"))
 public class Estate {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String type;
     private int price;
     private float surface;
@@ -24,14 +24,14 @@ public class Estate {
     private boolean sold;
     private String entryDate;
     private String soldDate;
-    private int agentId;
+    private long agentId;
     private double latitude;
     private double longitude;
 
    public Estate() {
     }
 
-    public Estate(int id, String type, int price, float surface, int nbRoom, int bedroom, int bathroom, String description, int photo, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, int agentId, double latitude, double longitude) {
+    public Estate(long id, String type, int price, float surface, int nbRoom, int bedroom, int bathroom, String description, int photo, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, long agentId, double latitude, double longitude) {
         this.id = id;
         this.type = type;
         this.price = price;
@@ -54,7 +54,7 @@ public class Estate {
 
     //GETTERS
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -114,7 +114,7 @@ public class Estate {
         return soldDate;
     }
 
-    public int getAgentId() {
+    public long getAgentId() {
         return agentId;
     }
 
@@ -128,7 +128,7 @@ public class Estate {
 
 
     //SETTERS
-    public void setId(int id) {
+    public void setId(long id) {
         id = id;
     }
 
@@ -188,7 +188,7 @@ public class Estate {
         this.soldDate = soldDate;
     }
 
-    public void setAgentId(int agentId) {
+    public void setAgentId(long agentId) {
         this.agentId = agentId;
     }
 

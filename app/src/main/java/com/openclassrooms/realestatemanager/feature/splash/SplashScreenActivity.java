@@ -27,9 +27,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         splashViewModel = new SplashViewModel();
         ActivitySplashScreenBinding activitySplashScreenBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen);
-        Splash spashModel = new Splash(R.drawable.real_estate, "Real Estate Manager");
+        //Splash spashModel = new Splash(R.drawable.real_estate, "Real Estate Manager");
        // activitySplashScreenBinding.setSplash(spashModel);
-        activitySplashScreenBinding.setVariable(view_model, splashViewModel);
+        //activitySplashScreenBinding.setVariable(view_model, splashViewModel);
 
 
         //Handler Post Delayed

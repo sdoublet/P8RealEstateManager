@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -46,7 +47,9 @@ public abstract class RoomDb extends RoomDatabase {
                 super.onCreate(db);
 
                 ContentValues contentValues = new ContentValues();
-                // TODO: 13/11/2019 put some values since user.
+                contentValues.put("id", 1);
+                contentValues.put("name", "seb");
+                db.insert("User", OnConflictStrategy.IGNORE, contentValues);
             }
         };
     }

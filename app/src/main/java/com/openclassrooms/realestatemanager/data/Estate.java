@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.data;
 
 
+import android.content.ContentValues;
+
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -198,5 +200,31 @@ public class Estate {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    //-------------
+    //UTILS
+    //-------------
+
+    public static Estate fromContentValues(ContentValues contentValues){
+       final Estate estate = new Estate();
+       if (contentValues.containsKey("type")) estate.setType(contentValues.getAsString("type"));
+       if (contentValues.containsKey("price")) estate.setPrice(contentValues.getAsInteger("price"));
+       if (contentValues.containsKey("surface")) estate.setSurface(contentValues.getAsFloat("surface"));
+       if (contentValues.containsKey("nbRoom")) estate.setNbRoom(contentValues.getAsInteger("nbRoom"));
+       if (contentValues.containsKey("bedroom")) estate.setBedroom(contentValues.getAsInteger("bedroom"));
+       if (contentValues.containsKey("bathroom")) estate.setBathroom(contentValues.getAsInteger("bathroom"));
+       if (contentValues.containsKey("description")) estate.setDescription(contentValues.getAsString("description"));
+       if (contentValues.containsKey("photo")) estate.setPhoto(contentValues.getAsInteger("photo"));
+       if (contentValues.containsKey("address")) estate.setAddress(contentValues.getAsString("address"));
+       if (contentValues.containsKey("postalCode")) estate.setPostalCode(contentValues.getAsInteger("postalCode"));
+       if (contentValues.containsKey("city")) estate.setCity(contentValues.getAsString("city"));
+       if (contentValues.containsKey("sold")) estate.setSold(contentValues.getAsBoolean("sold"));
+       if (contentValues.containsKey("entryDate")) estate.setEntryDate(contentValues.getAsString("entryDate"));
+       if (contentValues.containsKey("soldDate")) estate.setSoldDate(contentValues.getAsString("soldDate"));
+       if (contentValues.containsKey("agentId")) estate.setAgentId(contentValues.getAsInteger("agentId"));
+       if (contentValues.containsKey("latitude")) estate.setLatitude(contentValues.getAsDouble("latitude"));
+       if (contentValues.containsKey("longitude")) estate.setLongitude(contentValues.getAsDouble("longitude"));
+       return estate;
     }
 }

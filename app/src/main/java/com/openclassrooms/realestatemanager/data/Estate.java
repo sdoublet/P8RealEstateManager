@@ -6,12 +6,12 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = @ForeignKey(entity = User.class,
-        parentColumns = "id", childColumns = "id"))
+        parentColumns = "id", childColumns = "agentId"))
 public class Estate {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String type;
-    private float price;
+    private int price;
     private float surface;
     private int nbRoom;
     private int bedroom;
@@ -31,7 +31,7 @@ public class Estate {
    public Estate() {
     }
 
-    public Estate(int id, String type, float price, float surface, int nbRoom, int bedroom, int bathroom, String description, int photo, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, int agentId, double latitude, double longitude) {
+    public Estate(int id, String type, int price, float surface, int nbRoom, int bedroom, int bathroom, String description, int photo, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, int agentId, double latitude, double longitude) {
         this.id = id;
         this.type = type;
         this.price = price;
@@ -62,7 +62,7 @@ public class Estate {
         return type;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -136,7 +136,7 @@ public class Estate {
         this.type = type;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

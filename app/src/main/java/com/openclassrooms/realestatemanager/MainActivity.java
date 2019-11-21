@@ -19,6 +19,7 @@ import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
 
 

@@ -22,6 +22,9 @@ import com.openclassrooms.realestatemanager.data.Estate;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -38,7 +41,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private Estate estate;
     private Disposable disposable;
     private Result apiResult;
-
 
 
     @Override
@@ -165,4 +167,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             binding.editLatitude.setText(results.getResults().get(0).getGeometry().getLocation().getLat().toString());
         }
     }
+
+
+
+
+
+
 }

@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.map.HereMapActivity"></activity>
+        <activity android:name=".feature.map.HereMapActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -50,7 +51,7 @@
             android:label="Set new property"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".EstateActivity"
+            android:name=".feature.show_property.EstateActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".feature.credit_simulator.CreditSimulatorActivity"

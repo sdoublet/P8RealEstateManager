@@ -1,7 +1,12 @@
 package com.openclassrooms.realestatemanager.util;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,5 +56,36 @@ public class Utils {
     public static Boolean isInternetAvailable(Context context){
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
+    }
+    //-----------------
+    //CONNECTION
+    //-----------------
+    //check connection
+    public static void onCheckNetworkStatus(Context context, View view){
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo!=null && networkInfo.isConnected()){
+            informationUser(view,"connected to Internet...");
+        }else {
+            informationUser(view,"No internet connection available...");
+        }
+    }
+
+    public static void checkNetworkType(Context context, View view){
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if (wifiInfo.isConnected()){
+            informationUser(view,"Connected by WiFi");
+        }else if (mobileInfo.isConnected()){
+            informationUser(view,"Connected to Mobile data");
+        }else {
+            informationUser(view,"No network available");
+        }
+    }
+    //for user
+    private static void informationUser(View view,String message){
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 }

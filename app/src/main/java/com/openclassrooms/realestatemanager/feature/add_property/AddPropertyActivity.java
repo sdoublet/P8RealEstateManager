@@ -62,33 +62,18 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        //For array type
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerType.setAdapter(adapter);
-        binding.spinnerType.setOnItemSelectedListener(this);
 
-        //For array number
-        ArrayAdapter<CharSequence> adapterNumber = ArrayAdapter.createFromResource(this, R.array.numbers, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerRoom.setAdapter(adapterNumber);
-        binding.spinnerBedroom.setAdapter(adapterNumber);
-        binding.spinnerBathroom.setAdapter(adapterNumber);
-        binding.spinnerRoom.setOnItemSelectedListener(this);
-        binding.spinnerBedroom.setOnItemSelectedListener(this);
-        binding.spinnerBathroom.setOnItemSelectedListener(this);
-
-        //For array heating
-        ArrayAdapter<CharSequence> adapterHeating = ArrayAdapter.createFromResource(this, R.array.heating, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerHeating.setAdapter(adapterHeating);
-        binding.spinnerHeating.setOnItemSelectedListener(this);
+        //UI spinners
+        this.configureSpinners();
 
         //Find location after click
         binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
 
         //save estate
         save();
+
+        //Configure ViewModel
+        this.configureViewModel();
 
     }
 
@@ -113,7 +98,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-        this.estateViewModel.intit(USER_ID);
+//        this.estateViewModel.intit(USER_ID);
     }
 
     // get current user
@@ -129,12 +114,17 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     binding.editDescription.getText().toString(), 1, binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
                     binding.editCity.getText().toString(), false, null, null, USER_ID,2.5445, 4.255555);
 
+            Toast.makeText(this,"Your estate is save", Toast.LENGTH_SHORT).show();
+
+
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
         }catch (Exception e){
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
         }
-
+        //estateViewModel.createEstate(estate);
     }
+
+
 
     // Write on storage
     private void writeOnStorage(){
@@ -234,9 +224,30 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
-    // Add property in database
-    private void createNewEstate(){
+    private void configureSpinners(){
+        //For array type
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerType.setAdapter(adapter);
+        binding.spinnerType.setOnItemSelectedListener(this);
 
+        //For array number
+        ArrayAdapter<CharSequence> adapterNumber = ArrayAdapter.createFromResource(this, R.array.numbers, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerRoom.setAdapter(adapterNumber);
+        binding.spinnerBedroom.setAdapter(adapterNumber);
+        binding.spinnerBathroom.setAdapter(adapterNumber);
+        binding.spinnerRoom.setOnItemSelectedListener(this);
+        binding.spinnerBedroom.setOnItemSelectedListener(this);
+        binding.spinnerBathroom.setOnItemSelectedListener(this);
+
+        //For array heating
+        ArrayAdapter<CharSequence> adapterHeating = ArrayAdapter.createFromResource(this, R.array.heating, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerHeating.setAdapter(adapterHeating);
+        binding.spinnerHeating.setOnItemSelectedListener(this);
     }
+
+// TODO: 27/11/2019 ajouter un onbackpressed sur la touche return
 
 }

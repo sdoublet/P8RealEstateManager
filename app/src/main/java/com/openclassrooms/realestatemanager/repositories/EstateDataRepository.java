@@ -19,7 +19,7 @@ public class EstateDataRepository {
     public LiveData<List<Estate>> getEstate(long agentId){return this.estateDao.getEstate(agentId);}
 
     //------CREATE---------
-    public void createEstate(Estate estate){estateDao.insertEstate(estate);}
+    public void createEstate(Estate estate){ estateDao.insertEstate(estate);}
 
     //-----DELETE----------
     public void deleteEstate(long estateId){estateDao.deleteEstate(estateId);}

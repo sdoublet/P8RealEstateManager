@@ -27,7 +27,7 @@ public class EstateViewModel extends ViewModel {
         this.executor = executor;
     }
 
-    public void intit(long userId){
+    public void intit(int userId){
         if (this.currentUser!=null){
             return;
         }
@@ -42,7 +42,7 @@ public class EstateViewModel extends ViewModel {
     //------------------
     // FOR ESTATE
     //------------------
-    public LiveData<List<Estate>> getEstates(long userId){
+    public LiveData<List<Estate>> getEstates(int userId){
         return estateDataRepository.getEstate(userId);
     }
 

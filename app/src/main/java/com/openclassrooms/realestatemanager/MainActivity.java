@@ -1,8 +1,11 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.realestatemanager.data.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
@@ -21,13 +25,17 @@ import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
+import com.openclassrooms.realestatemanager.util.Utils;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    private ConnectivityManager connectivityManager;
+
     private ActivityMainBinding binding;
     private DrawerHeaderBinding headerBinding;
+
 
     //Fragment identifier
     public static final int FRAGMENT_MAIN = 0;
@@ -39,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         headerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.drawer_header,
                 binding.navView, false);
+
+
+        // for connectivity
+        Utils.onCheckNetworkStatus(this, binding.drawerLayout);
+        Utils.checkNetworkType(this, binding.drawerLayout);
 
         //for nav header
         binding.navView.addHeaderView(headerBinding.getRoot());
@@ -104,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+
 
     //Back pressed drawer
     @Override

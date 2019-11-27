@@ -14,7 +14,6 @@ import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.EstateAgency;
 import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
-import com.openclassrooms.realestatemanager.databinding.MyHandlers;
 import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 import com.openclassrooms.realestatemanager.feature.map.HereMapActivity;
@@ -26,7 +25,6 @@ public class MainFragment extends Fragment {
 
     private EstateAgency estateAgency;
     private FragmentMainBinding binding;
-    private MyHandlers handlers;
 
     public static Fragment newInstance() {
         return new MainFragment();

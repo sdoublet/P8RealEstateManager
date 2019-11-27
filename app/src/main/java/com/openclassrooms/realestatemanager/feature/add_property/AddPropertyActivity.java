@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -21,6 +23,11 @@ import com.openclassrooms.realestatemanager.api.Result;
 import com.openclassrooms.realestatemanager.data.Estate;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateAdapter;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
+import com.openclassrooms.realestatemanager.injections.Injection;
+import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
+import com.openclassrooms.realestatemanager.util.StorageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +44,18 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
+
     private ActivityAddPropertyBinding binding;
     private Estate estate;
     private Disposable disposable;
     private Result apiResult;
 
+    //FOR DATA
+    private EstateViewModel estateViewModel;
+    private static int USER_ID =1;
+
+    //FILE PURPOSE
+   // public static final String FOLDERNAME=  "estateFolder";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +86,58 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
         //Find location after click
         binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
+
+        //save estate
+        save();
+
+    }
+
+    //------------------------
+    //ACTIONS
+    //------------------------
+    // Save data after click on save btn
+    private void save(){
+        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ici que je vais faire un insert dans ma base de données
+                createEstate();
+            }
+        });
+    }
+
+    //----------------------
+    //DATA
+    //----------------------
+    //Configure ViewModel
+    private void configureViewModel() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+        this.estateViewModel.intit(USER_ID);
+    }
+
+    // get current user
+
+
+
+    //Create new Estate
+    private void createEstate(){
+        try {
+            Estate estate = new Estate(USER_ID, binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
+                    Float.parseFloat(binding.editEstateSurface.getText().toString()), Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()),
+                    Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()),
+                    binding.editDescription.getText().toString(), 1, binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
+                    binding.editCity.getText().toString(), false, null, null, USER_ID,2.5445, 4.255555);
+
+            Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
+        }catch (Exception e){
+            Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    // Write on storage
+    private void writeOnStorage(){
 
     }
 

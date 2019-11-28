@@ -91,6 +91,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         });
     }
 
+    //Add photo
+    private void addPhoto(){
+        binding.addPhoto.setOnClickListener(v -> {
+
+        });
+    }
+
     //----------------------
     //DATA
     //----------------------
@@ -98,7 +105,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-//        this.estateViewModel.intit(USER_ID);
+        this.estateViewModel.intit(USER_ID);
     }
 
     // get current user
@@ -121,7 +128,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         }catch (Exception e){
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
         }
-        //estateViewModel.createEstate(estate);
+        estateViewModel.createEstate(estate);
     }
 
 

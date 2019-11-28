@@ -85,7 +85,7 @@ public class Utils {
         }
     }
     //for user
-    private static void informationUser(View view,String message){
+    public static void informationUser(View view,String message){
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -47,21 +47,15 @@ public class EstateViewModel extends ViewModel {
     }
 
     public void createEstate(Estate estate){
-        executor.execute(()->{
-            estateDataRepository.createEstate(estate);
-        });
+        executor.execute(()-> estateDataRepository.createEstate(estate));
     }
 
     public void deleteEstate(long estateId){
-        executor.execute(()->{
-            estateDataRepository.deleteEstate(estateId);
-        });
+        executor.execute(()-> estateDataRepository.deleteEstate(estateId));
     }
 
     public void updateEstate(Estate estate){
-        executor.execute(()->{
-            estateDataRepository.updateEstate(estate);
-        });
+        executor.execute(()-> estateDataRepository.updateEstate(estate));
     }
 
 }

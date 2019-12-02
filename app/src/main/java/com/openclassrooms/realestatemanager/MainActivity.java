@@ -23,6 +23,7 @@ import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
+import com.openclassrooms.realestatemanager.feature.show_property.DetailEstateActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
 import com.openclassrooms.realestatemanager.util.Utils;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.settings_menu:
-                Intent intent1 = new Intent(this, SettingActivity.class);
+                Intent intent1 = new Intent(this, DetailEstateActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.all_property:

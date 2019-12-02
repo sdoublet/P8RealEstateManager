@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.openclassrooms.realestatemanager.feature.map.MapsActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.EstateAgency;
@@ -71,7 +72,7 @@ public class MainFragment extends Fragment {
 
     private void onClickMap(){
         binding.buttonMap.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), HereMapActivity.class);
+            Intent intent = new Intent(getContext(), MapsActivity.class);
             startActivity(intent);
         });
     }

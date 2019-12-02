@@ -16,8 +16,8 @@ public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long createUser(User user);
 
-    @Query("SELECT * FROM User WHERE id = :id")
-    LiveData<User> getUser(long id);
+    @Query("SELECT * FROM User WHERE agentId = :agentId")
+    LiveData<User> getUser(long agentId);
 
     @Query("SELECT * FROM User")
     LiveData<List<User>> getUser();

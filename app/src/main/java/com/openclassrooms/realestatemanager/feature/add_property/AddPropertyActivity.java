@@ -1,15 +1,23 @@
 package com.openclassrooms.realestatemanager.feature.add_property;
 
 import android.Manifest;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -29,7 +37,11 @@ import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.util.StorageUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -41,6 +53,8 @@ import static android.content.ContentValues.TAG;
 public class AddPropertyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final int REQUEST_CODE = 1234;
+    public static final int REQUEST_PHOTO_CODE = 2345;
+    private static final String ESTATEID = "estateId";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
@@ -49,10 +63,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private Estate estate;
     private Disposable disposable;
     private Result apiResult;
+    private String photoPath = null;
+    private Bitmap image;
+    private long estateId;
 
     //FOR DATA
     private EstateViewModel estateViewModel;
-    private static int USER_ID =1;
+    private static long AGENT_ID =1;
 
     //FILE PURPOSE
    // public static final String FOLDERNAME=  "estateFolder";
@@ -63,8 +80,12 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
+       // estateId = getEstateId();
         //UI spinners
         this.configureSpinners();
+
+        //Configure ViewModel
+        this.configureViewModel();
 
         //Find location after click
         binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
@@ -72,8 +93,9 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         //save estate
         save();
 
-        //Configure ViewModel
-        this.configureViewModel();
+
+
+        addPhoto();
 
     }
 
@@ -94,8 +116,42 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //Add photo
     private void addPhoto(){
         binding.addPhoto.setOnClickListener(v -> {
-
+        takePhoto();
         });
+    }
+
+    //Take a photo and save in a temp file
+    private void takePhoto(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // test to control if phone has a camera
+        if (intent.resolveActivity(getPackageManager())!=null){
+            // create a unique file
+            String time = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
+            File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                File photoFile = File.createTempFile("photo"+time,".jpg", photoDir );
+                // save complete way
+                photoPath = photoFile.getAbsolutePath();
+                // create Uri
+                Uri photoUri = FileProvider.getUriForFile(AddPropertyActivity.this,
+                        AddPropertyActivity.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+                // transfer Uri to intent
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(intent, REQUEST_PHOTO_CODE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    // back camera call (startActivityForResult)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check requestCode and result
+        if (requestCode==REQUEST_PHOTO_CODE && resultCode==RESULT_OK){
+            image = BitmapFactory.decodeFile(photoPath);
+            //binding.addPhoto.setImageBitmap(image);
+        }
     }
 
     //----------------------
@@ -105,21 +161,29 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-        this.estateViewModel.intit(USER_ID);
+        this.estateViewModel.intit(AGENT_ID);
+        //this.estateViewModel.initEstate(12);
     }
 
-    // get current user
+    protected long getEstateId(){
+        long estateId = -1L;
+        Intent i = getIntent();
+        if (i!=null){
+            estateId = i.getExtras().getLong(ESTATEID);
+        }
+        return estateId;
+    }
 
 
 
     //Create new Estate
     private void createEstate(){
         try {
-            Estate estate = new Estate(USER_ID, binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
+            Estate estate = new Estate( binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
                     Float.parseFloat(binding.editEstateSurface.getText().toString()), Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()),
                     Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()),
-                    binding.editDescription.getText().toString(), 1, binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
-                    binding.editCity.getText().toString(), false, null, null, USER_ID,2.5445, 4.255555);
+                    binding.editDescription.getText().toString(),   binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
+                    binding.editCity.getText().toString(), false, null, null, AGENT_ID,2.5445, 4.255555);
 
             Toast.makeText(this,"Your estate is save", Toast.LENGTH_SHORT).show();
 

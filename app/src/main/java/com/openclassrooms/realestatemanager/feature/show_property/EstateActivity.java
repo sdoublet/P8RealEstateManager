@@ -27,7 +27,7 @@ public class EstateActivity extends AppCompatActivity {
     // FOR DATA
     private EstateViewModel estateViewModel;
     private EstateAdapter adapter;
-    private static int USER_ID = 1;
+    private static long AGENT_ID = 1;
 
 
     @Override
@@ -36,6 +36,7 @@ public class EstateActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_estate);
         populateData();
+       // configureRecyclerView();
 
     }
 
@@ -45,7 +46,7 @@ public class EstateActivity extends AppCompatActivity {
     private void configureViewModel(){
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-        this.estateViewModel.intit(USER_ID);
+        this.estateViewModel.intit(AGENT_ID);
     }
 
 
@@ -53,7 +54,14 @@ public class EstateActivity extends AppCompatActivity {
     //---------------
     //RECYCLER VIEW
     //---------------
+    private void configureRecyclerView(){
+        List<Estate> estateList = new ArrayList<>();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        adapter = new EstateAdapter(estateList, this );
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(linearLayoutManager);
 
+    }
 
         //----------------
         // POPULATE DATA
@@ -62,8 +70,9 @@ public class EstateActivity extends AppCompatActivity {
 
     public void populateData() {
         List<Estate> estateList = new ArrayList<>();
-        estateList.add(new Estate(1, "House", 145000, 245, 8, 3, 1, "Maison de plein pied", R.drawable.photo_seb, "19 rue du bois", 39380,
-                "Chamblay", false, "22/08/2019", null, 1, 4.5665, 1.2554));
+        estateList.add(new Estate( "House", 145000, 245, 8, 3, 1, "Maison de plein pied", "19 rue du bois", 39380,
+                "Chamblay", false, "22/08/2019", null, AGENT_ID, 4.5665, 1.2554));
+
 
         EstateAdapter estateAdapter = new EstateAdapter(estateList, this);
         binding.recyclerView.setAdapter(estateAdapter);

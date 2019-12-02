@@ -20,6 +20,7 @@ public class EstateViewModel extends ViewModel {
 
     //DATA
     private LiveData<User> currentUser;
+    private LiveData<Estate> currentEstate;
 
     public EstateViewModel(EstateDataRepository estateDataRepository, UserDataRepository userDataRepository, Executor executor) {
         this.estateDataRepository = estateDataRepository;
@@ -27,11 +28,17 @@ public class EstateViewModel extends ViewModel {
         this.executor = executor;
     }
 
-    public void intit(int userId){
+    public void intit(long userId){
         if (this.currentUser!=null){
             return;
         }
         currentUser = userDataRepository.getUser(userId);
+    }
+    public void initEstate(long estateId){
+        if (this.currentEstate!=null){
+          return;
+        }
+        currentEstate = estateDataRepository.getEstateFromId(estateId);
     }
 
     //------------------
@@ -42,9 +49,19 @@ public class EstateViewModel extends ViewModel {
     //------------------
     // FOR ESTATE
     //------------------
-    public LiveData<List<Estate>> getEstates(int userId){
-        return estateDataRepository.getEstate(userId);
+    public LiveData<List<Estate>> getAllEstates(){
+        return estateDataRepository.getAllEstate();
     }
+
+    public LiveData<Estate> getEstateFromId(long estateId){
+        return estateDataRepository.getEstateFromId(estateId);
+    }
+
+    public LiveData<List<Estate>> getEstatePerAgent(long agentId){
+        return estateDataRepository.getEstatePerAgent(agentId);
+    }
+
+
 
     public void createEstate(Estate estate){
         executor.execute(()-> estateDataRepository.createEstate(estate));

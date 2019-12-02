@@ -32,6 +32,7 @@ public abstract class RoomDb extends RoomDatabase {
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             RoomDb.class, "MyDatabase.db")
+                            //.fallbackToDestructiveMigration()
                             .addCallback(prepopulateDatabase())
                             .build();
                 }
@@ -47,7 +48,7 @@ public abstract class RoomDb extends RoomDatabase {
                 super.onCreate(db);
 
                 ContentValues contentValues = new ContentValues();
-                contentValues.put("id", 1);
+                contentValues.put("agentId", 1);
                 contentValues.put("name", "seb");
                 db.insert("User", OnConflictStrategy.IGNORE, contentValues);
             }

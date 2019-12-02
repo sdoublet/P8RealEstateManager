@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -22,11 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-    tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.map.HereMapActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".feature.show_property.DetailEstateActivity"></activity>
+        <activity
+            android:name=".feature.map.HereMapActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,9 +42,7 @@
         <activity
             android:name=".feature.map.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".feature.user_profile.ProfileActivity"
             android:parentActivityName=".MainActivity" />
@@ -78,20 +76,31 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-        <meta-data android:name="com.here.sdk.access_key_id" android:value="_gHUvyg8eULxO1vwpvZ3BQ" />
-        <meta-data android:name="com.here.sdk.access_key_secret" android:value="TBzTxBIL8uXHlR7JHm7ietHxxkbArhEYflOx6fTyW7w-8jClN_6VZJLm1OEsV_b44KSjNgazpuB-ZWLWou2CLQ" />
+        <meta-data
+            android:name="com.here.sdk.access_key_id"
+            android:value="_gHUvyg8eULxO1vwpvZ3BQ" />
+        <meta-data
+            android:name="com.here.sdk.access_key_secret"
+            android:value="TBzTxBIL8uXHlR7JHm7ietHxxkbArhEYflOx6fTyW7w-8jClN_6VZJLm1OEsV_b44KSjNgazpuB-ZWLWou2CLQ" />
 
         <provider
-            android:authorities="com.openclassrooms.realestatemanager.fileProvider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.openclassrooms.realestatemanager.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-
-            </meta-data>
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+        <provider
+            android:name=".provider.MyFileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_path" />
         </provider>
     </application>
 

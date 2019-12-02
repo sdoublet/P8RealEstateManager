@@ -1,32 +1,34 @@
 package com.openclassrooms.realestatemanager.data;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class User {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long agentId;
     private String name;
-    private int photo;
+    //private int photo;
     private String email;
 
+    @Ignore
     public User() {
     }
 
-    public User(long id, String name, int photo, String email) {
+    public User(long agentId, String name, String email) {
         this.name = name;
-        this.photo = photo;
+        //this.photo = photo;
         this.email = email;
-        this.id = id;
+        this.agentId = agentId;
     }
 
-    public long getId() {
-        return id;
+    public long getAgentId() {
+        return agentId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(long agentId) {
+        this.agentId = agentId;
     }
 
     public String getName() {
@@ -38,13 +40,13 @@ public class User {
     }
 
 
-    public int getPhoto() {
-        return photo;
-    }
+   // public int getPhoto() {
+   //     return photo;
+   // }
 
-    public void setPhoto(int photo) {
-        this.photo = photo;
-    }
+   // public void setPhoto(int photo) {
+//        this.photo = photo;
+//    }
 
     public String getEmail() {
         return email;

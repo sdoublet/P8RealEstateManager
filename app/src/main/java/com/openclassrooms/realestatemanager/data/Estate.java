@@ -5,13 +5,14 @@ import android.content.ContentValues;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = @ForeignKey(entity = User.class,
-        parentColumns = "id", childColumns = "agentId"))
+        parentColumns = "agentId", childColumns = "agentId"))
 public class Estate {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long estateId;
     private String type;
     private int price;
     private float surface;
@@ -19,7 +20,7 @@ public class Estate {
     private int bedroom;
     private int bathroom;
     private String description;
-    private int photo;
+  //  private int photo;
     private String address;
     private int postalCode;
     private String city;
@@ -30,11 +31,12 @@ public class Estate {
     private double latitude;
     private double longitude;
 
+    @Ignore
    public Estate() {
     }
 
-    public Estate(long id, String type, int price, float surface, int nbRoom, int bedroom, int bathroom, String description, int photo, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, long agentId, double latitude, double longitude) {
-        this.id = id;
+    public Estate( String type, int price, float surface, int nbRoom, int bedroom, int bathroom, String description, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, long agentId, double latitude, double longitude) {
+
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -42,7 +44,7 @@ public class Estate {
         this.bedroom = bedroom;
         this.bathroom = bathroom;
         this.description = description;
-        this.photo = photo;
+        //this.photo = photo;
         this.address = address;
         this.postalCode = postalCode;
         this.city = city;
@@ -56,8 +58,8 @@ public class Estate {
 
     //GETTERS
 
-    public long getId() {
-        return id;
+    public long getEstateId() {
+        return estateId;
     }
 
     public String getType() {
@@ -88,9 +90,9 @@ public class Estate {
         return description;
     }
 
-    public int getPhoto() {
-        return photo;
-    }
+  //public int getPhoto() {
+  //    return photo;
+  //}
 
     public String getAddress() {
         return address;
@@ -130,8 +132,10 @@ public class Estate {
 
 
     //SETTERS
-    public void setId(long id) {
-        id = id;
+
+
+    public void setEstateId(long estateId) {
+        this.estateId = estateId;
     }
 
     public void setType(String type) {
@@ -162,9 +166,9 @@ public class Estate {
         this.description = description;
     }
 
-    public void setPhoto(int photo) {
-        this.photo = photo;
-    }
+   // public void setPhoto(int photo) {
+    //    this.photo = photo;
+   // }
 
     public void setAddress(String address) {
         this.address = address;
@@ -206,25 +210,25 @@ public class Estate {
     //UTILS
     //-------------
 
-    public static Estate fromContentValues(ContentValues contentValues){
-       final Estate estate = new Estate();
-       if (contentValues.containsKey("type")) estate.setType(contentValues.getAsString("type"));
-       if (contentValues.containsKey("price")) estate.setPrice(contentValues.getAsInteger("price"));
-       if (contentValues.containsKey("surface")) estate.setSurface(contentValues.getAsFloat("surface"));
-       if (contentValues.containsKey("nbRoom")) estate.setNbRoom(contentValues.getAsInteger("nbRoom"));
-       if (contentValues.containsKey("bedroom")) estate.setBedroom(contentValues.getAsInteger("bedroom"));
-       if (contentValues.containsKey("bathroom")) estate.setBathroom(contentValues.getAsInteger("bathroom"));
-       if (contentValues.containsKey("description")) estate.setDescription(contentValues.getAsString("description"));
-       if (contentValues.containsKey("photo")) estate.setPhoto(contentValues.getAsInteger("photo"));
-       if (contentValues.containsKey("address")) estate.setAddress(contentValues.getAsString("address"));
-       if (contentValues.containsKey("postalCode")) estate.setPostalCode(contentValues.getAsInteger("postalCode"));
-       if (contentValues.containsKey("city")) estate.setCity(contentValues.getAsString("city"));
-       if (contentValues.containsKey("sold")) estate.setSold(contentValues.getAsBoolean("sold"));
-       if (contentValues.containsKey("entryDate")) estate.setEntryDate(contentValues.getAsString("entryDate"));
-       if (contentValues.containsKey("soldDate")) estate.setSoldDate(contentValues.getAsString("soldDate"));
-       if (contentValues.containsKey("agentId")) estate.setAgentId(contentValues.getAsInteger("agentId"));
-       if (contentValues.containsKey("latitude")) estate.setLatitude(contentValues.getAsDouble("latitude"));
-       if (contentValues.containsKey("longitude")) estate.setLongitude(contentValues.getAsDouble("longitude"));
-       return estate;
-    }
+ public static Estate fromContentValues(ContentValues contentValues){
+    final Estate estate = new Estate();
+    if (contentValues.containsKey("type")) estate.setType(contentValues.getAsString("type"));
+    if (contentValues.containsKey("price")) estate.setPrice(contentValues.getAsInteger("price"));
+    if (contentValues.containsKey("surface")) estate.setSurface(contentValues.getAsFloat("surface"));
+    if (contentValues.containsKey("nbRoom")) estate.setNbRoom(contentValues.getAsInteger("nbRoom"));
+    if (contentValues.containsKey("bedroom")) estate.setBedroom(contentValues.getAsInteger("bedroom"));
+    if (contentValues.containsKey("bathroom")) estate.setBathroom(contentValues.getAsInteger("bathroom"));
+    if (contentValues.containsKey("description")) estate.setDescription(contentValues.getAsString("description"));
+    //if (contentValues.containsKey("photo")) estate.setPhoto(contentValues.getAsInteger("photo"));
+    if (contentValues.containsKey("address")) estate.setAddress(contentValues.getAsString("address"));
+    if (contentValues.containsKey("postalCode")) estate.setPostalCode(contentValues.getAsInteger("postalCode"));
+    if (contentValues.containsKey("city")) estate.setCity(contentValues.getAsString("city"));
+    if (contentValues.containsKey("sold")) estate.setSold(contentValues.getAsBoolean("sold"));
+    if (contentValues.containsKey("entryDate")) estate.setEntryDate(contentValues.getAsString("entryDate"));
+    if (contentValues.containsKey("soldDate")) estate.setSoldDate(contentValues.getAsString("soldDate"));
+    if (contentValues.containsKey("agentId")) estate.setAgentId(contentValues.getAsInteger("agentId"));
+    if (contentValues.containsKey("latitude")) estate.setLatitude(contentValues.getAsDouble("latitude"));
+    if (contentValues.containsKey("longitude")) estate.setLongitude(contentValues.getAsDouble("longitude"));
+    return estate;
+ }
 }

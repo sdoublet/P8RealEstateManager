@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.navView.addHeaderView(headerBinding.getRoot());
         User userModel = new User();
         userModel.setName("Seb");
-        userModel.setPhoto(R.drawable.photo_seb);
+       // userModel.setPhoto(R.drawable.photo_seb);
         userModel.setEmail("doubletsebastien@sfr.fr");
         headerBinding.setUser(userModel);
         //for nav item selected

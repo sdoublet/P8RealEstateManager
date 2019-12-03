@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface LocationServices {
 
     @GET("maps/api/geocode/json?")
-    Observable<ApiGeocoding> getGeocoding(@Query("formatted_address")String address,
+    Observable<ApiGeocoding> getGeocoding(@Query("address")String address,
                                           @Query("key")String key);
 
     Retrofit retrofit = new Retrofit.Builder()

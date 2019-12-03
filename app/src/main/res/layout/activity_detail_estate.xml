@@ -16,8 +16,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".feature.show_property.DetailEstateActivity">
+            android:layout_height="wrap_content"
+            tools:context=".feature.show_property.DetailEstateActivity"
+            android:background="@color/colorAccent">
 
 
             <TextView
@@ -26,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="CITY"
+                android:textColor="@color/goldLight"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Description"
+                android:textColor="@color/goldLight"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/map_layout" />
@@ -89,22 +92,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/shape_rec"
+                android:background="@drawable/shape_rec_color"
                 android:maxHeight="120dp"
                 android:text="Superbe maison du 19e siecle. A renover"
+                android:textSize="18sp"
+                android:textColor="@color/goldLight"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_description_detail" />
 
-            <TextView
-                android:id="@+id/tv_price_title_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Price"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_description_detail" />
+
 
             <TextView
                 android:id="@+id/tv_price_detail"
@@ -112,10 +109,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="225.000$"
+                android:textColor="@color/goldLight"
                 android:textSize="25sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_price_title_detail" />
+                app:layout_constraintTop_toBottomOf="@id/edit_description_detail" />
 
             <ImageView
                 android:id="@+id/ic_surface"
@@ -134,6 +132,7 @@
                 android:layout_marginStart="10dp"
                 android:text="240 m2"
                 android:textSize="20sp"
+                android:textColor="@color/goldLight"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_surface"
                 app:layout_constraintLeft_toRightOf="@id/ic_surface"
                 app:layout_constraintTop_toTopOf="@+id/ic_surface" />
@@ -143,6 +142,7 @@
                 android:layout_height="wrap_content"
                 android:text="Land 1500 m2"
                 android:textSize="20sp"
+                android:textColor="@color/goldLight"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_surface"
                 app:layout_constraintLeft_toRightOf="@id/tv_surface_detail"
                 app:layout_constraintRight_toRightOf="parent"
@@ -165,19 +165,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="8"
+                android:textColor="@color/goldLight"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_room"
                 app:layout_constraintLeft_toRightOf="@id/ic_room"
                 app:layout_constraintTop_toTopOf="@+id/ic_room" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show points of interest"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_bathroom_detail"
-                app:layout_constraintLeft_toLeftOf="@id/tv_room_detail"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_room_detail" />
 
 
             <ImageView
@@ -196,6 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="4"
+                android:textColor="@color/goldLight"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_bedroom_detail"
                 app:layout_constraintLeft_toRightOf="@id/ic_bedroom_detail"
@@ -217,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="2"
+                android:textColor="@color/goldLight"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_bathroom_detail"
                 app:layout_constraintLeft_toRightOf="@id/ic_bathroom_detail"
@@ -238,6 +232,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Mode de chauffage"
+                android:textColor="@color/goldLight"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_heating_detail"
                 app:layout_constraintLeft_toRightOf="@id/ic_heating_detail"
@@ -260,6 +255,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Location"
+                android:textColor="@color/goldLight"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_location_detail"
                 app:layout_constraintLeft_toRightOf="@id/ic_location_detail"
@@ -269,24 +265,27 @@
                 android:id="@+id/tv_location_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/goldLight"
                 android:text="19 rue du bois  \n39380 \nChamblay"
                 android:textSize="15sp"
-                app:layout_constraintLeft_toLeftOf="@id/ic_location_detail"
+                app:layout_constraintLeft_toLeftOf="@id/tv_location_title_detail"
                 app:layout_constraintTop_toBottomOf="@+id/ic_location_detail" />
 
 
-
-
-
-
-
-
-
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show points of interest"
+                app:layout_constraintTop_toBottomOf="@+id/tv_location_detail"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@color/goldLight"
+                android:textColor="@color/colorAccent"
+                android:layout_marginTop="15dp"
+                 />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </ScrollView>
 </layout>

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.feature.add_property;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,10 +44,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import pub.devrel.easypermissions.EasyPermissions;
+import retrofit2.HttpException;
 
 import static android.content.ContentValues.TAG;
 
@@ -63,9 +66,11 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private Estate estate;
     private Disposable disposable;
     private Result apiResult;
+    private ApiGeocoding geocoding;
     private String photoPath = null;
     private Bitmap image;
     private long estateId;
+   
 
     //FOR DATA
     private EstateViewModel estateViewModel;
@@ -88,7 +93,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         this.configureViewModel();
 
         //Find location after click
-        binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
+       // binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
 
         //save estate
         save();
@@ -108,7 +113,12 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onClick(View v) {
                 //ici que je vais faire un insert dans ma base de données
-                createEstate();
+              //  createEstate();
+
+                String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
+                        + binding.editCity.getText().toString() + ", France" ;
+                executeHttpRequestWithretrofit(address);
+//                Log.e("location", geocoding.getStatus() );
             }
         });
     }
@@ -183,7 +193,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     Float.parseFloat(binding.editEstateSurface.getText().toString()), Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()),
                     Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()),
                     binding.editDescription.getText().toString(),   binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
-                    binding.editCity.getText().toString(), false, null, null, AGENT_ID,2.5445, 4.255555);
+                    binding.editCity.getText().toString(), false, null, null, AGENT_ID,geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
+                    geocoding.getResults().get(0).getGeometry().getLocation().getLng());
 
             Toast.makeText(this,"Your estate is save", Toast.LENGTH_SHORT).show();
 
@@ -232,7 +243,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     private void getLocationByGeocoding() {
         if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
-            executeHttpRequestWithretrofit("chamblay");
+            executeHttpRequestWithretrofit(" 39380 chamblay, france");
             //Log.e("geocod", location.getLatitude() + "," + location.getLongitude());
         }
     }
@@ -253,31 +264,62 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //HTTP REQUEST
     //----------------------
     public void executeHttpRequestWithretrofit(String address) {
-        this.disposable = LocationStream.streamFetchGeocoding(address, String.valueOf(R.string.google_maps_key)).subscribeWith(newObserver());
-    }
-
-    private <T> DisposableObserver<T> newObserver() {
-        return new DisposableObserver<T>() {
+        this.disposable = LocationStream.streamFetchGeocoding(address," AIzaSyBUN6XdAhBLogvQEy5Ap3dWktKIdBypG7U").subscribeWith(new DisposableObserver<ApiGeocoding>() {
             @Override
-            public void onNext(T t) {
-                if (t instanceof ApiGeocoding) {
-                    apiResult = (Result) ((ApiGeocoding) t).getResults();
-                    updateUI((ApiGeocoding) t);
-                } else
-                    Log.e("TAG", "disposableObserver onNext" + t.getClass());
+            public void onNext(ApiGeocoding apiGeocoding) {
+//                System.out.println(apiGeocoding.getStatus() + "bonjour");
+//                Log.e("status", geocoding.getStatus()+ "bonjour");
+                Log.e("TAG", "on next working");
+                Log.e("TAG", apiGeocoding.getStatus() + apiGeocoding.getResults().get(0).getGeometry().getLocation().getLat());
+                binding.editLatitude.setText(apiGeocoding.getResults().get(0).getGeometry().getLocation().getLat().toString());
+                binding.editLongitude.setText(apiGeocoding.getResults().get(0).getGeometry().getLocation().getLng().toString());
             }
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+            Log.e("TAG", "on error" + e.getMessage() + e.getLocalizedMessage() + e.fillInStackTrace() + e.getCause());
+            if (e instanceof HttpException){
+                HttpException httpException = (HttpException) e;
+                int code = httpException.code();
+                String message = httpException.getMessage();
+
+                Log.e("TAG", code + message + httpException.response());
+            }
+
             }
 
             @Override
             public void onComplete() {
-
+            Log.e("TAG", "on complete");
             }
-        };
+        });
     }
+
+
+
+//    private <T> DisposableObserver<T> newObserver() {
+//        return new DisposableObserver<T>() {
+//            @Override
+//            public void onNext(T t) {
+//                if (t instanceof ApiGeocoding) {
+//                   // apiResult = (Result) ((ApiGeocoding) t).getResults();
+//                   // updateUI((ApiGeocoding) t);
+//                    Log.e("status",geocoding.getStatus() );
+//                } else
+//                    Log.e("TAG", "disposableObserver onNext" + t.getClass());
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//
+//            }
+//        };
+//    }
 
     //  Dispose subscription
     private void disposeWhenDestroy() {

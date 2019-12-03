@@ -41,6 +41,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         Estate estate = estateList.get(position);
        // holder.rowEstateBinding.rowCity.setText(estate.getCity());
         holder.rowEstateBinding.setEstate(estate);
+        //holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.country_house);
        // holder.rowEstateBinding.rowPrice.setText((int) estate.getPrice());
        // holder.rowEstateBinding.rowType.setText(estate.getType());
     }

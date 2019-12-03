@@ -47,6 +47,9 @@ public class MainFragment extends Fragment {
         estateAgency.setName("Agence de la fontaine");
         estateAgency.setAdress("19 rue du bois 39380 CHAMBLAY");
         binding.setAgency(estateAgency);
+        binding.imgLastEntry.setImageResource(R.drawable.country_house);
+        binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.modern_house));
+        binding.mostVisited.setImageDrawable(getResources().getDrawable(R.drawable.manor));
 
         onClickSimulator();
         onClickEstate();

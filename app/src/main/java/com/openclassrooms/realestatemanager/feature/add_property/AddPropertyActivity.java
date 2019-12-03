@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.feature.add_property;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -33,19 +31,15 @@ import com.openclassrooms.realestatemanager.api.Result;
 import com.openclassrooms.realestatemanager.data.Estate;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
-import com.openclassrooms.realestatemanager.feature.show_property.EstateAdapter;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
-import com.openclassrooms.realestatemanager.util.StorageUtils;
+import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -75,10 +69,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     //FOR DATA
     private EstateViewModel estateViewModel;
-    private static long AGENT_ID =1;
+    private static long AGENT_ID = 1;
 
     //FILE PURPOSE
-   // public static final String FOLDERNAME=  "estateFolder";
+    // public static final String FOLDERNAME=  "estateFolder";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +80,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
-       // estateId = getEstateId();
+        // estateId = getEstateId();
         //UI spinners
         this.configureSpinners();
 
@@ -94,11 +88,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         this.configureViewModel();
 
         //Find location after click
-       // binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
+        // binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
 
-        //save estate
-        save();
-
+        //Display lat lng
+        showLocation();
 
 
         addPhoto();
@@ -108,39 +101,39 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //------------------------
     //ACTIONS
     //------------------------
-    // Save data after click on save btn
-    private void save(){
-        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //ici que je vais faire un insert dans ma base de données
-              //  createEstate();
+    // Show lat lng on set new property screen
+    private void showLocation() {
+        binding.buttonShowLocation.setOnClickListener(v -> {
 
-                String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
-                        + binding.editCity.getText().toString() + ", France" ;
-                executeHttpRequestWithretrofit(address);
-//                Log.e("location", geocoding.getStatus() );
-            }
+            String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
+                    + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
+            executeHttpRequestWithretrofit(address);
+
         });
     }
 
+    // Save property in database
+    private void save() {
+        binding.buttonSave.setOnClickListener(v -> createEstate());
+    }
+
     //Add photo
-    private void addPhoto(){
+    private void addPhoto() {
         binding.addPhoto.setOnClickListener(v -> {
-        takePhoto();
+            takePhoto();
         });
     }
 
     //Take a photo and save in a temp file
-    private void takePhoto(){
+    private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // test to control if phone has a camera
-        if (intent.resolveActivity(getPackageManager())!=null){
+        if (intent.resolveActivity(getPackageManager()) != null) {
             // create a unique file
             String time = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
             File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             try {
-                File photoFile = File.createTempFile("photo"+time,".jpg", photoDir );
+                File photoFile = File.createTempFile("photo" + time, ".jpg", photoDir);
                 // save complete way
                 photoPath = photoFile.getAbsolutePath();
                 // create Uri
@@ -154,12 +147,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             }
         }
     }
+
     // back camera call (startActivityForResult)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check requestCode and result
-        if (requestCode==REQUEST_PHOTO_CODE && resultCode==RESULT_OK){
+        if (requestCode == REQUEST_PHOTO_CODE && resultCode == RESULT_OK) {
             image = BitmapFactory.decodeFile(photoPath);
             //binding.addPhoto.setImageBitmap(image);
         }
@@ -176,41 +170,39 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         //this.estateViewModel.initEstate(12);
     }
 
-    protected long getEstateId(){
+    protected long getEstateId() {
         long estateId = -1L;
         Intent i = getIntent();
-        if (i!=null){
+        if (i != null) {
             estateId = i.getExtras().getLong(ESTATEID);
         }
         return estateId;
     }
 
 
-
     //Create new Estate
-    private void createEstate(){
+    private void createEstate() {
         try {
-            Estate estate = new Estate( binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
+            Estate estate = new Estate(binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
                     Float.parseFloat(binding.editEstateSurface.getText().toString()), Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()),
                     Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()),
-                    binding.editDescription.getText().toString(),   binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
-                    binding.editCity.getText().toString(), false, null, null, AGENT_ID,geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
+                    binding.editDescription.getText().toString(), binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
+                    binding.editCity.getText().toString(), false, null, null, AGENT_ID, geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
                     geocoding.getResults().get(0).getGeometry().getLocation().getLng());
 
-            Toast.makeText(this,"Your estate is save", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Your estate is save", Toast.LENGTH_SHORT).show();
 
 
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
         }
         estateViewModel.createEstate(estate);
     }
 
 
-
     // Write on storage
-    private void writeOnStorage(){
+    private void writeOnStorage() {
 
     }
 
@@ -268,36 +260,29 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         this.disposable = LocationStream.streamFetchGeocoding(address, BuildConfig.google_maps_api_key).subscribeWith(new DisposableObserver<ApiGeocoding>() {
             @Override
             public void onNext(ApiGeocoding apiGeocoding) {
-//                System.out.println(apiGeocoding.getStatus() + "bonjour");
-//                Log.e("status", geocoding.getStatus()+ "bonjour");
-                Log.e("TAG", "on next working");
-                Log.e("TAG", apiGeocoding.getStatus() + apiGeocoding.getResults().get(0).getGeometry().getLocation().getLat());
-                binding.editLatitude.setText(apiGeocoding.getResults().get(0).getGeometry().getLocation().getLat().toString());
-                binding.editLongitude.setText(apiGeocoding.getResults().get(0).getGeometry().getLocation().getLng().toString());
+                Log.e("TAG", apiGeocoding.getStatus());
+                updateUI(apiGeocoding);
             }
 
             @Override
             public void onError(Throwable e) {
-            Log.e("TAG", "on error" + e.getMessage() + e.getLocalizedMessage() + e.fillInStackTrace() + e.getCause());
-            if (e instanceof HttpException){
-                HttpException httpException = (HttpException) e;
-                int code = httpException.code();
-                String message = httpException.getMessage();
+                Log.e("TAG", "on error" + e.getMessage() + e.getLocalizedMessage() + e.fillInStackTrace() + e.getCause());
+                if (e instanceof HttpException) {
+                    HttpException httpException = (HttpException) e;
+                    int code = httpException.code();
+                    String message = httpException.getMessage();
 
-                Log.e("TAG", code + message + httpException.response());
-            }
+                    Log.e("TAG", code + message + httpException.response());
+                }
 
             }
 
             @Override
             public void onComplete() {
-            Log.e("TAG", "on complete");
+                Log.e("TAG", "on complete");
             }
         });
     }
-
-
-
 
 
     //  Dispose subscription
@@ -311,12 +296,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void updateUI(ApiGeocoding results) {
         if (results.getResults() != null) {
 
-            binding.editLongitude.setText(results.getResults().get(0).getGeometry().getLocation().getLng().toString());
-            binding.editLatitude.setText(results.getResults().get(0).getGeometry().getLocation().getLat().toString());
+
+            binding.editLongitude.setText(Utils.stringFormat(results.getResults().get(0).getGeometry().getLocation().getLng()));
+            binding.editLatitude.setText(Utils.stringFormat(results.getResults().get(0).getGeometry().getLocation().getLat()));
         }
     }
 
-    private void configureSpinners(){
+    private void configureSpinners() {
         //For array type
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -409,12 +409,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_address" />
 
-            <EditText
+            <TextView
                 android:id="@+id/edit_latitude"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Latitude"
-                android:inputType="numberDecimal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/button_group"
                 app:layout_constraintLeft_toLeftOf="@id/edit_zip_code"
                 app:layout_constraintTop_toBottomOf="@+id/edit_zip_code"
@@ -422,12 +423,13 @@
 
                 />
 
-            <EditText
+            <TextView
                 android:id="@+id/edit_longitude"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Longitude"
-                android:inputType="numberDecimal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/button_group"
                 app:layout_constraintLeft_toLeftOf="@id/edit_city"
                 app:layout_constraintTop_toBottomOf="@+id/edit_city" />
@@ -438,11 +440,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3"
+                android:weightSum="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_zip_code">
+
+                <Button
+                    android:id="@+id/button_show_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="Display location"
+                    android:textColor="@color/goldLight" />
 
                 <Button
                     android:id="@+id/button_save"
@@ -451,28 +463,10 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
-                    android:text="SAVE"
+                    android:text="save"
                     android:textColor="@color/goldLight" />
 
-                <Button
-                    android:id="@+id/button_sold"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:text="SOLD"
-                    android:textColor="@color/goldLight" />
 
-                <Button
-                    android:id="@+id/button_geolocation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:text="GEOLOCATION"
-                    android:textColor="@color/goldLight" />
 
             </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -17,6 +18,7 @@ import java.util.Date;
  */
 
 public class Utils {
+
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -87,5 +89,24 @@ public class Utils {
     //for user
     public static void informationUser(View view,String message){
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    //-----------------
+    //String format
+    //-----------------
+    public  static String stringFormat(double d){
+     return String.format("%s", d);
+    }
+
+    //------------------
+    //Get local country
+    //-----------------
+    public static String localeCountry(Context context){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return context.getResources().getConfiguration().getLocales().get(0).getCountry();
+        }else {
+            return context.getResources().getConfiguration().locale.getCountry();
+        }
     }
 }

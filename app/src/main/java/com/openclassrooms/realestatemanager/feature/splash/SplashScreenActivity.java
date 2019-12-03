@@ -19,17 +19,15 @@ import static com.openclassrooms.realestatemanager.BR.view_model;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private SplashViewModel splashViewModel;
     public static final int SLPASH_SCREEN_TIMEOUT = 5000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        splashViewModel = new SplashViewModel();
+        SplashViewModel splashViewModel = new SplashViewModel();
         ActivitySplashScreenBinding activitySplashScreenBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen);
-        //Splash spashModel = new Splash(R.drawable.real_estate, "Real Estate Manager");
-       // activitySplashScreenBinding.setSplash(spashModel);
-        //activitySplashScreenBinding.setVariable(view_model, splashViewModel);
+        activitySplashScreenBinding.logo.setImageResource(splashViewModel.splash.getLogo());
+        activitySplashScreenBinding.textSplash.setText(splashViewModel.splash.getEstateName());
 
 
         //Handler Post Delayed

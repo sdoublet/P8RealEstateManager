@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
+import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.api.Result;
@@ -70,7 +71,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private String photoPath = null;
     private Bitmap image;
     private long estateId;
-   
+
 
     //FOR DATA
     private EstateViewModel estateViewModel;
@@ -264,7 +265,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //HTTP REQUEST
     //----------------------
     public void executeHttpRequestWithretrofit(String address) {
-        this.disposable = LocationStream.streamFetchGeocoding(address," AIzaSyBUN6XdAhBLogvQEy5Ap3dWktKIdBypG7U").subscribeWith(new DisposableObserver<ApiGeocoding>() {
+        this.disposable = LocationStream.streamFetchGeocoding(address, BuildConfig.google_maps_api_key).subscribeWith(new DisposableObserver<ApiGeocoding>() {
             @Override
             public void onNext(ApiGeocoding apiGeocoding) {
 //                System.out.println(apiGeocoding.getStatus() + "bonjour");
@@ -297,29 +298,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
 
 
-//    private <T> DisposableObserver<T> newObserver() {
-//        return new DisposableObserver<T>() {
-//            @Override
-//            public void onNext(T t) {
-//                if (t instanceof ApiGeocoding) {
-//                   // apiResult = (Result) ((ApiGeocoding) t).getResults();
-//                   // updateUI((ApiGeocoding) t);
-//                    Log.e("status",geocoding.getStatus() );
-//                } else
-//                    Log.e("TAG", "disposableObserver onNext" + t.getClass());
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//
-//            }
-//        };
-//    }
+
 
     //  Dispose subscription
     private void disposeWhenDestroy() {

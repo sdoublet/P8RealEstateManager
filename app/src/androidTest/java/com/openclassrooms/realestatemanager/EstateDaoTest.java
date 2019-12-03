@@ -31,8 +31,8 @@ public class EstateDaoTest {
 
     // DATA SET FOR TEST
     private static int AGENT_ID =1;
-    private static User USER_DEMO = new User(AGENT_ID, "seb", R.drawable.photo_seb, "doubletsebastien@sfr.fr");
-    private static Estate NEW_ESTATE = new Estate(AGENT_ID, "Manoir", 250000, 125, 8, 5, 1, "super", R.drawable.photo_seb, "19 rue dun champs", 39500, "Ounans", false, "now", "non", 1, 0.25455, 5.421);
+    private static User USER_DEMO = new User(AGENT_ID, "seb", "doubletsebastien@sfr.fr");
+    private static Estate NEW_ESTATE = new Estate( "Manoir", 250000, 125, 8, 5, 1, "super",  "19 rue dun champs", 39500, "Ounans", false, "now", "non", 1, 0.25455, 5.421);
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -55,12 +55,12 @@ public class EstateDaoTest {
         this.roomDb.userDao().createUser(USER_DEMO);
         //TEST
         User user = LiveDataTestUtil.getValue(this.roomDb.userDao().getUser(AGENT_ID));
-        assertTrue(user.getName().equals(USER_DEMO.getName())&& user.getId() == AGENT_ID);
+        assertTrue(user.getName().equals(USER_DEMO.getName())&& user.getAgentId() == AGENT_ID);
     }
 
     @Test
     public void getEstateWhenNoEstateInserted() throws InterruptedException{
-        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstate(AGENT_ID));
+        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID));
         assertTrue(estates.isEmpty());
     }
 
@@ -69,7 +69,7 @@ public class EstateDaoTest {
         this.roomDb.userDao().createUser(USER_DEMO);
         this.roomDb.estateDao().insertEstate(NEW_ESTATE);
 
-        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstate(AGENT_ID));
+        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID));
         assertEquals(1, estates.size());
     }
 
@@ -77,11 +77,11 @@ public class EstateDaoTest {
     public void insertAndUpdateEstate()throws InterruptedException{
         this.roomDb.userDao().createUser(USER_DEMO);
         this.roomDb.estateDao().insertEstate(NEW_ESTATE);
-        Estate estate = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstate(AGENT_ID)).get(0);
+        Estate estate = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID)).get(0);
         estate.setNbRoom(12);//ne marche pas
         this.roomDb.estateDao().updateEstate(estate);
 
-        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstate(AGENT_ID));
+        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID));
         assertEquals(1, estates.size());
         assertEquals(12, estates.get(0).getNbRoom());
 
@@ -91,10 +91,10 @@ public class EstateDaoTest {
     public void insertandDeleteEstate() throws InterruptedException{
         this.roomDb.userDao().createUser(USER_DEMO);
         this.roomDb.estateDao().insertEstate(NEW_ESTATE);
-        Estate estate = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstate(AGENT_ID)).get(0);
-        this.roomDb.estateDao().deleteEstate(estate.getId());
+        Estate estate = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID)).get(0);
+        this.roomDb.estateDao().deleteEstate(estate.getEstateId());
 
-        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstate(AGENT_ID));
+        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID));
         assertEquals(1, estates.size());
     }
 

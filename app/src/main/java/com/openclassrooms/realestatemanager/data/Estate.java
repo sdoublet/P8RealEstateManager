@@ -5,12 +5,12 @@ import android.content.ContentValues;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = @ForeignKey(entity = User.class,
         parentColumns = "agentId", childColumns = "agentId"))
 public class Estate {
+
     @PrimaryKey(autoGenerate = true)
     private long estateId;
     private String type;
@@ -31,7 +31,7 @@ public class Estate {
     private double latitude;
     private double longitude;
 
-    @Ignore
+
    public Estate() {
     }
 
@@ -212,6 +212,7 @@ public class Estate {
 
  public static Estate fromContentValues(ContentValues contentValues){
     final Estate estate = new Estate();
+
     if (contentValues.containsKey("type")) estate.setType(contentValues.getAsString("type"));
     if (contentValues.containsKey("price")) estate.setPrice(contentValues.getAsInteger("price"));
     if (contentValues.containsKey("surface")) estate.setSurface(contentValues.getAsFloat("surface"));

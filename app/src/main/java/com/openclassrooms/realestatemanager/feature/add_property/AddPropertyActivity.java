@@ -64,7 +64,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private ApiGeocoding geocoding;
     private String photoPath = null;
     private Bitmap image;
-    private long estateId;
+    private Long estateId;
 
 
     //FOR DATA
@@ -80,21 +80,21 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
-        // estateId = getEstateId();
+         //estateId = getEstateId();
+        // estateId = getIntent().getLongExtra("estateId", 0);
         //UI spinners
         this.configureSpinners();
 
         //Configure ViewModel
         this.configureViewModel();
 
-        //Find location after click
-        // binding.buttonGeolocation.setOnClickListener(v -> getLocationByGeocoding());
-
         //Display lat lng
         showLocation();
 
-
         addPhoto();
+
+        //Save data on db
+        save();
 
     }
 
@@ -114,7 +114,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     // Save property in database
     private void save() {
-        binding.buttonSave.setOnClickListener(v -> createEstate());
+        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                configureViewModel();
+                createEstate();
+            }
+        });
     }
 
     //Add photo
@@ -170,18 +176,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         //this.estateViewModel.initEstate(12);
     }
 
-    protected long getEstateId() {
-        long estateId = -1L;
-        Intent i = getIntent();
-        if (i != null) {
-            estateId = i.getExtras().getLong(ESTATEID);
-        }
-        return estateId;
-    }
-
 
     //Create new Estate
     private void createEstate() {
+
         try {
             Estate estate = new Estate(binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
                     Float.parseFloat(binding.editEstateSurface.getText().toString()), Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()),
@@ -190,6 +188,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     binding.editCity.getText().toString(), false, null, null, AGENT_ID, geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
                     geocoding.getResults().get(0).getGeometry().getLocation().getLng());
 
+
             Toast.makeText(this, "Your estate is save", Toast.LENGTH_SHORT).show();
 
 
@@ -197,7 +196,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         } catch (Exception e) {
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
         }
-        estateViewModel.createEstate(estate);
+        this.estateViewModel.createEstate(estate);
     }
 
 

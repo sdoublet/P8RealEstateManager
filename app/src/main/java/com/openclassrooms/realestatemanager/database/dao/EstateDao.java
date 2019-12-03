@@ -5,7 +5,6 @@ import android.database.Cursor;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -35,6 +34,7 @@ public interface EstateDao {
 
     @Query("SELECT * FROM Estate WHERE agentId = :agentId")
     Cursor getEstatesWithCursor(long agentId);
+
     @Insert
     long insertEstate(Estate estate);
 

@@ -4,22 +4,17 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import android.view.View;
-
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+
+
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import com.google.android.material.snackbar.Snackbar;
+
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,9 +27,7 @@ import org.junit.runner.RunWith;
 public class NetworkConnectivityTest {
 
     private Context context;
-    private View view;
-    private Snackbar snackbar;
-    private CoordinatorLayout coordinatorLayout;
+
 
 @Rule
 public ActivityTestRule<MainActivity> activityActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
@@ -48,11 +41,16 @@ public ActivityTestRule<MainActivity> activityActivityTestRule = new ActivityTes
 
     @Test
     public void networkTypeTest(){
+
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiInfo   = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (wifiInfo.isConnected()){
-         // onView(withId())
+         onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText("Connected by WiFi")));
+        }else if (mobileInfo.isConnected()){
+            onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText("Connected to Mobile data")));
+        }else {
+            onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText("No network available")));
         }
 
     }

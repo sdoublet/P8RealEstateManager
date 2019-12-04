@@ -1,10 +1,11 @@
 package com.openclassrooms.realestatemanager.feature.add_property;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,9 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
@@ -23,7 +26,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.Task;
 import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
@@ -46,15 +48,15 @@ import io.reactivex.observers.DisposableObserver;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.HttpException;
 
-import static android.content.ContentValues.TAG;
-
 public class AddPropertyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final int REQUEST_CODE = 1234;
     public static final int REQUEST_PHOTO_CODE = 2345;
+    public static final int REQUEST_GALLERY_CODE = 5678;
     private static final String ESTATEID = "estateId";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+    public static final String[] cameraPerms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
 
     private ActivityAddPropertyBinding binding;
@@ -80,7 +82,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
-         //estateId = getEstateId();
+        //estateId = getEstateId();
         // estateId = getIntent().getLongExtra("estateId", 0);
         //UI spinners
         this.configureSpinners();
@@ -104,7 +106,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     // Show lat lng on set new property screen
     private void showLocation() {
         binding.buttonShowLocation.setOnClickListener(v -> {
-
+            checkPermissions();
             String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
                     + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
             executeHttpRequestWithretrofit(address);
@@ -117,25 +119,54 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkPermissions();
                 configureViewModel();
                 createEstate();
             }
         });
     }
-
+    //-----------------------
+    //PHOTO
+    //-----------------------
     //Add photo
     private void addPhoto() {
-        binding.addPhoto.setOnClickListener(v -> {
-            takePhoto();
+        checkCameraPermissions();
+        checkPermissions();
+        binding.addPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               AlertDialog alertDialog;
+               AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
+               builder.setTitle("Camera or Gallery?").
+                       setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                             getPhotoSinceGallery();
+                           }
+                       }).
+                       setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                               takePhoto();
+                           }
+                       });
+               alertDialog = builder.create();
+               alertDialog.show();
+               alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+               alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+
+            }
         });
     }
 
     //Take a photo and save in a temp file
     private void takePhoto() {
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // test to control if phone has a camera
         if (intent.resolveActivity(getPackageManager()) != null) {
             // create a unique file
+
             String time = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
             File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             try {
@@ -148,11 +179,28 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 // transfer Uri to intent
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(intent, REQUEST_PHOTO_CODE);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+
+
+    //Get a photo since gallery device folder
+    private void getPhotoSinceGallery() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, REQUEST_GALLERY_CODE);
+    }
+
+    //Save photo in gallery
+    private void savePhotoInGallery(){
+        MediaStore.Images.Media.insertImage(getContentResolver(), image, "My image", "my descritpion");
+    }
+
 
     // back camera call (startActivityForResult)
     @Override
@@ -162,6 +210,22 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         if (requestCode == REQUEST_PHOTO_CODE && resultCode == RESULT_OK) {
             image = BitmapFactory.decodeFile(photoPath);
             //binding.addPhoto.setImageBitmap(image);
+            // TODO: 04/12/2019 sauvegarder la photo dans la db
+            AlertDialog dialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Dialog);
+            builder.setTitle("Save directory");
+            builder.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    savePhotoInGallery();
+                    Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton("App", null);
+            dialog = builder.create();
+            dialog.show();
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
         }
     }
 
@@ -173,7 +237,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
-        //this.estateViewModel.initEstate(12);
     }
 
 
@@ -197,47 +260,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
         }
         this.estateViewModel.createEstate(estate);
-    }
-
-
-    // Write on storage
-    private void writeOnStorage() {
-
-    }
-
-    // get location by geolocation
-    private void getLocation() {
-        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
-            Task locationResult = fusedLocationProviderClient.getLastLocation();
-            locationResult.addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Location location = (Location) task.getResult();
-                    assert location != null;
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    binding.editLatitude.setText(latitude + "");
-                    binding.editLongitude.setText(longitude + "");
-                    Log.e("loc", String.valueOf(latitude));
-                    Log.e("loc", String.valueOf(longitude));
-
-
-                } else {
-                    Log.d(TAG, "Current location is null. Using defaults.");
-                    Log.e(TAG, "Exception: %s", task.getException());
-                    Toast.makeText(getApplicationContext(), "unable to get current location", Toast.LENGTH_LONG).show();
-                }
-            });
-        } else {
-            EasyPermissions.requestPermissions(this, "you must have permission", REQUEST_CODE, perms);
-
-        }
-    }
-
-    private void getLocationByGeocoding() {
-        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
-            executeHttpRequestWithretrofit(" 39380 chamblay, france");
-            //Log.e("geocod", location.getLatitude() + "," + location.getLongitude());
-        }
     }
 
 
@@ -327,4 +349,34 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
 // TODO: 27/11/2019 ajouter un onbackpressed sur la touche return
 
+
+    //-------------------
+    //PERMISSIONS
+    //-------------------
+    private void checkPermissions() {
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            Log.e("TAG", "permission ok");
+        } else {
+            EasyPermissions.requestPermissions(this, "you must give your permission", REQUEST_CODE, perms);
+
+        }
+    }
+
+    private void checkCameraPermissions() {
+        if (EasyPermissions.hasPermissions(this, cameraPerms)) {
+            Log.e("TAG", "permission ok");
+
+        } else {
+            EasyPermissions.requestPermissions(this, "you must give your permission", REQUEST_PHOTO_CODE, cameraPerms);
+            Log.e("TAG", "no permission");
+
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposeWhenDestroy();
+    }
 }

@@ -29,6 +29,6 @@ public class Injection {
         EstateDataRepository estateDataRepository = provideEstateDataSource(context);
         UserDataRepository userDataRepository = provideUserDataSource(context);
         Executor executor = provideExecutor();
-        return new ViewModelFactory(estateDataRepository, userDataRepository, executor);
+        return new ViewModelFactory(estateDataRepository, userDataRepository, pictureDataRepository, executor);
     }
 }

@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 @Entity(foreignKeys = @ForeignKey(entity = Estate.class,
 parentColumns = "photoId",
 childColumns = "estateId"))
-public class Pictures {
+public class Picture {
 
     @PrimaryKey(autoGenerate = true)
     private long photoId;
@@ -17,10 +17,10 @@ public class Pictures {
     private String description;
     private long estateId;
 
-    public Pictures() {
+    public Picture() {
     }
 
-    public Pictures(Uri uri, String description) {
+    public Picture(Uri uri, String description) {
         this.uri = uri;
         this.description = description;
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.openclassrooms.realestatemanager.database.database.RoomDb;
 import com.openclassrooms.realestatemanager.repositories.EstateDataRepository;
+import com.openclassrooms.realestatemanager.repositories.PictureDataRepository;
 import com.openclassrooms.realestatemanager.repositories.UserDataRepository;
 
 import java.util.concurrent.Executor;
@@ -21,6 +22,11 @@ public class Injection {
         return new UserDataRepository(roomDb.userDao());
     }
 
+    public static PictureDataRepository providePictureDataSource(Context context){
+        RoomDb roomDb = RoomDb.getInstance(context);
+        return new PictureDataRepository(roomDb.pictureDao());
+    }
+
     public static Executor provideExecutor(){
         return Executors.newSingleThreadExecutor();
     }
@@ -28,6 +34,7 @@ public class Injection {
     public static ViewModelFactory provideViewModelFactory(Context context){
         EstateDataRepository estateDataRepository = provideEstateDataSource(context);
         UserDataRepository userDataRepository = provideUserDataSource(context);
+        PictureDataRepository pictureDataRepository = providePictureDataSource(context);
         Executor executor = provideExecutor();
         return new ViewModelFactory(estateDataRepository, userDataRepository, pictureDataRepository, executor);
     }

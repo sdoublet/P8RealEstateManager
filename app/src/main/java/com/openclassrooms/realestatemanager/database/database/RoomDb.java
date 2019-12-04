@@ -10,6 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.openclassrooms.realestatemanager.database.dao.PictureDao;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
@@ -24,6 +25,7 @@ public abstract class RoomDb extends RoomDatabase {
     //DAO
     public abstract UserDao userDao();
     public abstract EstateDao estateDao();
+    public abstract PictureDao pictureDao();
 
     //INSTANCE
     public static RoomDb getInstance(Context context){

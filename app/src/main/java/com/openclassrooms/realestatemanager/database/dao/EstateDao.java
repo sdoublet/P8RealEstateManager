@@ -9,7 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 
-import com.openclassrooms.realestatemanager.data.Estate;
+import com.openclassrooms.realestatemanager.models.Estate;
 
 import java.util.List;
 

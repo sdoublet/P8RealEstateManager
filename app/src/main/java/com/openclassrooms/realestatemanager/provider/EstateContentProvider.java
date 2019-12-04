@@ -9,7 +9,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.openclassrooms.realestatemanager.data.Estate;
+import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.database.database.RoomDb;
 
 public class EstateContentProvider extends ContentProvider {

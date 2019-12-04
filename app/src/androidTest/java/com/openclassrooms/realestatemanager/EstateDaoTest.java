@@ -8,8 +8,8 @@ import androidx.room.Room;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.openclassrooms.realestatemanager.data.Estate;
-import com.openclassrooms.realestatemanager.data.User;
+import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.database.database.RoomDb;
 
 import org.junit.After;

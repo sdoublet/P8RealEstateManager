@@ -2,10 +2,8 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,13 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.openclassrooms.realestatemanager.data.User;
+import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
-import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.DetailEstateActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;

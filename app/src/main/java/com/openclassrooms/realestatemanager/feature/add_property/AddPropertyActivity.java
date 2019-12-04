@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,7 +29,7 @@ import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.api.Result;
-import com.openclassrooms.realestatemanager.data.Estate;
+import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
@@ -214,13 +213,16 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             AlertDialog dialog;
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Dialog);
             builder.setTitle("Save directory");
+            //Save photo in gallery
             builder.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     savePhotoInGallery();
                     Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
+                    // TODO: 04/12/2019 save in db
                 }
             });
+            // TODO: 04/12/2019 save in db for negative btn
             builder.setNegativeButton("App", null);
             dialog = builder.create();
             dialog.show();

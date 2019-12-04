@@ -3,8 +3,8 @@ package com.openclassrooms.realestatemanager.feature.show_property;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.openclassrooms.realestatemanager.data.Estate;
-import com.openclassrooms.realestatemanager.data.User;
+import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.repositories.EstateDataRepository;
 import com.openclassrooms.realestatemanager.repositories.UserDataRepository;
 

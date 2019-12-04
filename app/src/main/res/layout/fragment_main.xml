@@ -6,7 +6,7 @@
     <data>
         <variable
             name="agency"
-            type="com.openclassrooms.realestatemanager.data.EstateAgency" />
+            type="com.openclassrooms.realestatemanager.models.EstateAgency" />
         <variable
             name="handlers"
             type="com.openclassrooms.realestatemanager.feature.home.MainFragment" />

@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.feature.splash;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.data.Splash;
+import com.openclassrooms.realestatemanager.models.Splash;
 
 public class SplashRepository implements SplashModel {
     @Override

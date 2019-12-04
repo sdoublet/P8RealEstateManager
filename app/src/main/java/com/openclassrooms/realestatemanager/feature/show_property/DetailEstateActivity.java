@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,26 +16,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.here.sdk.core.GeoCoordinates;
-import com.here.sdk.mapviewlite.LoadSceneCallback;
-import com.here.sdk.mapviewlite.MapStyle;
-import com.here.sdk.mapviewlite.SceneError;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.data.Estate;
+import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.databinding.ActivityDetailEstateBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
-
-import static android.content.ContentValues.TAG;
 
 public class DetailEstateActivity extends AppCompatActivity implements OnMapReadyCallback {
 

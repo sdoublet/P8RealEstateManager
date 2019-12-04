@@ -10,8 +10,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.openclassrooms.realestatemanager.data.Estate;
-import com.openclassrooms.realestatemanager.data.User;
+import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 

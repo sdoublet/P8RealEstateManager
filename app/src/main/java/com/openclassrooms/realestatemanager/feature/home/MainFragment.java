@@ -13,11 +13,10 @@ import androidx.fragment.app.Fragment;
 import com.openclassrooms.realestatemanager.feature.map.MapsActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.data.EstateAgency;
+import com.openclassrooms.realestatemanager.models.EstateAgency;
 import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
 import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
-import com.openclassrooms.realestatemanager.feature.map.HereMapActivity;
 
 /**
  * A simple {@link Fragment} subclass.

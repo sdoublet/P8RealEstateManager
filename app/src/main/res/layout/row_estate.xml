@@ -4,7 +4,7 @@
     <data>
         <variable
             name="estate"
-            type="com.openclassrooms.realestatemanager.data.Estate" />
+            type="com.openclassrooms.realestatemanager.models.Estate" />
     </data>
 
     <LinearLayout

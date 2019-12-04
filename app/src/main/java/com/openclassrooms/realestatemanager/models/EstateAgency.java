@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.data;
+package com.openclassrooms.realestatemanager.models;
 
 public class EstateAgency {
     private String name;

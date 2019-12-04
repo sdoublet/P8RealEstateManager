@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.openclassrooms.realestatemanager.data.User;
+import com.openclassrooms.realestatemanager.models.User;
 
 import java.util.List;
 

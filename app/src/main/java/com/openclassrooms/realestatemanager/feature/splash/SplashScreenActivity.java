@@ -9,13 +9,10 @@ import android.os.Handler;
 
 import com.openclassrooms.realestatemanager.MainActivity;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.data.Splash;
 import com.openclassrooms.realestatemanager.databinding.ActivitySplashScreenBinding;
 
 //import static androidx.databinding.library.baseAdapters.BR.view_model;
 
-
-import static com.openclassrooms.realestatemanager.BR.view_model;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

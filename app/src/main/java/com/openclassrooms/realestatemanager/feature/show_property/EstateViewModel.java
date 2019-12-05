@@ -1,8 +1,11 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.models.User;
@@ -70,6 +73,8 @@ public class EstateViewModel extends ViewModel {
 
 
     public void createEstate(Estate estate){
+        Gson gson = new Gson();
+        Log.e("tag", gson.toJson(estate));
         executor.execute(()-> estateDataRepository.createEstate(estate));
     }
 

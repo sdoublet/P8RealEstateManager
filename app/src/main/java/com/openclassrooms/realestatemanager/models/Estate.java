@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class Estate {
 
     @PrimaryKey(autoGenerate = true)
-    private long estateId;
+    private long estateId =1;
     private String type;
     private int price;
     private float surface;

@@ -264,7 +264,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void  createEstate() {
 
         try {
-            Estate estate = new Estate(binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
+            estate = new Estate(binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
                     Float.parseFloat(binding.editEstateSurface.getText().toString()), Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()),
                     Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()),
                     binding.editDescription.getText().toString(), binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
@@ -276,10 +276,12 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
 
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
+            this.estateViewModel.createEstate(estate);
+
         } catch (Exception e) {
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
+            Log.e("tag", e.getMessage());
         }
-        this.estateViewModel.createEstate(estate);
     }
 
 
@@ -305,6 +307,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             public void onNext(ApiGeocoding apiGeocoding) {
                 Log.e("TAG", apiGeocoding.getStatus());
                 updateUI(apiGeocoding);
+                AddPropertyActivity.this.geocoding = apiGeocoding;
             }
 
             @Override

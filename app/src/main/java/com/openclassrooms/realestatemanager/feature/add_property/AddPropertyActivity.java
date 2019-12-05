@@ -144,6 +144,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                            @Override
                            public void onClick(DialogInterface dialog, int which) {
                              getPhotoSinceGallery();
+
                            }
                        }).
                        setNegativeButton("Camera", new DialogInterface.OnClickListener() {
@@ -239,12 +240,31 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //savePhotoInDb(estateId);
+
+                    setImageViewWithPicture();
                 }
             });
             dialog = builder.create();
             dialog.show();
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.WHITE);
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+        }
+    }
+
+    // set imageView with picture
+    private void setImageViewWithPicture(){
+        if (binding.mainPhoto.getDrawable()==null){
+            binding.mainPhoto.setImageBitmap(image);
+        }else if (binding.photo2.getDrawable()==null){
+            binding.photo2.setImageBitmap(image);
+        }else if (binding.photo3.getDrawable()==null){
+            binding.photo3.setImageBitmap(image);
+        }else if (binding.photo4.getDrawable()==null){
+            binding.photo4.setImageBitmap(image);
+        }else if (binding.photo5.getDrawable()==null){
+            binding.photo5.setImageBitmap(image);
+        }else{
+            Toast.makeText(getApplicationContext(), "you must buy pro version to add more photos", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -86,11 +86,11 @@ public class EstateViewModel extends ViewModel {
     //-----------------
     public LiveData<List<Picture>> getAllPicturesFromEstate(long estateId){return pictureDataRepository.getAllPictureFromEstateId(estateId);}
 
-    private void createPicture(Picture picture){
+    public void createPicture(Picture picture){
         executor.execute(()-> pictureDataRepository.createPicture(picture));
     }
 
-    private void deletePicture(Picture picture){
+    public void deletePicture(Picture picture){
         executor.execute(()-> pictureDataRepository.deletePicture(picture));
     }
 

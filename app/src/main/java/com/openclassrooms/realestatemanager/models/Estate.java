@@ -212,7 +212,7 @@ public class Estate {
 
  public static Estate fromContentValues(ContentValues contentValues){
     final Estate estate = new Estate();
-
+    if (contentValues.containsKey("estateId")) estate.setEstateId(contentValues.getAsLong("estateId"));
     if (contentValues.containsKey("type")) estate.setType(contentValues.getAsString("type"));
     if (contentValues.containsKey("price")) estate.setPrice(contentValues.getAsInteger("price"));
     if (contentValues.containsKey("surface")) estate.setSurface(contentValues.getAsFloat("surface"));

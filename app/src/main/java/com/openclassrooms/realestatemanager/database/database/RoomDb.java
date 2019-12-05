@@ -12,11 +12,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.openclassrooms.realestatemanager.database.dao.PictureDao;
 import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 
-@Database(entities = {User.class, Estate.class}, version = 1, exportSchema = false)
+import java.util.concurrent.Executors;
+
+@Database(entities = {User.class, Estate.class, Picture.class}, version = 1, exportSchema = false)
 public abstract class RoomDb extends RoomDatabase {
 
     //SINGLETON
@@ -36,6 +39,7 @@ public abstract class RoomDb extends RoomDatabase {
                             RoomDb.class, "MyDatabase.db")
                             //.fallbackToDestructiveMigration()
                             .addCallback(prepopulateDatabase())
+                            .addCallback(prepopulateDatabaseFromEstate())
                             .build();
                 }
             }
@@ -53,6 +57,46 @@ public abstract class RoomDb extends RoomDatabase {
                 contentValues.put("agentId", 1);
                 contentValues.put("name", "seb");
                 db.insert("User", OnConflictStrategy.IGNORE, contentValues);
+            }
+        };
+    }
+
+    private static Callback prepopulateDatabaseWithPicture(Context context){
+        return new Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+                Executors.newSingleThreadExecutor().execute(()->
+                        getInstance(context).pictureDao().insertAllPicture(Picture.populateDta()));
+            }
+        };
+    }
+
+    private static Callback prepopulateDatabaseFromEstate(){
+        return new Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("estateId", 1);
+                contentValues.put("type", "House");
+                contentValues.put("price", 250000);
+                contentValues.put("surface", 125);
+                contentValues.put("nbRoom", 10);
+                contentValues.put("bedroom", 5);
+                contentValues.put("bathroom", 2);
+                contentValues.put("description", "superbe maison");
+                contentValues.put("postalCode", 39380);
+                contentValues.put("address", "19 rue du bois");
+                contentValues.put("city", "chamblay");
+                contentValues.put("sold", false);
+                contentValues.put("entryDate","today" );
+                contentValues.put("soldDate", "today");
+                contentValues.put("agentId", 1);
+                contentValues.put("latitude", 4.25555);
+                contentValues.put("longitude", 41.25555);
+                db.insert("Estate", OnConflictStrategy.IGNORE, contentValues);
             }
         };
     }

@@ -35,12 +35,14 @@ import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
+import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -66,6 +68,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private String photoPath = null;
     private Bitmap image;
     private Long estateId;
+    private List<Picture> pictureList;
 
 
     //FOR DATA
@@ -200,6 +203,14 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         MediaStore.Images.Media.insertImage(getContentResolver(), image, "My image", "my descritpion");
     }
 
+    //Save photo in db
+    private void savePhotoInDb(long estateId){
+        for (Picture picture : pictureList){
+            picture.setEstateId(estateId);
+            estateViewModel.createPicture(picture);
+        }
+    }
+
 
     // back camera call (startActivityForResult)
     @Override
@@ -220,10 +231,16 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     savePhotoInGallery();
                     Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
                     // TODO: 04/12/2019 save in db
+                    //savePhotoInDb(estateId);
                 }
             });
             // TODO: 04/12/2019 save in db for negative btn
-            builder.setNegativeButton("App", null);
+            builder.setNegativeButton("App", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //savePhotoInDb(estateId);
+                }
+            });
             dialog = builder.create();
             dialog.show();
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.WHITE);
@@ -239,11 +256,12 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
+        this.estateViewModel.initEstate(1);
     }
 
 
     //Create new Estate
-    private void createEstate() {
+    private void  createEstate() {
 
         try {
             Estate estate = new Estate(binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
@@ -275,6 +293,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 
     //----------------------
     //HTTP REQUEST

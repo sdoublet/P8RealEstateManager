@@ -19,6 +19,9 @@ public interface PictureDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     long insertPicture(Picture picture);
 
+    @Insert
+    void insertAllPicture(Picture... pictures);
+
     @Query("SELECT * FROM Picture WHERE estateId = :estateId")
     LiveData<List<Picture>> getPicture(long estateId);
 

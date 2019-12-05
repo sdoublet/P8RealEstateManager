@@ -118,6 +118,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="5dp"
                     android:scaleType="centerCrop"
+                    android:onClick="onClick"
                     android:background="@drawable/shape_rec"
                     />
 
@@ -128,6 +129,7 @@
                     android:background="@drawable/shape_rec"
                     android:layout_marginStart="5dp"
                     android:scaleType="centerCrop"
+                    android:onClick="onClick"
                     android:layout_weight="1"/>
 
                 <ImageView
@@ -137,6 +139,7 @@
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:layout_marginStart="5dp"
+                    android:onClick="onClick"
                     android:background="@drawable/shape_rec"/>
                  <ImageView
                     android:id="@+id/photo_4"
@@ -145,6 +148,7 @@
                     android:layout_weight="1"
                      android:layout_marginStart="5dp"
                      android:scaleType="centerCrop"
+                     android:onClick="onClick"
                     android:background="@drawable/shape_rec"/>
                  <ImageView
                     android:id="@+id/photo_5"
@@ -153,6 +157,7 @@
                     android:layout_weight="1"
                      android:layout_marginStart="5dp"
                      android:layout_marginEnd="5dp"
+                     android:onClick="onClick"
                      android:scaleType="centerCrop"
                     android:background="@drawable/shape_rec"/>
 

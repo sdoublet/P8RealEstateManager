@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,23 +24,26 @@ import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.api.Result;
-import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
+import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +53,7 @@ import io.reactivex.observers.DisposableObserver;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.HttpException;
 
-public class AddPropertyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddPropertyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private static final int REQUEST_CODE = 1234;
     public static final int REQUEST_PHOTO_CODE = 2345;
@@ -69,6 +73,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private Bitmap image;
     private Long estateId;
     private List<Picture> pictureList;
+    private ScaleGestureDetector scaleGestureDetector;
 
 
     //FOR DATA
@@ -83,7 +88,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-
+        View view;
         //estateId = getEstateId();
         // estateId = getIntent().getLongExtra("estateId", 0);
         //UI spinners
@@ -100,6 +105,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         //Save data on db
         save();
 
+        // popup
+        //popupImage();
     }
 
     //------------------------
@@ -127,6 +134,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             }
         });
     }
+
     //-----------------------
     //PHOTO
     //-----------------------
@@ -137,26 +145,25 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding.addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               AlertDialog alertDialog;
-               AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
-               builder.setTitle("Camera or Gallery?").
-                       setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialog, int which) {
-                             getPhotoSinceGallery();
-
-                           }
-                       }).
-                       setNegativeButton("Camera", new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialog, int which) {
-                               takePhoto();
-                           }
-                       });
-               alertDialog = builder.create();
-               alertDialog.show();
-               alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
-               alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                AlertDialog alertDialog;
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
+                builder.setTitle("Camera or Gallery?").
+                        setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getPhotoSinceGallery();
+                            }
+                        }).
+                        setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                takePhoto();
+                            }
+                        });
+                alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+                alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
 
             }
         });
@@ -190,7 +197,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     }
 
 
-
     //Get a photo since gallery device folder
     private void getPhotoSinceGallery() {
 
@@ -200,13 +206,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     }
 
     //Save photo in gallery
-    private void savePhotoInGallery(){
+    private void savePhotoInGallery() {
         MediaStore.Images.Media.insertImage(getContentResolver(), image, "My image", "my descritpion");
     }
 
     //Save photo in db
-    private void savePhotoInDb(long estateId){
-        for (Picture picture : pictureList){
+    private void savePhotoInDb(long estateId) {
+        for (Picture picture : pictureList) {
             picture.setEstateId(estateId);
             estateViewModel.createPicture(picture);
         }
@@ -218,6 +224,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check requestCode and result
+        //FROM CAMERA
         if (requestCode == REQUEST_PHOTO_CODE && resultCode == RESULT_OK) {
             image = BitmapFactory.decodeFile(photoPath);
             //binding.addPhoto.setImageBitmap(image);
@@ -233,6 +240,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
                     // TODO: 04/12/2019 save in db
                     //savePhotoInDb(estateId);
+                    savePhotoInGallery();
+                    setImageViewWithPicture();
                 }
             });
             // TODO: 04/12/2019 save in db for negative btn
@@ -248,25 +257,71 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             dialog.show();
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.WHITE);
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+
+            // FROM GALLERY
+        } else if (requestCode == REQUEST_GALLERY_CODE && resultCode == RESULT_OK) {
+            try {
+                final Uri uri = data.getData();
+                final InputStream imageStream = getContentResolver().openInputStream(uri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                image = selectedImage;
+                setImageViewWithPicture();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 
     // set imageView with picture
-    private void setImageViewWithPicture(){
-        if (binding.mainPhoto.getDrawable()==null){
+    private void setImageViewWithPicture() {
+        if (binding.mainPhoto.getDrawable() == null) {
             binding.mainPhoto.setImageBitmap(image);
-        }else if (binding.photo2.getDrawable()==null){
+        } else if (binding.photo2.getDrawable() == null) {
             binding.photo2.setImageBitmap(image);
-        }else if (binding.photo3.getDrawable()==null){
+        } else if (binding.photo3.getDrawable() == null) {
             binding.photo3.setImageBitmap(image);
-        }else if (binding.photo4.getDrawable()==null){
+        } else if (binding.photo4.getDrawable() == null) {
             binding.photo4.setImageBitmap(image);
-        }else if (binding.photo5.getDrawable()==null){
+        } else if (binding.photo5.getDrawable() == null) {
             binding.photo5.setImageBitmap(image);
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), "you must buy pro version to add more photos", Toast.LENGTH_LONG).show();
         }
     }
+
+    //Popup Image
+
+    @Override
+    public void onClick(View v) {
+        ImagePopup imagePopup = new ImagePopup(this);
+        imagePopup.setBackgroundColor(Color.BLACK);
+
+        imagePopup.setFullScreen(true);
+        imagePopup.setHideCloseIcon(true);
+        imagePopup.setImageOnClickClose(true);
+
+        switch (v.getId()) {
+            case R.id.main_photo:
+                imagePopup.initiatePopup(binding.mainPhoto.getDrawable());
+                break;
+            case R.id.photo_2:
+                imagePopup.initiatePopup(binding.photo2.getDrawable());
+                break;
+            case R.id.photo_3:
+                imagePopup.initiatePopup(binding.photo3.getDrawable());
+                break;
+            case R.id.photo_4:
+                imagePopup.initiatePopup(binding.photo4.getDrawable());
+                break;
+            case R.id.photo_5:
+                imagePopup.initiatePopup(binding.photo5.getDrawable());
+                break;
+        }
+        imagePopup.viewPopup();
+    }
+
 
     //----------------------
     //DATA
@@ -281,7 +336,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
 
     //Create new Estate
-    private void  createEstate() {
+    private void createEstate() {
 
         try {
             estate = new Estate(binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
@@ -315,7 +370,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
 
     //----------------------
@@ -361,8 +415,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //-------------------
     private void updateUI(ApiGeocoding results) {
         if (results.getResults() != null) {
-
-
             binding.editLongitude.setText(Utils.stringFormat(results.getResults().get(0).getGeometry().getLocation().getLng()));
             binding.editLatitude.setText(Utils.stringFormat(results.getResults().get(0).getGeometry().getLocation().getLat()));
         }
@@ -424,4 +476,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         super.onDestroy();
         disposeWhenDestroy();
     }
+
+
 }

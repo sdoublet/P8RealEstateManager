@@ -82,6 +82,10 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     //MULTIDEX
     implementation 'com.android.support:multidex:1.0.3'
+    //POPUP
+    implementation 'com.github.chathuralakmal:AndroidImagePopup:1.2.2'
+
+
 
     // TESTING
     androidTestImplementation "android.arch.core:core-testing:$lifecycle_version"

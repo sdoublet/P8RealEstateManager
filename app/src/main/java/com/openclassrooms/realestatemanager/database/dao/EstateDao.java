@@ -5,6 +5,7 @@ import android.database.Cursor;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -22,6 +23,12 @@ public interface EstateDao {
       @Query("SELECT * FROM Estate WHERE agentId = :agentId")
     LiveData<List<Estate>> getEstatePerAgent(long agentId);
 
+      @Query("SELECT * FROM Estate ORDER BY price DESC")
+      LiveData<List<Estate>> displayEstateBuyPriceDesc();
+
+ @Query("SELECT * FROM Estate ORDER BY price ASC")
+      LiveData<List<Estate>> displayEstateBuyPriceAsc();
+
 
 
     @Query("SELECT * FROM Estate WHERE estateId = :estateId")
@@ -35,10 +42,10 @@ public interface EstateDao {
     @Query("SELECT * FROM Estate WHERE agentId = :agentId")
     Cursor getEstatesWithCursor(long agentId);
 
-    @Insert
+    @Insert()
     long insertEstate(Estate estate);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     int updateEstate(Estate estate);
 
     @Query("DELETE FROM Estate WHERE estateId = :estateId")

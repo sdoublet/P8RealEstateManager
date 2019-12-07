@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.api.Result;
+import com.openclassrooms.realestatemanager.database.database.RoomDb;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
@@ -88,9 +89,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        View view;
-        //estateId = getEstateId();
-        // estateId = getIntent().getLongExtra("estateId", 0);
+
         //UI spinners
         this.configureSpinners();
 
@@ -104,6 +103,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
         //Save data on db
         save();
+
 
         // popup
         //popupImage();
@@ -297,29 +297,44 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     public void onClick(View v) {
         ImagePopup imagePopup = new ImagePopup(this);
         imagePopup.setBackgroundColor(Color.BLACK);
-
         imagePopup.setFullScreen(true);
         imagePopup.setHideCloseIcon(true);
         imagePopup.setImageOnClickClose(true);
 
         switch (v.getId()) {
+
             case R.id.main_photo:
-                imagePopup.initiatePopup(binding.mainPhoto.getDrawable());
+                if (binding.mainPhoto.getDrawable() != null) {
+                    imagePopup.initiatePopup(binding.mainPhoto.getDrawable());
+                    imagePopup.viewPopup();
+                }
                 break;
             case R.id.photo_2:
-                imagePopup.initiatePopup(binding.photo2.getDrawable());
+                if (binding.photo2.getDrawable() != null) {
+                    imagePopup.initiatePopup(binding.photo2.getDrawable());
+                    imagePopup.viewPopup();
+                }
                 break;
             case R.id.photo_3:
-                imagePopup.initiatePopup(binding.photo3.getDrawable());
+                if (binding.photo3.getDrawable() != null) {
+                    imagePopup.initiatePopup(binding.photo3.getDrawable());
+                    imagePopup.viewPopup();
+                }
                 break;
             case R.id.photo_4:
-                imagePopup.initiatePopup(binding.photo4.getDrawable());
+                if (binding.photo4.getDrawable()!=null){
+                    imagePopup.initiatePopup(binding.photo4.getDrawable());
+                    imagePopup.viewPopup();
+                }
                 break;
             case R.id.photo_5:
-                imagePopup.initiatePopup(binding.photo5.getDrawable());
+                if (binding.photo5.getDrawable()!=null){
+                    imagePopup.initiatePopup(binding.photo5.getDrawable());
+                    imagePopup.viewPopup();
+                }
                 break;
         }
-        imagePopup.viewPopup();
+
     }
 
 
@@ -331,7 +346,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
-        this.estateViewModel.initEstate(1);
+       // this.estateViewModel.initEstate(1);
     }
 
 
@@ -340,11 +355,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
         try {
             estate = new Estate(binding.spinnerType.getSelectedItem().toString(), Integer.parseInt(binding.editPrice.getText().toString()),
-                    Float.parseFloat(binding.editEstateSurface.getText().toString()), Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()),
-                    Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()),
-                    binding.editDescription.getText().toString(), binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
+                    Float.parseFloat(binding.editEstateSurface.getText().toString()), Float.parseFloat(binding.editLandSurface.getText().toString()),
+                    Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()),
+                    Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()), binding.editDescription.getText().toString(),
+                    binding.spinnerHeating.getSelectedItem().toString(), binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
                     binding.editCity.getText().toString(), false, null, null, AGENT_ID, geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
-                    geocoding.getResults().get(0).getGeometry().getLocation().getLng());
+                    geocoding.getResults().get(0).getGeometry().getLocation().getLng(), binding.checkboxSchool.isChecked(), binding.checkboxSchool.isChecked(),
+                    binding.checkboxPark.isChecked(), binding.checkboxHospital.isChecked(), binding.checkboxTransport.isChecked(), binding.checkboxAdministration.isChecked());
 
 
             Toast.makeText(this, "Your estate is save", Toast.LENGTH_SHORT).show();
@@ -362,8 +379,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+
+
     }
 
     @Override

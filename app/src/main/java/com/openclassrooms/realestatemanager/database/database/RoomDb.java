@@ -83,10 +83,12 @@ public abstract class RoomDb extends RoomDatabase {
                 contentValues.put("type", "House");
                 contentValues.put("price", 250000);
                 contentValues.put("surface", 125);
+                contentValues.put("surfaceLand", 1500);
                 contentValues.put("nbRoom", 10);
                 contentValues.put("bedroom", 5);
                 contentValues.put("bathroom", 2);
                 contentValues.put("description", "superbe maison");
+                contentValues.put("heating", "fireWood");
                 contentValues.put("postalCode", 39380);
                 contentValues.put("address", "19 rue du bois");
                 contentValues.put("city", "chamblay");
@@ -96,6 +98,12 @@ public abstract class RoomDb extends RoomDatabase {
                 contentValues.put("agentId", 1);
                 contentValues.put("latitude", 4.25555);
                 contentValues.put("longitude", 41.25555);
+                contentValues.put("school", true);
+                contentValues.put("shop", true);
+                contentValues.put("park", false);
+                contentValues.put("hospital", false);
+                contentValues.put("transport", false);
+                contentValues.put("administration", true);
                 db.insert("Estate", OnConflictStrategy.IGNORE, contentValues);
             }
         };

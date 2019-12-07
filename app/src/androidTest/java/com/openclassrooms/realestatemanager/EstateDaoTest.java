@@ -32,7 +32,7 @@ public class EstateDaoTest {
     // DATA SET FOR TEST
     private static int AGENT_ID =1;
     private static User USER_DEMO = new User(AGENT_ID, "seb", "doubletsebastien@sfr.fr");
-    private static Estate NEW_ESTATE = new Estate( "Manoir", 250000, 125, 8, 5, 1, "super",  "19 rue dun champs", 39500, "Ounans", false, "now", "non", 1, 0.25455, 5.421);
+    private static Estate NEW_ESTATE = new Estate( "Manoir", 250000, 125, surfaceLand, 8, 5, 1, "super", heating, "19 rue dun champs", 39500, "Ounans", false, "now", "non", 1, 0.25455, 5.421, school, shop, park, hospital, transport, administration);
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -87,15 +87,14 @@ public class EstateDaoTest {
 
     }
 
-//    @Test
-//    public void insertandDeleteEstate() throws InterruptedException{
-//        this.roomDb.userDao().createUser(USER_DEMO);
-//        this.roomDb.estateDao().insertEstate(NEW_ESTATE);
-//        Estate estate = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID)).get(0);
-//        this.roomDb.estateDao().deleteEstate(estate.getEstateId());
-//
-//        List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID));
-//        assertEquals(1, estates.size());
-//    }
+//   @Test
+//   public void insertandDeleteEstate() throws InterruptedException{
+//       this.roomDb.userDao().createUser(USER_DEMO);
+//       this.roomDb.estateDao().insertEstate(NEW_ESTATE);
+//       Estate estate = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID)).get(0);
+//       this.roomDb.estateDao().deleteEstate(estate.getEstateId());
+//       List<Estate> estates = LiveDataTestUtil.getValue(this.roomDb.estateDao().getEstatePerAgent(AGENT_ID));
+//       assertEquals(1, estates.size());
+//   }
 
 }

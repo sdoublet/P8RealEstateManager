@@ -79,7 +79,7 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SecondActivity" />
+
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -55,7 +55,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
     //Configure recyclerView
     private void configureRecyclerView(){
-        List<Estate> estateList = new ArrayList<>();
+       // List<Estate> estateList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.recyclerViewDetail.setLayoutManager(layoutManager);
 
@@ -102,25 +102,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
-    //Load scene for map
-//    private void loadScene(){
-//        if (EasyPermissions.hasPermissions(this, perms)){
-//            binding.mapViewLiteDetail.getMapScene().loadScene(MapStyle.NORMAL_DAY, new LoadSceneCallback() {
-//                @Override
-//                public void onLoadScene(@Nullable SceneError sceneError) {
-//                    if (sceneError == null){
-//
-//                                double longitude = 5.705733;
-//                                double latitude = 46.992974;
-//                                binding.mapViewLiteDetail.getCamera().setTarget(new GeoCoordinates(latitude, longitude));
-//                                binding.mapViewLiteDetail.getCamera().setZoomLevel(18);
-//
-//
-//                    }else{
-//                        Log.d(TAG, "onLoadScene failed" + sceneError.toString());
-//                    }
-//                }
-//            });
-//        }else EasyPermissions.requestPermissions(this, "you must have permission", 555444);
-//    }
+
+
+
 }

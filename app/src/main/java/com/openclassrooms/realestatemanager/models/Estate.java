@@ -12,14 +12,16 @@ import androidx.room.PrimaryKey;
 public class Estate {
 
     @PrimaryKey(autoGenerate = true)
-    private long estateId =1;
+    private long estateId ;
     private String type;
     private int price;
     private float surface;
+    private float surfaceLand;
     private int nbRoom;
     private int bedroom;
     private int bathroom;
     private String description;
+    private String heating;
   //  private int photo;
     private String address;
     private int postalCode;
@@ -30,21 +32,32 @@ public class Estate {
     private long agentId;
     private double latitude;
     private double longitude;
+    //Point of interest
+    private boolean school;
+    private boolean shop;
+    private boolean park;
+    private boolean hospital;
+    private boolean transport;
+    private boolean administration;
 
 
    public Estate() {
     }
 
-    public Estate( String type, int price, float surface, int nbRoom, int bedroom, int bathroom, String description, String address, int postalCode, String city, boolean sold, String entryDate, String soldDate, long agentId, double latitude, double longitude) {
+    public Estate(String type, int price, float surface, float surfaceLand, int nbRoom, int bedroom, int bathroom,
+                  String description, String heating, String address, int postalCode, String city, boolean sold,
+                  String entryDate, String soldDate, long agentId, double latitude, double longitude, boolean school,
+                  boolean shop, boolean park, boolean hospital, boolean transport, boolean administration) {
 
         this.type = type;
         this.price = price;
         this.surface = surface;
+        this.surfaceLand = surfaceLand;
         this.nbRoom = nbRoom;
         this.bedroom = bedroom;
         this.bathroom = bathroom;
         this.description = description;
-        //this.photo = photo;
+        this.heating = heating;
         this.address = address;
         this.postalCode = postalCode;
         this.city = city;
@@ -54,9 +67,16 @@ public class Estate {
         this.agentId = agentId;
         this.latitude = latitude;
         this.longitude = longitude;
+
+        this.school = school;
+        this.shop = shop;
+        this.park = park;
+        this.hospital = hospital;
+        this.transport = transport;
+        this.administration = administration;
     }
 
-    //GETTERS
+    //---------------------------------GETTERS-------------------------------------
 
     public long getEstateId() {
         return estateId;
@@ -90,9 +110,38 @@ public class Estate {
         return description;
     }
 
-  //public int getPhoto() {
-  //    return photo;
-  //}
+    public float getSurfaceLand() {
+        return surfaceLand;
+    }
+
+    public String getHeating() {
+        return heating;
+    }
+
+    public boolean isSchool() {
+        return school;
+    }
+
+    public boolean isShop() {
+        return shop;
+    }
+
+    public boolean isPark() {
+        return park;
+    }
+
+    public boolean isHospital() {
+        return hospital;
+    }
+
+    public boolean isTransport() {
+        return transport;
+    }
+
+    public boolean isAdministration() {
+        return administration;
+    }
+
 
     public String getAddress() {
         return address;
@@ -131,7 +180,7 @@ public class Estate {
     }
 
 
-    //SETTERS
+    //------------------------------SETTERS-----------------------------------
 
 
     public void setEstateId(long estateId) {
@@ -166,9 +215,6 @@ public class Estate {
         this.description = description;
     }
 
-   // public void setPhoto(int photo) {
-    //    this.photo = photo;
-   // }
 
     public void setAddress(String address) {
         this.address = address;
@@ -204,6 +250,38 @@ public class Estate {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public void setSurfaceLand(float surfaceLand) {
+        this.surfaceLand = surfaceLand;
+    }
+
+    public void setHeating(String heating) {
+        this.heating = heating;
+    }
+
+    public void setSchool(boolean school) {
+        this.school = school;
+    }
+
+    public void setShop(boolean shop) {
+        this.shop = shop;
+    }
+
+    public void setPark(boolean park) {
+        this.park = park;
+    }
+
+    public void setHospital(boolean hospital) {
+        this.hospital = hospital;
+    }
+
+    public void setTransport(boolean transport) {
+        this.transport = transport;
+    }
+
+    public void setAdministration(boolean administration) {
+        this.administration = administration;
     }
 
     //-------------

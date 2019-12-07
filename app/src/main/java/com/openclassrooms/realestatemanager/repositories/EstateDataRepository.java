@@ -19,6 +19,8 @@ public class EstateDataRepository {
     public LiveData<List<Estate>> getAllEstate(){return this.estateDao.getAllEstate();}
     public LiveData<Estate> getEstateFromId(long estateId){return this.estateDao.getEstateFromId(estateId);}
     public LiveData<List<Estate>> getEstatePerAgent(long agentId){return this.estateDao.getEstatePerAgent(agentId);}
+    public LiveData<List<Estate>> displayEstateByProceDesc(){return this.estateDao.displayEstateBuyPriceDesc();}
+    public LiveData<List<Estate>> displayEstateByProceAsc(){return this.estateDao.displayEstateBuyPriceAsc();}
     public LiveData<Integer> getLastEstate(){return this.estateDao.getLastEstate();}
 
     //------CREATE---------

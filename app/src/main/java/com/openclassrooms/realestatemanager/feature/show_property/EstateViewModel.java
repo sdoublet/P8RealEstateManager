@@ -28,6 +28,7 @@ public class EstateViewModel extends ViewModel {
     private LiveData<User> currentUser;
     private LiveData<Estate> currentEstate;
     private LiveData<Picture> currentPicture;
+    private LiveData<List<Estate>> allEstate;
 
     public EstateViewModel(EstateDataRepository estateDataRepository, UserDataRepository userDataRepository, PictureDataRepository pictureDataRepository, Executor executor) {
         this.estateDataRepository = estateDataRepository;
@@ -68,6 +69,14 @@ public class EstateViewModel extends ViewModel {
 
     public LiveData<List<Estate>> getEstatePerAgent(long agentId){
         return estateDataRepository.getEstatePerAgent(agentId);
+    }
+
+    public LiveData<List<Estate>> displayEstateByPrice(){
+        return estateDataRepository.displayEstateByProceDesc();
+    }
+
+ public LiveData<List<Estate>> displayEstateByPriceAsc(){
+        return estateDataRepository.displayEstateByProceAsc();
     }
 
 

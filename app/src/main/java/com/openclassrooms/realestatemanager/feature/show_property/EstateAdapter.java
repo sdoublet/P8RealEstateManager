@@ -45,6 +45,11 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
        // holder.rowEstateBinding.rowType.setText(estate.getType());
     }
 
+    public void setEstate(List<Estate> estates){
+        this.estateList = estates;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return estateList.size();

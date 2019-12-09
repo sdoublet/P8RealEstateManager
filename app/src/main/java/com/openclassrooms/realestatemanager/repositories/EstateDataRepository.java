@@ -21,6 +21,12 @@ public class EstateDataRepository {
     public LiveData<List<Estate>> getEstatePerAgent(long agentId){return this.estateDao.getEstatePerAgent(agentId);}
     public LiveData<List<Estate>> displayEstateByProceDesc(){return this.estateDao.displayEstateBuyPriceDesc();}
     public LiveData<List<Estate>> displayEstateByProceAsc(){return this.estateDao.displayEstateBuyPriceAsc();}
+    public LiveData<List<Estate>>displayEstateByNbRoomDesc(){return this.estateDao.displayestateByNbRoomDesc();}
+    public LiveData<List<Estate>>displayEstateByNbRoomAsc(){return this.estateDao.displayestateByNbRoomAsc();}
+    public LiveData<List<Estate>>displayEstateBySurfaceDesc(){return this.estateDao.displayestateBySurfaceDesc();}
+    public LiveData<List<Estate>>displayEstateBySurfaceAsc(){return this.estateDao.displayestateBySurfaceAsc();}
+    public LiveData<List<Estate>>displayEstateByTypeDesc(){return this.estateDao.displayestateByTypeDesc();}
+    public LiveData<List<Estate>>displayEstateByTypeAsc(){return this.estateDao.displayestateByTypeAsc();}
     public LiveData<Integer> getLastEstate(){return this.estateDao.getLastEstate();}
 
     //------CREATE---------

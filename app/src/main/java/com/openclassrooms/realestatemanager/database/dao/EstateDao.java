@@ -9,7 +9,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-
 import com.openclassrooms.realestatemanager.models.Estate;
 
 import java.util.List;
@@ -20,23 +19,45 @@ public interface EstateDao {
     @Query("SELECT * FROM Estate ORDER BY estateId DESC")
     LiveData<List<Estate>> getAllEstate();
 
-      @Query("SELECT * FROM Estate WHERE agentId = :agentId")
+    @Query("SELECT * FROM Estate WHERE agentId = :agentId")
     LiveData<List<Estate>> getEstatePerAgent(long agentId);
 
-      @Query("SELECT * FROM Estate ORDER BY price DESC")
-      LiveData<List<Estate>> displayEstateBuyPriceDesc();
+    //Price
+    @Query("SELECT * FROM Estate ORDER BY price DESC")
+    LiveData<List<Estate>> displayEstateBuyPriceDesc();
 
- @Query("SELECT * FROM Estate ORDER BY price ASC")
-      LiveData<List<Estate>> displayEstateBuyPriceAsc();
+    @Query("SELECT * FROM Estate ORDER BY price ASC")
+    LiveData<List<Estate>> displayEstateBuyPriceAsc();
+
+    //nbRoom
+
+    @Query("SELECT * FROM Estate ORDER BY nbRoom DESC")
+    LiveData<List<Estate>> displayestateByNbRoomDesc();
+
+    @Query("SELECT * FROM Estate ORDER BY nbRoom ASC")
+    LiveData<List<Estate>> displayestateByNbRoomAsc();
+
+    //Surface
+    @Query("SELECT * FROM Estate ORDER BY surface DESC")
+    LiveData<List<Estate>>displayestateBySurfaceDesc();
+
+     @Query("SELECT * FROM Estate ORDER BY surface ASC")
+    LiveData<List<Estate>>displayestateBySurfaceAsc();
+
+    //Type
+    @Query("SELECT * FROM Estate ORDER BY type DESC")
+    LiveData<List<Estate>>displayestateByTypeDesc();
+
+    @Query("SELECT * FROM Estate ORDER BY type ASC")
+    LiveData<List<Estate>>displayestateByTypeAsc();
 
 
 
     @Query("SELECT * FROM Estate WHERE estateId = :estateId")
     LiveData<Estate> getEstateFromId(long estateId);
 
-     @Query("SELECT MAX(estateId) FROM Estate")
+    @Query("SELECT MAX(estateId) FROM Estate")
     LiveData<Integer> getLastEstate();
-
 
 
     @Query("SELECT * FROM Estate WHERE agentId = :agentId")

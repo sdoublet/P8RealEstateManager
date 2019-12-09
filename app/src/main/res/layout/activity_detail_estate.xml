@@ -26,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@{estate.city}"
+                android:text="Paris"
+                android:textSize="25sp"
                 android:textColor="@color/goldLight"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -138,6 +139,7 @@
                 app:layout_constraintTop_toTopOf="@+id/ic_surface" />
 
             <TextView
+                android:id="@+id/tv_surface_land_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Land 1500 m2"

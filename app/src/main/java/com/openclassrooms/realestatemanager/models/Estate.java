@@ -44,6 +44,8 @@ public class Estate {
    public Estate() {
     }
 
+
+
     public Estate(String type, int price, float surface, float surfaceLand, int nbRoom, int bedroom, int bathroom,
                   String description, String heating, String address, int postalCode, String city, boolean sold,
                   String entryDate, String soldDate, long agentId, double latitude, double longitude, boolean school,

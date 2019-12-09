@@ -50,6 +50,10 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         notifyDataSetChanged();
     }
 
+    public Estate getEstate(int position){
+        return this.estateList.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return estateList.size();

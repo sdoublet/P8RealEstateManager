@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
+import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.settings_menu:
-                Intent intent1 = new Intent(this, DetailEstateActivity.class);
+                Intent intent1 = new Intent(this, SettingActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.all_property:

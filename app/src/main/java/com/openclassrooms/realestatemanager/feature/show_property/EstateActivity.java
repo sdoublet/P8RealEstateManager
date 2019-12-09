@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
@@ -18,6 +20,7 @@ import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.util.Divider;
+import com.openclassrooms.realestatemanager.util.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +44,12 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_estate);
-        //     getAllEstate();
         configureRecyclerView();
         configureViewModel();
         getAllEstate();
+        onClickrecyclerView();
 
 
-        //  populateData();
-        try {
-
-            Log.e("db", String.valueOf(estateViewModel.getEstateFromId(1).getValue().getAddress()));
-
-        } catch (Exception e) {
-            Log.e("db", e.getMessage());
-        }
 
     }
 
@@ -161,7 +156,13 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void onClickrecyclerView(){
-
+        ItemClickSupport.addTo(binding.recyclerView, R.layout.row_estate)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    Estate estate = adapter.getEstate(position);
+                    Intent intent = new Intent(getApplicationContext(), DetailEstateActivity.class);
+                    intent.putExtra("estate_id", estate.getEstateId());
+                    startActivity(intent);
+                });
     }
 
     //----------------

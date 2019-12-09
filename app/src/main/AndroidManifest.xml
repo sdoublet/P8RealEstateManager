@@ -25,7 +25,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".feature.show_property.DetailEstateActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".feature.show_property.EstateActivity">
 
         </activity>
         <activity

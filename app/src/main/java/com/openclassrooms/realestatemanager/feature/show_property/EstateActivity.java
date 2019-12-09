@@ -160,6 +160,10 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    private void onClickrecyclerView(){
+
+    }
+
     //----------------
     // POPULATE DATA
     //----------------

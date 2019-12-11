@@ -27,6 +27,9 @@ public class EstateDataRepository {
     public LiveData<List<Estate>>displayEstateBySurfaceAsc(){return this.estateDao.displayestateBySurfaceAsc();}
     public LiveData<List<Estate>>displayEstateByTypeDesc(){return this.estateDao.displayestateByTypeDesc();}
     public LiveData<List<Estate>>displayEstateByTypeAsc(){return this.estateDao.displayestateByTypeAsc();}
+    public LiveData<List<Estate>>displaySoldEstateDesc(){return this.estateDao.displaySoldEstateDesc();}
+    public LiveData<List<Estate>>displaySoldEstateAsc(){return this.estateDao.displaySoldEstateAsc();}
+
     public LiveData<Integer> getLastEstate(){return this.estateDao.getLastEstate();}
 
     //------CREATE---------

@@ -51,6 +51,12 @@ public interface EstateDao {
     @Query("SELECT * FROM Estate ORDER BY type ASC")
     LiveData<List<Estate>>displayestateByTypeAsc();
 
+    //Sold
+    @Query("SELECT * FROM Estate WHERE sold ORDER BY price DESC")
+    LiveData<List<Estate>>displaySoldEstateDesc();
+
+    @Query("SELECT * FROM Estate WHERE sold ORDER BY price ASC")
+    LiveData<List<Estate>>displaySoldEstateAsc();
 
 
     @Query("SELECT * FROM Estate WHERE estateId = :estateId")

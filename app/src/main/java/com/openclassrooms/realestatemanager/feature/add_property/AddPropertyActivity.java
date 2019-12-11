@@ -46,6 +46,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,8 +74,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private String photoPath = null;
     private Bitmap image;
     private Long estateId;
+    private int nbPictures;
     private List<Picture> pictureList;
     private ScaleGestureDetector scaleGestureDetector;
+    private boolean mainPhoto;
 
 
     //FOR DATA
@@ -90,6 +93,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
+        pictureList = new ArrayList<>();
         //UI spinners
         this.configureSpinners();
 
@@ -131,6 +135,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 checkPermissions();
                 configureViewModel();
                 createEstate();
+
             }
         });
     }
@@ -186,6 +191,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 // create Uri
                 Uri photoUri = FileProvider.getUriForFile(AddPropertyActivity.this,
                         AddPropertyActivity.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+                Log.e("uri", String.valueOf(photoUri));
                 // transfer Uri to intent
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(intent, REQUEST_PHOTO_CODE);
@@ -217,6 +223,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             estateViewModel.createPicture(picture);
         }
     }
+    private void testPicture(){
+
+
+    }
 
 
     // back camera call (startActivityForResult)
@@ -227,7 +237,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         //FROM CAMERA
         if (requestCode == REQUEST_PHOTO_CODE && resultCode == RESULT_OK) {
             image = BitmapFactory.decodeFile(photoPath);
-            //binding.addPhoto.setImageBitmap(image);
+
             // TODO: 04/12/2019 sauvegarder la photo dans la db
             AlertDialog dialog;
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Dialog);
@@ -239,22 +249,24 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     savePhotoInGallery();
                     Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
                     // TODO: 04/12/2019 save in db
+
                     //savePhotoInDb(estateId);
                     savePhotoInGallery();
-                    setImageViewWithPicture();
+                    setImageViewWithPicture(Uri.parse(photoPath));//jen suis la--------------------
+
+
                 }
             });
             // TODO: 04/12/2019 save in db for negative btn
             builder.setNegativeButton("App", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //savePhotoInDb(estateId);
-
-                    setImageViewWithPicture();
+                    setImageViewWithPicture(Uri.parse(photoPath));
                 }
             });
             dialog = builder.create();
             dialog.show();
+
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.WHITE);
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
 
@@ -262,10 +274,11 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         } else if (requestCode == REQUEST_GALLERY_CODE && resultCode == RESULT_OK) {
             try {
                 final Uri uri = data.getData();
+                Log.e("uri", String.valueOf(uri));
                 final InputStream imageStream = getContentResolver().openInputStream(uri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 image = selectedImage;
-                setImageViewWithPicture();
+                setImageViewWithPicture(uri);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -274,18 +287,25 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
+
+
     // set imageView with picture
-    private void setImageViewWithPicture() {
+    private void setImageViewWithPicture(Uri uri) {
         if (binding.mainPhoto.getDrawable() == null) {
             binding.mainPhoto.setImageBitmap(image);
+            binding.mainPhoto.setImageURI(uri);//a voir si c utile
         } else if (binding.photo2.getDrawable() == null) {
             binding.photo2.setImageBitmap(image);
+            binding.photo2.setImageURI(uri);
         } else if (binding.photo3.getDrawable() == null) {
             binding.photo3.setImageBitmap(image);
+            binding.photo3.setImageURI(uri);
         } else if (binding.photo4.getDrawable() == null) {
             binding.photo4.setImageBitmap(image);
+            binding.photo4.setImageURI(uri);
         } else if (binding.photo5.getDrawable() == null) {
             binding.photo5.setImageBitmap(image);
+            binding.photo5.setImageURI(uri);
         } else {
             Toast.makeText(getApplicationContext(), "you must buy pro version to add more photos", Toast.LENGTH_LONG).show();
         }
@@ -294,7 +314,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //Popup Image
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)  {
         ImagePopup imagePopup = new ImagePopup(this);
         imagePopup.setBackgroundColor(Color.BLACK);
         imagePopup.setFullScreen(true);
@@ -346,6 +366,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
+
        // this.estateViewModel.initEstate(1);
     }
 
@@ -366,9 +387,11 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
             Toast.makeText(this, "Your estate is save", Toast.LENGTH_SHORT).show();
 
-
+            savePhotoInDb(estate.getEstateId());
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
             this.estateViewModel.createEstate(estate);
+
+
 
         } catch (Exception e) {
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();

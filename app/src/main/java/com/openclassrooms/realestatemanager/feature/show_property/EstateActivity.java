@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
@@ -50,7 +49,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         onClickrecyclerView();
 
 
-
     }
 
     //---------------------
@@ -78,6 +76,8 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case 4:
                 this.estateViewModel.displayEstatebytypeDesc().observe(this, this::updateEstateList);
+            case 5:
+                this.estateViewModel.displaySoldEstateDesc().observe(this, this::updateEstateList);
         }
 
     }
@@ -95,6 +95,8 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case 3:
                 this.estateViewModel.displayEstateBySurfaceAsc().observe(this, this::updateEstateList);
+            case 5:
+                this.estateViewModel.displaySoldEstateAsc().observe(this, this::updateEstateList);
         }
     }
 
@@ -114,6 +116,8 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.filter_type:
                 ifClicked(4, binding.dropType);
                 break;
+            case R.id.filter_sold:
+                ifClicked(5, binding.dropSold);
         }
 
     }
@@ -155,7 +159,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void onClickrecyclerView(){
+    private void onClickrecyclerView() {
         ItemClickSupport.addTo(binding.recyclerView, R.layout.row_estate)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     Estate estate = adapter.getEstate(position);
@@ -184,6 +188,16 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
     }
+
+    //----------------TEST FOR PICTURE---------------------
+    // je dois recuperer la photo prinicpale
+    // je dois donc faire une requete de la photo avec l'id de l'estate
+    // je dois faire un get mainPhoto depuis le ViewModel
+    //donc je dois modifier mon repository
+    // et mon dao
+    // donc je dois avoir une ref de la photo principale
+    //donc mon utilisateur doit pouvoir definir la photo principale
+    //peut etre en agrandissant les photos ou sinon par defaut la mainPhoto ou les 2
 
 
 }

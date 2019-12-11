@@ -101,6 +101,12 @@ public class EstateViewModel extends ViewModel {
     public LiveData<List<Estate>> displayEstateBytypeAsc(){
         return estateDataRepository.displayEstateByTypeAsc();
     }
+    public LiveData<List<Estate>> displaySoldEstateDesc(){
+        return estateDataRepository.displaySoldEstateDesc();
+    }
+ public LiveData<List<Estate>> displaySoldEstateAsc(){
+        return estateDataRepository.displaySoldEstateAsc();
+    }
 
 
     public void createEstate(Estate estate) {

@@ -21,6 +21,18 @@
             android:background="@color/colorAccent">
 
 
+
+            <ImageView
+                android:id="@+id/mode_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/tv_media"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_media"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_mode_edit"
+                tools:ignore="ContentDescription" />
+
             <TextView
                 android:id="@+id/tv_media"
                 android:layout_width="wrap_content"
@@ -33,46 +45,32 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/map_layout"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="10dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_media">
-
-                <fragment
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:map="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_location_detail"
-                    map:mapType="normal"
-                    map:liteMode="true"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="@+id/map_layout"
-                app:layout_constraintBottom_toBottomOf="@+id/map_layout"
-                app:layout_constraintLeft_toRightOf="@+id/map_layout"
+            <ImageView
+                android:id="@+id/sold_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintTop_toTopOf="@+id/tv_media"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_media"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_margin="10dp">
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/house_for_sale_color"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:id="@+id/recycler_layout"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/tv_media"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:layout_editor_absoluteY="19dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
@@ -81,12 +79,13 @@
                 android:id="@+id/tv_description_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:text="Description"
                 android:textColor="@color/goldLight"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_layout"
+                android:layout_marginTop="10dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/map_layout" />
+                tools:layout_editor_absoluteY="184dp" />
 
             <TextView
                 android:id="@+id/edit_description_detail"
@@ -173,7 +172,29 @@
                 app:layout_constraintLeft_toRightOf="@id/ic_room"
                 app:layout_constraintTop_toTopOf="@+id/ic_room" />
 
+            <LinearLayout
+                android:id="@+id/map_layout_id"
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="@+id/tv_room_detail"
+                app:layout_constraintLeft_toLeftOf="@id/tv_room_detail"
+                app:layout_constraintRight_toRightOf="parent"
+                >
 
+            <fragment
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map_id"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                map:mapType="normal"
+                map:liteMode="true"
+                />
+            </LinearLayout>
             <ImageView
                 android:id="@+id/ic_bedroom_detail"
                 android:layout_width="wrap_content"
@@ -275,6 +296,7 @@
 
 
             <Button
+                android:id="@+id/btn_poi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Show points of interest"
@@ -283,8 +305,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:background="@color/goldLight"
                 android:textColor="@color/colorAccent"
+                android:padding="10dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                  />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toBottomOf="@id/btn_poi"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="UselessLeaf" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.Manifest;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -25,8 +25,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityDetailEstateBinding;
+import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
+import com.openclassrooms.realestatemanager.feature.add_property.UpdateEstateActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -63,6 +66,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         getCurrentEstate(estateId);
 
         this.soldestate();
+        this.updateEstate();
 
     }
 
@@ -111,8 +115,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                     markerOptions.title("My position");
                     googleMap.addMarker(markerOptions);
-                    Log.e("location", "latitude = " + currentLocation.getLatitude());
-                    Log.e("location", "longitude = " + currentLocation.getLongitude());
+
                 } else {
                     Log.d(TAG, "Current location is null. Using defaults.");
                     Log.e(TAG, "Exception: %s", task.getException());
@@ -146,9 +149,9 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         binding.tvLocationDetail.setText(estate.getAddress() + "\n" + estate.getPostalCode() + "\n" + estate.getCity().toUpperCase());
         latitude = estate.getLatitude();
         longitude = estate.getLongitude();
-        if (estate.isSold()){
+        if (estate.isSold()) {
             binding.soldBtn.setImageDrawable(getDrawable(R.drawable.sold_house_color));
-        }else if (!estate.isSold()){
+        } else if (!estate.isSold()) {
             binding.soldBtn.setImageDrawable(getDrawable(R.drawable.house_for_sale_color));
         }
     }
@@ -156,49 +159,62 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     //sold house
     private void soldestate() {
 
-            binding.soldBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        binding.soldBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    if (!estate.isSold()) {
-                        AlertDialog alertDialog;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
-                        builder.setMessage("Do you want sold this estate?");
-                        builder.setPositiveButton("Yes", (dialog, which) -> {
-                            estate.setSold(true);
-                            estateViewModel.updateEstate(estate);
+                if (!estate.isSold()) {
+                    AlertDialog alertDialog;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
+                    builder.setMessage("Do you want sold this estate?");
+                    builder.setPositiveButton("Yes", (dialog, which) -> {
+                        estate.setSold(true);
+                        estateViewModel.updateEstate(estate);
 
-                        });
-                        builder.setNegativeButton("No", (dialog, which) -> {
-                        });
-                        alertDialog = builder.create();
-                        alertDialog.show();
-                        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
-                        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
-                    }else if (estate.isSold()){
-                        AlertDialog alertDialog;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
-                        builder.setMessage("Do you want to restore estate to sale?");
-                        builder.setPositiveButton("Yes", (dialog, which) -> {
-                            estate.setSold(false);
-                            estateViewModel.updateEstate(estate);
-                        });
-                        builder.setNegativeButton("No", (dialog, which) -> {
+                    });
+                    builder.setNegativeButton("No", (dialog, which) -> {
+                    });
+                    alertDialog = builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+                    alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                } else if (estate.isSold()) {
+                    AlertDialog alertDialog;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
+                    builder.setMessage("Do you want to restore estate to sale?");
+                    builder.setPositiveButton("Yes", (dialog, which) -> {
+                        estate.setSold(false);
+                        estateViewModel.updateEstate(estate);
+                    });
+                    builder.setNegativeButton("No", (dialog, which) -> {
 
-                        });
-                        alertDialog = builder.create();
-                        alertDialog.show();
-                        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
-                        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
-                    }
-
-
-                } });
-        }
+                    });
+                    alertDialog = builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+                    alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                }
 
 
+            }
+        });
+    }
 
-
-
+    //Update Estate
+    private void updateEstate(){
+        binding.modeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getApplicationContext(), UpdateEstateActivity.class);
+                Gson gson = new Gson();
+                String estateJson = gson.toJson(estate);
+                intent.putExtra("estateJson", estateJson);
+                startActivity(intent);
+                // je dois recuperer toute les donn"es de l'estate
+                // et les afficher dans les != valeurs
+                //dois je créer une nouvelle activity??
+            }
+        });
+    }
 
 }

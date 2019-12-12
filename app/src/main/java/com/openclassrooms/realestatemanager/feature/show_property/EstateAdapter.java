@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -39,12 +40,15 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
         Estate estate = estateList.get(position);
-       // holder.rowEstateBinding.rowCity.setText(estate.getCity());
         holder.rowEstateBinding.setEstate(estate);
+        if (estate.isSold()){
+            holder.rowEstateBinding.soldView.setImageResource(R.drawable.sold_house);
+            holder.rowEstateBinding.soldView.setVisibility(View.VISIBLE);
 
-        //holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.country_house);
-       // holder.rowEstateBinding.rowPrice.setText((int) estate.getPrice());
-       // holder.rowEstateBinding.rowType.setText(estate.getType());
+        }else {
+            holder.rowEstateBinding.soldView.setVisibility(View.GONE);
+        }
+
     }
 
     public void setEstate(List<Estate> estates){

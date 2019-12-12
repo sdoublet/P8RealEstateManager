@@ -28,6 +28,7 @@ public class EstateViewModel extends ViewModel {
     private LiveData<User> currentUser;
     private LiveData<Estate> currentEstate;
     private LiveData<Picture> currentPicture;
+
     private LiveData<List<Estate>> allEstate;
 
     public EstateViewModel(EstateDataRepository estateDataRepository, UserDataRepository userDataRepository, PictureDataRepository pictureDataRepository, Executor executor) {

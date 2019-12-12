@@ -146,6 +146,8 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+
+
     //---------------
     //RECYCLER VIEW
     //---------------
@@ -168,6 +170,10 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                     startActivity(intent);
                 });
     }
+
+
+
+
 
     //----------------
     // POPULATE DATA

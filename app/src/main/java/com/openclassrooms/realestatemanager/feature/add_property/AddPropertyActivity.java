@@ -109,8 +109,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         save();
 
 
-        // popup
-        //popupImage();
+
     }
 
     //------------------------
@@ -218,9 +217,11 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     //Save photo in db
     private void savePhotoInDb(long estateId) {
+        Log.e("estate", String.valueOf(estateId));
         for (Picture picture : pictureList) {
             picture.setEstateId(estateId);
             estateViewModel.createPicture(picture);
+            Log.e("saveDb", String.valueOf(picture.getPhotoId()));
         }
     }
     private void testPicture(){
@@ -466,7 +467,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerType.setAdapter(adapter);
         binding.spinnerType.setOnItemSelectedListener(this);
-
         //For array number
         ArrayAdapter<CharSequence> adapterNumber = ArrayAdapter.createFromResource(this, R.array.numbers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -476,7 +476,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding.spinnerRoom.setOnItemSelectedListener(this);
         binding.spinnerBedroom.setOnItemSelectedListener(this);
         binding.spinnerBathroom.setOnItemSelectedListener(this);
-
         //For array heating
         ArrayAdapter<CharSequence> adapterHeating = ArrayAdapter.createFromResource(this, R.array.heating, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

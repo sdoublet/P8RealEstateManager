@@ -24,10 +24,10 @@ public class CreditSimulatorActivity extends AppCompatActivity {
         binding.resultCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              double  p = Double.parseDouble(binding.priceEdit.getText().toString());
-              // String s = binding.tauxEdit.getText().toString();
-               float t = Float.parseFloat(binding.tauxEdit.getText().toString());
-               int d = Integer.parseInt(binding.durationEdit.getText().toString());
+                double  p = Double.parseDouble(binding.priceEdit.getText().toString());
+                // String s = binding.tauxEdit.getText().toString();
+                float t = Float.parseFloat(binding.tauxEdit.getText().toString());
+                int d = Integer.parseInt(binding.durationEdit.getText().toString());
                 double calcul =(calculResult(p, d, t));
                 // result.setText(Double.toString(calcul));
                 binding.resultEdit.setText(String.format(Locale.getDefault(), "%.2f $/month", calcul));

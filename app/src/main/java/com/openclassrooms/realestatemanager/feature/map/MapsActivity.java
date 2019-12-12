@@ -1,6 +1,10 @@
 package com.openclassrooms.realestatemanager.feature.map;
 
 import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -15,12 +20,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
+import com.openclassrooms.realestatemanager.injections.Injection;
+import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
+import com.openclassrooms.realestatemanager.models.Estate;
+
+import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -37,6 +49,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private Marker marker;
+    private EstateViewModel estateViewModel;
+    private Estate estate;
+    private List<Estate> estates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +62,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+
+        this.configureViewModel();
+        this.getAllEstate();
     }
 
 
@@ -97,6 +115,50 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             EasyPermissions.requestPermissions(this, "you must have permission", REQUEST_CODE, perms);
         }
     }
+
+    //---------------------
+    // Configure ViewModel
+    //---------------------
+    private void configureViewModel() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+
+    }
+
+    //get all estate
+    private void getAllEstate() {
+        this.estateViewModel.getAllEstates().observe(this, this::displayEstateonMap);
+        Log.e("est", "done");
+    }
+
+    //Diplay estate on map
+    private void displayEstateonMap(List<Estate> estateList){
+        //pour tout les estates de la list
+        //recupère latlng de chaque
+        //met un marqueur sur chaque
+        this.estates = estateList;
+        for (int i=0; i<estateList.size(); i++){
+            estate = estates.get(i);
+            marker = mMap.addMarker(new MarkerOptions()
+            .position(new LatLng(estate.getLatitude(), estate.getLongitude()))
+            .title(String.valueOf(estate.getPrice())));
+          marker.setIcon(BitmapDescriptorFactory.defaultMarker());
+
+        }
+
+
+
+
+
+    }
+    private Drawable resize(Drawable image) {
+           Bitmap b = ((BitmapDrawable)image).getBitmap();
+           Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 10, 10, false);
+           return new BitmapDrawable(getResources(), bitmapResized);
+       }
+
+
+
 
     @Override
     protected void onDestroy() {

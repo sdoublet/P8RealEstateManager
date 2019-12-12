@@ -2,17 +2,26 @@ package com.openclassrooms.realestatemanager.repositories;
 
 import androidx.lifecycle.LiveData;
 
+import com.openclassrooms.realestatemanager.database.dao.PictureDao;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
+import com.openclassrooms.realestatemanager.models.Picture;
 
 import java.util.List;
 
 public class EstateDataRepository {
 
     private final EstateDao estateDao;
+    private final PictureDao pictureDao;
 
     public EstateDataRepository(EstateDao estateDao) {
         this.estateDao = estateDao;
+        pictureDao = null;
+    }
+
+    public EstateDataRepository(EstateDao estateDao, PictureDao pictureDao) {
+        this.estateDao = estateDao;
+        this.pictureDao = pictureDao;
     }
 
     //--------GET---------
@@ -33,7 +42,14 @@ public class EstateDataRepository {
     public LiveData<Integer> getLastEstate(){return this.estateDao.getLastEstate();}
 
     //------CREATE---------
-    public void createEstate(Estate estate){ estateDao.insertEstate(estate);}
+//    public void createEstate(Estate estate, List<Picture> pictures){
+//        long estateId =  estateDao.insertEstate(estate);
+//
+//    }
+    public void createEstate(Estate estate){
+        long estateId =  estateDao.insertEstate(estate);
+
+    }
 
     //-----DELETE----------
     public void deleteEstate(long estateId){estateDao.deleteEstate(estateId);}

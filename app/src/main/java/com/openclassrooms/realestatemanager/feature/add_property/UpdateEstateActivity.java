@@ -2,8 +2,10 @@ package com.openclassrooms.realestatemanager.feature.add_property;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,11 +13,15 @@ import android.widget.ArrayAdapter;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
+import com.openclassrooms.realestatemanager.injections.Injection;
+import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 
 public class UpdateEstateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
     ActivityAddPropertyBinding binding;
+    private EstateViewModel estateViewModel;
     private Estate estate;
     private String estateJson;
     @Override
@@ -24,10 +30,12 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         estateJson = getIntent().getStringExtra("estateJson");
         this.getEstateFromJson();
-        configureSpinners();
-        displayEstateData();
+        this.configureViewModel();
+        this.configureSpinners();
+        this.displayEstateData();
+        this.updateDb();
 
-    }
+}
 
     private void getEstateFromJson(){
         Gson gson = new Gson();
@@ -43,9 +51,17 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
         binding.editAddress.setText(estate.getAddress());
         binding.editZipCode.setText(String.valueOf(estate.getPostalCode()));
         binding.editCity.setText(estate.getCity());
+        binding.checkboxSchool.setChecked(estate.isSchool());
+        binding.checkboxShop.setChecked(estate.isShop());
+        binding.checkboxPark.setChecked(estate.isPark());
+        binding.checkboxHospital.setChecked(estate.isHospital());
+        binding.checkboxTransport.setChecked(estate.isTransport());
+        binding.checkboxAdministration.setChecked(estate.isAdministration());
 
         binding.spinnerRoom.setSelection(estate.getNbRoom());
-        
+
+
+
     }
     private void configureSpinners() {
         //For array type
@@ -81,6 +97,41 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
+    private void configureViewModel() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+    }
+
+    //UPDATE UI
+    private void updateUi(){
+        estateViewModel.updateEstate(estate);
+    }
+
+    //save onclick save btn
+    private void updateDb(){
+        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeValueOfEstate();
+                updateUi();
+                Log.e("onclick", "ok");
+            }
+        });
+    }
+
+    //take value
+    private void takeValueOfEstate(){
+       estate.setPrice(Integer.parseInt(binding.editPrice.getText().toString()));
+       estate.setDescription(binding.editDescription.getText().toString());
+       estate.setAddress(binding.editAddress.getText().toString());
+       estate.setPostalCode(Integer.parseInt(binding.editZipCode.getText().toString()));
+       estate.setCity(binding.editCity.getText().toString());
+       estate.setSurface(Float.parseFloat(binding.editEstateSurface.getText().toString()));
+       estate.setSurfaceLand(Float.parseFloat(binding.editLandSurface.getText().toString()));
 
     }
 }

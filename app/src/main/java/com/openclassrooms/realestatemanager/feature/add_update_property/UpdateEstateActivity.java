@@ -138,6 +138,7 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
                 takeValueOfEstate();
                 updateUi();
                 Log.e("onclick", "ok");
+
             }
         });
     }
@@ -151,6 +152,11 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
        estate.setCity(binding.editCity.getText().toString());
        estate.setSurface(Float.parseFloat(binding.editEstateSurface.getText().toString()));
        estate.setSurfaceLand(Float.parseFloat(binding.editLandSurface.getText().toString()));
+       estate.setType(binding.spinnerType.getSelectedItem().toString());
+       estate.setNbRoom(Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()));
+       estate.setBedroom(Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()));
+       estate.setBathroom(Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()));
+       estate.setHeating(binding.spinnerHeating.getSelectedItem().toString());
 
     }
 }

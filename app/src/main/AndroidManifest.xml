@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.add_property.UpdateEstateActivity"></activity>
+        <activity android:name=".feature.add_update_property.UpdateEstateActivity"></activity>
         <activity
             android:name=".feature.show_property.DetailEstateActivity"
             android:parentActivityName=".feature.show_property.EstateActivity"></activity>
@@ -54,7 +54,7 @@
             android:name=".feature.setting.SettingActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".feature.add_property.AddPropertyActivity"
+            android:name=".feature.add_update_property.AddPropertyActivity"
             android:label="Set new property"
             android:parentActivityName=".MainActivity" />
         <activity

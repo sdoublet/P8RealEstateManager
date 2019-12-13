@@ -24,10 +24,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.feature.show_property.DetailEstateActivity;
-import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateViewHolder;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -49,7 +48,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private Marker marker;
-    private EstateViewModel estateViewModel;
+    private EstateViewHolder.EstateViewModel estateViewModel;
     private Estate estate;
     private List<Estate> estates;
 
@@ -83,7 +82,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         displayCurrentLocation(googleMap);
-        //test();
     }
 
     private void displayCurrentLocation(GoogleMap googleMap) {
@@ -123,7 +121,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //---------------------
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
 
     }
 
@@ -144,7 +142,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .position(new LatLng(estate.getLatitude(), estate.getLongitude()))
                     .title(String.valueOf(estate.getPrice())));
             marker.setIcon(BitmapDescriptorFactory.defaultMarker());
-           // marker.setSnippet(String.valueOf(estate.getEstateId()));
             marker.setTag(estate.getEstateId());
 
 
@@ -173,9 +170,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onMarkerClick(Marker marker) {
 
         Intent intent = new Intent(this, DetailEstateActivity.class);
-       // String ref = marker.getSnippet();
         String ref = marker.getTag().toString();
-        Log.e("marker", ref);
         intent.putExtra("estate_map_id", ref);
         startActivity(intent);
         return false;

@@ -28,7 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityDetailEstateBinding;
-import com.openclassrooms.realestatemanager.feature.add_property.UpdateEstateActivity;
+import com.openclassrooms.realestatemanager.feature.add_update_property.UpdateEstateActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -43,7 +43,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     private ActivityDetailEstateBinding binding;
     private static final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
     private GoogleMap googleMap;
-    private EstateViewModel estateViewModel;
+    private EstateViewHolder.EstateViewModel estateViewModel;
     private Estate estate;
     private long estateId =0;
     private long allId;
@@ -86,7 +86,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     //---------------------
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
         //this.estateViewModel.intit(AGENT_ID);
     }
 

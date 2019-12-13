@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.feature.add_property;
+package com.openclassrooms.realestatemanager.feature.add_update_property;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
-import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateViewHolder;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -21,9 +21,11 @@ import com.openclassrooms.realestatemanager.models.Estate;
 public class UpdateEstateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
     ActivityAddPropertyBinding binding;
-    private EstateViewModel estateViewModel;
+    private EstateViewHolder.EstateViewModel estateViewModel;
     private Estate estate;
     private String estateJson;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,31 +60,48 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
         binding.checkboxTransport.setChecked(estate.isTransport());
         binding.checkboxAdministration.setChecked(estate.isAdministration());
 
-        binding.spinnerRoom.setSelection(estate.getNbRoom());
 
 
 
     }
     private void configureSpinners() {
+
+        int spinnerSelection;
         //For array type
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item);
+
+        spinnerSelection = adapter.getPosition(estate.getType());
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerType.setAdapter(adapter);
+        binding.spinnerType.setSelection(spinnerSelection);
         binding.spinnerType.setOnItemSelectedListener(this);
         //For array number
         ArrayAdapter<CharSequence> adapterNumber = ArrayAdapter.createFromResource(this, R.array.numbers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Room
+        spinnerSelection = adapterNumber.getPosition(String.valueOf(estate.getNbRoom())) ;
         binding.spinnerRoom.setAdapter(adapterNumber);
+        binding.spinnerRoom.setSelection(spinnerSelection);
+        //Bedroom
+        spinnerSelection = adapterNumber.getPosition(String.valueOf(estate.getBedroom()));
         binding.spinnerBedroom.setAdapter(adapterNumber);
+        binding.spinnerBedroom.setSelection(spinnerSelection);
+        //Bathroom
+        spinnerSelection = adapterNumber.getPosition(String.valueOf(estate.getBathroom()));
         binding.spinnerBathroom.setAdapter(adapterNumber);
+        binding.spinnerBathroom.setSelection(spinnerSelection);
+        //click listener
         binding.spinnerRoom.setOnItemSelectedListener(this);
         binding.spinnerBedroom.setOnItemSelectedListener(this);
         binding.spinnerBathroom.setOnItemSelectedListener(this);
+
         //For array heating
         ArrayAdapter<CharSequence> adapterHeating = ArrayAdapter.createFromResource(this, R.array.heating, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSelection = adapterHeating.getPosition(estate.getHeating());
         binding.spinnerHeating.setAdapter(adapterHeating);
-        binding.spinnerHeating.setOnItemSelectedListener(this);
+        binding.spinnerHeating.setSelection(spinnerSelection);
     }
 
     @Override
@@ -103,7 +122,7 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
 
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
     }
 
     //UPDATE UI

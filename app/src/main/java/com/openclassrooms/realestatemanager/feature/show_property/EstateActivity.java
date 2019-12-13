@@ -30,7 +30,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private ActivityEstateBinding binding;
 
     // FOR DATA
-    private EstateViewModel estateViewModel;
+    private EstateViewHolder.EstateViewModel estateViewModel;
     private List<Estate> estateList;
     private EstateAdapter adapter;
     EstateDao estateDao;
@@ -56,7 +56,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     //---------------------
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
     }
 

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.feature.add_property;
+package com.openclassrooms.realestatemanager.feature.add_update_property;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -31,10 +31,9 @@ import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.api.Result;
-import com.openclassrooms.realestatemanager.database.database.RoomDb;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
-import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
+import com.openclassrooms.realestatemanager.feature.show_property.EstateViewHolder;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -81,7 +80,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
 
     //FOR DATA
-    private EstateViewModel estateViewModel;
+    private EstateViewHolder.EstateViewModel estateViewModel;
     private static long AGENT_ID = 1;
 
     //FILE PURPOSE
@@ -365,7 +364,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //Configure ViewModel
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
 
        // this.estateViewModel.initEstate(1);

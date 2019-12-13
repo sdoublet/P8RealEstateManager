@@ -15,7 +15,7 @@ import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.EstateAgency;
 import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
-import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
+import com.openclassrooms.realestatemanager.feature.add_update_property.AddPropertyActivity;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 
 /**

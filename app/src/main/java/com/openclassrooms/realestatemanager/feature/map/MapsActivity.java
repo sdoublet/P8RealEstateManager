@@ -1,8 +1,8 @@
 package com.openclassrooms.realestatemanager.feature.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -20,13 +19,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.feature.show_property.DetailEstateActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewModel;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
@@ -38,10 +38,10 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.content.ContentValues.TAG;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
-    public static final String API_KEY = String.valueOf(R.string.google_maps_key);
+   // public static final String API_KEY = String.valueOf(R.string.google_maps_key);
     private static final int REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 12f;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -65,6 +65,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         this.configureViewModel();
         this.getAllEstate();
+
     }
 
 
@@ -82,6 +83,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         displayCurrentLocation(googleMap);
+        //test();
     }
 
     private void displayCurrentLocation(GoogleMap googleMap) {
@@ -131,38 +133,51 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.e("est", "done");
     }
 
-    //Diplay estate on map
-    private void displayEstateonMap(List<Estate> estateList){
-        //pour tout les estates de la list
-        //recupère latlng de chaque
-        //met un marqueur sur chaque
+    //Display estate on map
+    private void displayEstateonMap(List<Estate> estateList) {
+
+        mMap.setOnMarkerClickListener(this);
         this.estates = estateList;
-        for (int i=0; i<estateList.size(); i++){
+        for (int i = 0; i < estateList.size(); i++) {
             estate = estates.get(i);
             marker = mMap.addMarker(new MarkerOptions()
-            .position(new LatLng(estate.getLatitude(), estate.getLongitude()))
-            .title(String.valueOf(estate.getPrice())));
-          marker.setIcon(BitmapDescriptorFactory.defaultMarker());
+                    .position(new LatLng(estate.getLatitude(), estate.getLongitude()))
+                    .title(String.valueOf(estate.getPrice())));
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker());
+           // marker.setSnippet(String.valueOf(estate.getEstateId()));
+            marker.setTag(estate.getEstateId());
+
+
 
         }
 
-
-
-
-
     }
+
+
+
     private Drawable resize(Drawable image) {
-           Bitmap b = ((BitmapDrawable)image).getBitmap();
-           Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 10, 10, false);
-           return new BitmapDrawable(getResources(), bitmapResized);
-       }
-
-
+        Bitmap b = ((BitmapDrawable) image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 10, 10, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+// Launch DetailEstateActivity
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        Intent intent = new Intent(this, DetailEstateActivity.class);
+       // String ref = marker.getSnippet();
+        String ref = marker.getTag().toString();
+        Log.e("marker", ref);
+        intent.putExtra("estate_map_id", ref);
+        startActivity(intent);
+        return false;
     }
 }

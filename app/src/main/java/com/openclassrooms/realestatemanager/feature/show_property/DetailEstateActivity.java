@@ -28,7 +28,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityDetailEstateBinding;
-import com.openclassrooms.realestatemanager.feature.add_property.AddPropertyActivity;
 import com.openclassrooms.realestatemanager.feature.add_property.UpdateEstateActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
@@ -40,22 +39,32 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
     private static final String TAG = "TAG";
     public static final String ESTATE_ID = "estate_id";
+    public static final String ESTATE_FROM_MAP = "estate_map_id";
     private ActivityDetailEstateBinding binding;
     private static final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
     private GoogleMap googleMap;
     private EstateViewModel estateViewModel;
     private Estate estate;
-    private long estateId;
+    private long estateId =0;
+    private long allId;
     private double latitude;
     private double longitude;
     FusedLocationProviderClient fusedLocationProviderClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_estate);
 
+        //jsonIntent = getIntent().getStringExtra("estateJson");
         estateId = getIntent().getLongExtra(ESTATE_ID, 0);
+
+        if (estateId==0 ){
+            allId = Long.parseLong(getIntent().getStringExtra(ESTATE_FROM_MAP));
+        }else {
+            allId = estateId;
+        }
         Log.e("estateId", String.valueOf(estateId));
         this.configureRecyclerView();
         this.configureViewModel();
@@ -63,7 +72,9 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_id);
         mapFragment.getMapAsync(this);
-        getCurrentEstate(estateId);
+
+        getCurrentEstate(allId);
+
 
         this.soldestate();
         this.updateEstate();
@@ -136,7 +147,9 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
     //Configure data
     private void updateUi(Estate estate) {
+
         this.estate = estate;
+
         binding.tvMedia.setText(estate.getCity().toUpperCase());
         binding.tvPriceDetail.setText(String.valueOf(estate.getPrice()) + " $");
         binding.editDescriptionDetail.setText(estate.getDescription());
@@ -154,6 +167,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         } else if (!estate.isSold()) {
             binding.soldBtn.setImageDrawable(getDrawable(R.drawable.house_for_sale_color));
         }
+
     }
 
     //sold house
@@ -201,11 +215,11 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     }
 
     //Update Estate
-    private void updateEstate(){
+    private void updateEstate() {
         binding.modeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getApplicationContext(), UpdateEstateActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UpdateEstateActivity.class);
                 Gson gson = new Gson();
                 String estateJson = gson.toJson(estate);
                 intent.putExtra("estateJson", estateJson);
@@ -216,5 +230,8 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
             }
         });
     }
+
+
+
 
 }

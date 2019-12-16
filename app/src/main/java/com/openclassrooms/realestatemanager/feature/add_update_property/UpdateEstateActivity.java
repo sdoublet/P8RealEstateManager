@@ -1,29 +1,39 @@
 package com.openclassrooms.realestatemanager.feature.add_update_property;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.gson.Gson;
+import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
+import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewHolder;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.util.Utils;
 
-public class UpdateEstateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import retrofit2.HttpException;
+
+public class UpdateEstateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     ActivityAddPropertyBinding binding;
     private EstateViewHolder.EstateViewModel estateViewModel;
     private Estate estate;
     private String estateJson;
+    private Disposable disposable;
 
 
     @Override
@@ -37,15 +47,15 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
         this.displayEstateData();
         this.updateDb();
 
-}
+    }
 
-    private void getEstateFromJson(){
+    private void getEstateFromJson() {
         Gson gson = new Gson();
         estate = gson.fromJson(estateJson, Estate.class);
     }
 
     //UI
-    private void displayEstateData(){
+    private void displayEstateData() {
         binding.editPrice.setText(String.valueOf(estate.getPrice()));
         binding.editEstateSurface.setText(String.valueOf(estate.getSurface()));
         binding.editLandSurface.setText(String.valueOf(estate.getSurfaceLand()));
@@ -61,9 +71,8 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
         binding.checkboxAdministration.setChecked(estate.isAdministration());
 
 
-
-
     }
+
     private void configureSpinners() {
 
         int spinnerSelection;
@@ -80,7 +89,7 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
         ArrayAdapter<CharSequence> adapterNumber = ArrayAdapter.createFromResource(this, R.array.numbers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Room
-        spinnerSelection = adapterNumber.getPosition(String.valueOf(estate.getNbRoom())) ;
+        spinnerSelection = adapterNumber.getPosition(String.valueOf(estate.getNbRoom()));
         binding.spinnerRoom.setAdapter(adapterNumber);
         binding.spinnerRoom.setSelection(spinnerSelection);
         //Bedroom
@@ -126,37 +135,80 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
     }
 
     //UPDATE UI
-    private void updateUi(){
+    private void updateUi() {
         estateViewModel.updateEstate(estate);
+
     }
 
     //save onclick save btn
-    private void updateDb(){
+    private void updateDb() {
         binding.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takeValueOfEstate();
-                updateUi();
-                Log.e("onclick", "ok");
 
+                Toast.makeText(getApplicationContext(), "Your estate is update", Toast.LENGTH_SHORT).show();
+                String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
+                        + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
+                executeHttpRequestWithretrofit(address);
+                Log.e("onclick", "ok");
+                updateUi();
             }
         });
     }
 
     //take value
-    private void takeValueOfEstate(){
-       estate.setPrice(Integer.parseInt(binding.editPrice.getText().toString()));
-       estate.setDescription(binding.editDescription.getText().toString());
-       estate.setAddress(binding.editAddress.getText().toString());
-       estate.setPostalCode(Integer.parseInt(binding.editZipCode.getText().toString()));
-       estate.setCity(binding.editCity.getText().toString());
-       estate.setSurface(Float.parseFloat(binding.editEstateSurface.getText().toString()));
-       estate.setSurfaceLand(Float.parseFloat(binding.editLandSurface.getText().toString()));
-       estate.setType(binding.spinnerType.getSelectedItem().toString());
-       estate.setNbRoom(Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()));
-       estate.setBedroom(Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()));
-       estate.setBathroom(Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()));
-       estate.setHeating(binding.spinnerHeating.getSelectedItem().toString());
+    private void takeValueOfEstate() {
+        estate.setPrice(Integer.parseInt(binding.editPrice.getText().toString()));
+        estate.setDescription(binding.editDescription.getText().toString());
+        estate.setAddress(binding.editAddress.getText().toString());
+        estate.setPostalCode(Integer.parseInt(binding.editZipCode.getText().toString()));
+        estate.setCity(binding.editCity.getText().toString());
+        estate.setSurface(Float.parseFloat(binding.editEstateSurface.getText().toString()));
+        estate.setSurfaceLand(Float.parseFloat(binding.editLandSurface.getText().toString()));
+        estate.setType(binding.spinnerType.getSelectedItem().toString());
+        estate.setNbRoom(Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()));
+        estate.setBedroom(Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()));
+        estate.setBathroom(Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()));
+        estate.setHeating(binding.spinnerHeating.getSelectedItem().toString());
+
 
     }
+
+    // TODO: 14/12/2019 put execute http request for new address
+    //----------------------
+    //HTTP REQUEST
+    //----------------------
+    public void executeHttpRequestWithretrofit(String address) {
+        this.disposable = LocationStream.streamFetchGeocoding(address, BuildConfig.google_maps_api_key).subscribeWith(new DisposableObserver<ApiGeocoding>() {
+            @Override
+            public void onNext(ApiGeocoding apiGeocoding) {
+
+                estate.setLatitude(apiGeocoding.getResults().get(0).getGeometry().getLocation().getLat());
+                estate.setLongitude(apiGeocoding.getResults().get(0).getGeometry().getLocation().getLng());
+                updateUi();
+
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("TAG", "on error" + e.getMessage() + e.getLocalizedMessage() + e.fillInStackTrace() + e.getCause());
+                if (e instanceof HttpException) {
+                    HttpException httpException = (HttpException) e;
+                    int code = httpException.code();
+                    String message = httpException.getMessage();
+
+                    Log.e("TAG", code + message + httpException.response());
+                }
+
+            }
+
+            @Override
+            public void onComplete() {
+                Log.e("TAG", "on complete");
+            }
+        });
+    }
+
 }

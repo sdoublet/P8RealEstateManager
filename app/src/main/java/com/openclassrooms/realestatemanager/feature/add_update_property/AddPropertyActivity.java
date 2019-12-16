@@ -99,14 +99,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         //Configure ViewModel
         this.configureViewModel();
 
-        //Display lat lng
-        showLocation();
-
         addPhoto();
 
         //Save data on db
         save();
-
 
 
     }
@@ -114,16 +110,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //------------------------
     //ACTIONS
     //------------------------
-    // Show lat lng on set new property screen
-    private void showLocation() {
-        binding.buttonShowLocation.setOnClickListener(v -> {
-            checkPermissions();
-            String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
-                    + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
-            executeHttpRequestWithretrofit(address);
 
-        });
-    }
+
 
     // Save property in database
     private void save() {
@@ -133,6 +121,9 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 checkPermissions();
                 configureViewModel();
                 createEstate();
+                String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
+                        + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
+                executeHttpRequestWithretrofit(address);
 
             }
         });
@@ -223,7 +214,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             Log.e("saveDb", String.valueOf(picture.getPhotoId()));
         }
     }
-    private void testPicture(){
+
+    private void testPicture() {
 
 
     }
@@ -288,7 +280,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     }
 
 
-
     // set imageView with picture
     private void setImageViewWithPicture(Uri uri) {
         if (binding.mainPhoto.getDrawable() == null) {
@@ -314,7 +305,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //Popup Image
 
     @Override
-    public void onClick(View v)  {
+    public void onClick(View v) {
         ImagePopup imagePopup = new ImagePopup(this);
         imagePopup.setBackgroundColor(Color.BLACK);
         imagePopup.setFullScreen(true);
@@ -342,13 +333,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 }
                 break;
             case R.id.photo_4:
-                if (binding.photo4.getDrawable()!=null){
+                if (binding.photo4.getDrawable() != null) {
                     imagePopup.initiatePopup(binding.photo4.getDrawable());
                     imagePopup.viewPopup();
                 }
                 break;
             case R.id.photo_5:
-                if (binding.photo5.getDrawable()!=null){
+                if (binding.photo5.getDrawable() != null) {
                     imagePopup.initiatePopup(binding.photo5.getDrawable());
                     imagePopup.viewPopup();
                 }
@@ -367,7 +358,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
 
-       // this.estateViewModel.initEstate(1);
+        // this.estateViewModel.initEstate(1);
     }
 
 
@@ -380,7 +371,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()),
                     Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()), binding.editDescription.getText().toString(),
                     binding.spinnerHeating.getSelectedItem().toString(), binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
-                    binding.editCity.getText().toString(), false, null, null, AGENT_ID, geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
+                    binding.editCity.getText().toString(), false, Utils.getTodayDate(), null, AGENT_ID, geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
                     geocoding.getResults().get(0).getGeometry().getLocation().getLng(), binding.checkboxSchool.isChecked(), binding.checkboxSchool.isChecked(),
                     binding.checkboxPark.isChecked(), binding.checkboxHospital.isChecked(), binding.checkboxTransport.isChecked(), binding.checkboxAdministration.isChecked());
 
@@ -390,7 +381,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             savePhotoInDb(estate.getEstateId());
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
             this.estateViewModel.createEstate(estate);
-
 
 
         } catch (Exception e) {

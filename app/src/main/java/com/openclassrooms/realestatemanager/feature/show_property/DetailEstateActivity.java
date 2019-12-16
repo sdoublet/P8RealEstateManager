@@ -32,6 +32,7 @@ import com.openclassrooms.realestatemanager.feature.add_update_property.UpdateEs
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.util.Utils;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -45,7 +46,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     private GoogleMap googleMap;
     private EstateViewHolder.EstateViewModel estateViewModel;
     private Estate estate;
-    private long estateId =0;
+    private long estateId = 0;
     private long allId;
     private double latitude;
     private double longitude;
@@ -60,9 +61,9 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         //jsonIntent = getIntent().getStringExtra("estateJson");
         estateId = getIntent().getLongExtra(ESTATE_ID, 0);
 
-        if (estateId==0 ){
+        if (estateId == 0) {
             allId = Long.parseLong(getIntent().getStringExtra(ESTATE_FROM_MAP));
-        }else {
+        } else {
             allId = estateId;
         }
         Log.e("estateId", String.valueOf(estateId));
@@ -150,9 +151,9 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
         this.estate = estate;
 
+        binding.editDescriptionDetail.setText(estate.getDescription());
         binding.tvMedia.setText(estate.getCity().toUpperCase());
         binding.tvPriceDetail.setText(String.valueOf(estate.getPrice()) + " $");
-        binding.editDescriptionDetail.setText(estate.getDescription());
         binding.tvSurfaceDetail.setText(String.valueOf(estate.getSurface()));
         binding.tvSurfaceLandDetail.setText("Land " + estate.getSurfaceLand());
         binding.tvRoomDetail.setText(String.valueOf(estate.getNbRoom()));
@@ -183,6 +184,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                     builder.setMessage("Do you want sold this estate?");
                     builder.setPositiveButton("Yes", (dialog, which) -> {
                         estate.setSold(true);
+                        estate.setSoldDate(Utils.getTodayDate());
                         estateViewModel.updateEstate(estate);
 
                     });
@@ -198,6 +200,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                     builder.setMessage("Do you want to restore estate to sale?");
                     builder.setPositiveButton("Yes", (dialog, which) -> {
                         estate.setSold(false);
+                        estate.setSoldDate(null);
                         estateViewModel.updateEstate(estate);
                     });
                     builder.setNegativeButton("No", (dialog, which) -> {
@@ -224,14 +227,10 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                 String estateJson = gson.toJson(estate);
                 intent.putExtra("estateJson", estateJson);
                 startActivity(intent);
-                // je dois recuperer toute les donn"es de l'estate
-                // et les afficher dans les != valeurs
-                //dois je créer une nouvelle activity??
+
             }
         });
     }
-
-
 
 
 }

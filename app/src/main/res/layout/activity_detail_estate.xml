@@ -94,7 +94,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/shape_rec_color"
                 android:maxHeight="120dp"
-                android:text="@{estate.description}"
+                android:text="hello"
                 android:textSize="18sp"
                 android:textColor="@color/goldLight"
                 app:layout_constraintLeft_toLeftOf="parent"

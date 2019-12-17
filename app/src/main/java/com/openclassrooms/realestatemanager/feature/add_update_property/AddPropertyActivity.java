@@ -72,11 +72,14 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private ApiGeocoding geocoding;
     private String photoPath = null;
     private Bitmap image;
+    private List<Bitmap> bitmapList;
     private Long estateId;
     private int nbPictures;
     private List<Picture> pictureList;
     private ScaleGestureDetector scaleGestureDetector;
     private boolean mainPhoto;
+    private Uri photoUri;
+
 
 
     //FOR DATA
@@ -93,12 +96,13 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
         pictureList = new ArrayList<>();
+        bitmapList = new ArrayList<>();
         //UI spinners
         this.configureSpinners();
 
         //Configure ViewModel
         this.configureViewModel();
-
+        estateViewModel.getAllPictures().observe(this, this::updateData);
         addPhoto();
 
         //Save data on db
@@ -112,7 +116,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //------------------------
 
 
-
     // Save property in database
     private void save() {
         binding.buttonSave.setOnClickListener(new View.OnClickListener() {
@@ -124,9 +127,40 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
                         + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
                 executeHttpRequestWithretrofit(address);
+                //add * picture in list
+              //  savePhotoInDb(0);
+//                Log.e("estateiidd", String.valueOf(estateId));
 
             }
         });
+        estateViewModel.getLastEstate().observe(this, this::tackeLastEntry);
+
+
+    }
+    public void tackeLastEntry(int lastId){
+        Log.e("last", String.valueOf(lastId));
+        estateId = (long) lastId  ;
+        savePhotoInDb(estateId);
+    }
+
+    public void updateData(List<Picture> pictures) {
+
+        Log.e("haha", String.valueOf(pictures.size()));
+        for (int i =0; i<pictures.size(); i++){
+
+            Log.e("all", String.valueOf(pictures.get(i).getEstateId()));
+            Log.e("all", pictures.get(i).getEstateId() +" " + pictures.get(i).getUri() + " " + pictures.get(i).getPhotoId() + "hello");
+        }
+ //       Uri uri = pictures.get(0).getUri();
+//        Bitmap bitmap = null;
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri );
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+  //      binding.addPhoto.setImageBitmap(bitmap);
+  //      Log.e("myUri", String.valueOf(uri));
+
     }
 
     //-----------------------
@@ -178,7 +212,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 // save complete way
                 photoPath = photoFile.getAbsolutePath();
                 // create Uri
-                Uri photoUri = FileProvider.getUriForFile(AddPropertyActivity.this,
+                photoUri = FileProvider.getUriForFile(AddPropertyActivity.this,
                         AddPropertyActivity.this.getApplicationContext().getPackageName() + ".provider", photoFile);
                 Log.e("uri", String.valueOf(photoUri));
                 // transfer Uri to intent
@@ -207,7 +241,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     //Save photo in db
     private void savePhotoInDb(long estateId) {
-        Log.e("estate", String.valueOf(estateId));
+        //Log.e("estate", String.valueOf(estateId));
         for (Picture picture : pictureList) {
             picture.setEstateId(estateId);
             estateViewModel.createPicture(picture);
@@ -216,6 +250,10 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     }
 
     private void testPicture() {
+        if (binding.mainPhoto != null) {
+            binding.mainPhoto.setImageURI(photoUri);
+
+        }
 
 
     }
@@ -245,7 +283,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     //savePhotoInDb(estateId);
                     savePhotoInGallery();
                     setImageViewWithPicture(Uri.parse(photoPath));//jen suis la--------------------
-
+                    Picture picture = new Picture(Uri.parse(photoPath), null, 0);
+                    pictureList.add(picture);
 
                 }
             });
@@ -264,6 +303,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
             // FROM GALLERY
         } else if (requestCode == REQUEST_GALLERY_CODE && resultCode == RESULT_OK) {
+
             try {
                 final Uri uri = data.getData();
                 Log.e("uri", String.valueOf(uri));
@@ -271,6 +311,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 image = selectedImage;
                 setImageViewWithPicture(uri);
+                Picture picture = new Picture(uri, null, 0);
+                pictureList.add(picture);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -282,25 +324,45 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     // set imageView with picture
     private void setImageViewWithPicture(Uri uri) {
+
         if (binding.mainPhoto.getDrawable() == null) {
             binding.mainPhoto.setImageBitmap(image);
-            binding.mainPhoto.setImageURI(uri);//a voir si c utile
+            // binding.mainPhoto.setImageURI(uri);
+
+            Log.e("urii", uri.getPath());
+            //a voir si c utile
         } else if (binding.photo2.getDrawable() == null) {
             binding.photo2.setImageBitmap(image);
-            binding.photo2.setImageURI(uri);
+            // binding.photo2.setImageURI(uri);
+
+            Log.e("urii", uri.getPath());
         } else if (binding.photo3.getDrawable() == null) {
             binding.photo3.setImageBitmap(image);
-            binding.photo3.setImageURI(uri);
+            //  binding.photo3.setImageURI(uri);
+
+
         } else if (binding.photo4.getDrawable() == null) {
             binding.photo4.setImageBitmap(image);
-            binding.photo4.setImageURI(uri);
+            // binding.photo4.setImageURI(uri);
+
+
         } else if (binding.photo5.getDrawable() == null) {
             binding.photo5.setImageBitmap(image);
-            binding.photo5.setImageURI(uri);
+            // binding.photo5.setImageURI(uri);
+
+
         } else {
             Toast.makeText(getApplicationContext(), "you must buy pro version to add more photos", Toast.LENGTH_LONG).show();
         }
+
+        Log.e("bill", String.valueOf(bitmapList.size()));
     }
+
+    // keep uri from all image in list
+//    private void picture(Uri uri, String descritpion, long estateId) {
+//        Picture picture = new Picture(uri, descritpion, estateId);
+//        estateViewModel.createPicture(picture);
+//    }
 
     //Popup Image
 
@@ -378,15 +440,17 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
             Toast.makeText(this, "Your estate is save", Toast.LENGTH_SHORT).show();
 
-            savePhotoInDb(estate.getEstateId());
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
             this.estateViewModel.createEstate(estate);
+
 
 
         } catch (Exception e) {
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
             Log.e("tag", e.getMessage());
         }
+        //savePhotoInDb(estateId);
+
     }
 
 

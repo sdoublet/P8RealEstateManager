@@ -23,4 +23,6 @@ public class PictureDataRepository {
 
     //-------GET---------------
     public LiveData<List<Picture>> getAllPictureFromEstateId(long estateId){return this.pictureDao.getPicture(estateId);}
+
+    public LiveData<List<Picture>> getAllPictures(){return this.pictureDao.getAllPicture();}
 }

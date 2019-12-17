@@ -40,6 +40,7 @@ public class EstateDataRepository {
     public LiveData<List<Estate>>displaySoldEstateAsc(){return this.estateDao.displaySoldEstateAsc();}
 
     public LiveData<Integer> getLastEstate(){return this.estateDao.getLastEstate();}
+    public Estate getTheLast(){return this.estateDao.getTheLast();}
 
     //------CREATE---------
 //    public void createEstate(Estate estate, List<Picture> pictures){

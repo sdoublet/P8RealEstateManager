@@ -122,10 +122,18 @@ public class EstateViewHolder extends RecyclerView.ViewHolder {
             return estateDataRepository.displaySoldEstateAsc();
         }
 
+        public LiveData<Integer> getLastEstate(){
+            return estateDataRepository.getLastEstate();
+        }
+
+        public Estate getTheLast(){
+            return estateDataRepository.getTheLast();
+        }
+
 
         public void createEstate(Estate estate) {
             Gson gson = new Gson();
-            Log.e("tag", gson.toJson(estate));
+            Log.e("gson", gson.toJson(estate));
             executor.execute(() -> estateDataRepository.createEstate(estate));
         }
 
@@ -142,6 +150,10 @@ public class EstateViewHolder extends RecyclerView.ViewHolder {
         //-----------------
         public LiveData<List<Picture>> getAllPicturesFromEstate(long estateId) {
             return pictureDataRepository.getAllPictureFromEstateId(estateId);
+        }
+
+        public LiveData<List<Picture>> getAllPictures(){
+            return pictureDataRepository.getAllPictures();
         }
 
         public void createPicture(Picture picture) {

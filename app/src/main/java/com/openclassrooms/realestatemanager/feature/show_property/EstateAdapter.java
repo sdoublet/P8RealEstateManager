@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
+import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
 public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
 
     private List<Estate> estateList;
+    private List<Picture> pictureList;
     private Context context;
 
 
@@ -40,23 +43,30 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
         Estate estate = estateList.get(position);
+     //   Picture picture = pictureList.get(0);
         holder.rowEstateBinding.setEstate(estate);
-        if (estate.isSold()){
+        if (estate.isSold()) {
             holder.rowEstateBinding.soldView.setImageResource(R.drawable.sold_house);
             holder.rowEstateBinding.soldView.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             holder.rowEstateBinding.soldView.setVisibility(View.GONE);
         }
 
+//        if (estate.getEstateId() == picture.getEstateId()) {
+//            Uri uri = picture.getUri();
+//            Glide.with(context).load(uri).into(holder.rowEstateBinding.imgRowEstate);
+//        }
+//
+
     }
 
-    public void setEstate(List<Estate> estates){
-        this.estateList = estates;
-        notifyDataSetChanged();
-    }
+//    public void setEstate(List<Estate> estates){
+//        this.estateList = estates;
+//        notifyDataSetChanged();
+//    }
 
-    public Estate getEstate(int position){
+    public Estate getEstate(int position) {
         return this.estateList.get(position);
     }
 
@@ -65,8 +75,15 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         return estateList.size();
     }
 
-    public void updateData(List<Estate> estates){
+    public void updateData(List<Estate> estates) {
         this.estateList = estates;
         this.notifyDataSetChanged();
     }
+
+    public void updateDataWithPicture(List<Picture> picture) {
+        this.pictureList = picture;
+        this.notifyDataSetChanged();
+    }
+
+
 }

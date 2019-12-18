@@ -12,12 +12,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
 import com.openclassrooms.realestatemanager.databinding.ActivityEstateBinding;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.util.Divider;
 import com.openclassrooms.realestatemanager.util.ItemClickSupport;
 
@@ -30,13 +32,14 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private ActivityEstateBinding binding;
 
     // FOR DATA
-    private EstateViewHolder.EstateViewModel estateViewModel;
+    private EstateViewModel estateViewModel;
     private List<Estate> estateList;
+    private List<Long> estateId;
     private EstateAdapter adapter;
     EstateDao estateDao;
     private boolean isClicked = false;
     private static long AGENT_ID = 1;
-
+    List<Long> pictureIdd = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,9 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         configureRecyclerView();
         configureViewModel();
         getAllEstate();
+        getAllPictures();
         onClickrecyclerView();
+
 
 
     }
@@ -56,7 +61,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     //---------------------
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
     }
 
@@ -136,7 +141,9 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     private void getAllEstate() {
         this.estateViewModel.getAllEstates().observe(this, this::updateEstateList);
+        this.estateViewModel.getAllEstates().observe(this, this::allEstateForPicture);
         Log.e("est", "done");
+
     }
 
 
@@ -145,14 +152,58 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         this.adapter.updateData(estates);
     }
 
+    private void allEstateForPicture(List<Estate> estates){
+        for (int i=0; i<estates.size(); i++){
+            long estateId = estates.get(i).getEstateId();
+            for (int j=0; j<pictureIdd.size(); j++){
+                if (pictureIdd.get(j)==estateId){
+                    Log.e("same", estateId + "= " + pictureIdd.get(j));
+                    this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
+                }else {
+                    Log.e("same", "pas trouvé");
+                }
+            }
+
+        }
+    }
+
+    private void updateUiWithPicture(Picture picture){
+        List<Picture>pictureList = new ArrayList<>();
+        pictureList.add(picture);
+        Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId());
+        adapter.updateDataWithPicture(pictureList);
+    }
+
+    private void getAllPictures() {
+        this.estateViewModel.getAllPictures().observe(this, this::takePictureId);
+    }
+
+    private List<Long> takePictureId(List<Picture> pictures) {
+        // pour chaque estateId, si il y a des photos recupere la premiere
+
+        for (int i = 0; i < pictures.size(); i++) {
+            Log.e("pictureId", String.valueOf(pictures.get(i).getEstateId()));
+            Log.e("pictureId", String.valueOf(pictures.get(i).getPhotoId()));
+            long idd = pictures.get(i).getEstateId();
+            pictureIdd.add(idd);
+
+        }
+        return pictureIdd;
+
+    }
 
 
+
+    // je dois recupere la totalité des images
+    // recuperer la première par estateId
+    //L'afficher dans la recyclerview
 
     //---------------
     //RECYCLER VIEW
     //---------------
     private void configureRecyclerView() {
         List<Estate> estateList = new ArrayList<>();
+       // List<Picture> pictureList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         adapter = new EstateAdapter(estateList, this);
         binding.recyclerView.setAdapter(adapter);
@@ -172,9 +223,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
-
-
     //----------------
     // POPULATE DATA
     //----------------
@@ -182,6 +230,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     public void populateData() {
         List<Estate> estateList = new ArrayList<>();
+        List<Picture> pictureList = new ArrayList<>();
 
 
         estateList.add(new Estate("House", 145000, 245, 120, 8, 3, 1, "Maison de plein pied", "wood",

@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.feature.show_property.DetailEstateActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateViewHolder;
@@ -48,7 +49,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private Marker marker;
-    private EstateViewHolder.EstateViewModel estateViewModel;
+    private EstateViewModel estateViewModel;
     private Estate estate;
     private List<Estate> estates;
 
@@ -121,7 +122,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //---------------------
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
 
     }
 

@@ -28,6 +28,7 @@ import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.openclassrooms.realestatemanager.BuildConfig;
+import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.api.Result;
@@ -83,7 +84,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
 
     //FOR DATA
-    private EstateViewHolder.EstateViewModel estateViewModel;
+    private EstateViewModel estateViewModel;
     private static long AGENT_ID = 1;
 
     //FILE PURPOSE
@@ -417,7 +418,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     //Configure ViewModel
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
 
         // this.estateViewModel.initEstate(1);

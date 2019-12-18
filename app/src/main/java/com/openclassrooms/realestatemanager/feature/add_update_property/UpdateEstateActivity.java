@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.BuildConfig;
+import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.ApiGeocoding;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
@@ -30,7 +31,7 @@ import retrofit2.HttpException;
 public class UpdateEstateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     ActivityAddPropertyBinding binding;
-    private EstateViewHolder.EstateViewModel estateViewModel;
+    private EstateViewModel estateViewModel;
     private Estate estate;
     private String estateJson;
     private Disposable disposable;
@@ -131,7 +132,7 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
 
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewHolder.EstateViewModel.class);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
     }
 
     //UPDATE UI

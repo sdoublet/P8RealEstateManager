@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
+import android.Manifest;
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,9 @@ import com.openclassrooms.realestatemanager.util.ItemClickSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
+
 public class EstateActivity extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -39,7 +44,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     EstateDao estateDao;
     private boolean isClicked = false;
     private static long AGENT_ID = 1;
-    List<Long> pictureIdd = new ArrayList<>();
+    List<Picture> pictureIdd = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +128,11 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.filter_sold:
                 ifClicked(5, binding.dropSold);
+            case R.id.filter_more:
+                    Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
+                    startActivity(intent);
+                    break;
+
         }
 
     }
@@ -156,7 +166,8 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         for (int i=0; i<estates.size(); i++){
             long estateId = estates.get(i).getEstateId();
             for (int j=0; j<pictureIdd.size(); j++){
-                if (pictureIdd.get(j)==estateId){
+                if (pictureIdd.get(j).getEstateId()==estateId){
+                    Log.e("same", String.valueOf(pictureIdd.size()));
                     Log.e("same", estateId + "= " + pictureIdd.get(j));
                     this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
                 }else {
@@ -169,8 +180,13 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     private void updateUiWithPicture(Picture picture){
         List<Picture>pictureList = new ArrayList<>();
-        pictureList.add(picture);
-        Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId());
+        for (int i=0; i<pictureIdd.size(); i++){
+            pictureList.add(picture);
+
+        }
+
+       Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId());
+       Log.e("pic", String.valueOf(pictureList.size()));
         adapter.updateDataWithPicture(pictureList);
     }
 
@@ -178,17 +194,19 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         this.estateViewModel.getAllPictures().observe(this, this::takePictureId);
     }
 
-    private List<Long> takePictureId(List<Picture> pictures) {
+    private List<Picture> takePictureId(List<Picture> pictures) {
         // pour chaque estateId, si il y a des photos recupere la premiere
 
         for (int i = 0; i < pictures.size(); i++) {
             Log.e("pictureId", String.valueOf(pictures.get(i).getEstateId()));
             Log.e("pictureId", String.valueOf(pictures.get(i).getPhotoId()));
             long idd = pictures.get(i).getEstateId();
-            pictureIdd.add(idd);
+            pictureIdd.add(pictures.get(i));
+
 
         }
         return pictureIdd;
+
 
     }
 
@@ -205,7 +223,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         List<Estate> estateList = new ArrayList<>();
        // List<Picture> pictureList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new EstateAdapter(estateList, this);
+        adapter = new EstateAdapter(estateList, pictureIdd, this);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new Divider(this, LinearLayout.VERTICAL));
         binding.recyclerView.setLayoutManager(linearLayoutManager);
@@ -230,7 +248,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     public void populateData() {
         List<Estate> estateList = new ArrayList<>();
-        List<Picture> pictureList = new ArrayList<>();
+
 
 
         estateList.add(new Estate("House", 145000, 245, 120, 8, 3, 1, "Maison de plein pied", "wood",

@@ -24,13 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.add_update_property.UpdateEstateActivity"></activity>
+        <activity android:name=".feature.show_property.SearchEngineActivity"></activity>
+        <activity android:name=".feature.add_update_property.UpdateEstateActivity" />
         <activity
             android:name=".feature.show_property.DetailEstateActivity"
-            android:parentActivityName=".feature.show_property.EstateActivity"></activity>
+            android:parentActivityName=".feature.show_property.EstateActivity" />
         <activity
             android:name=".feature.map.HereMapActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -46,7 +47,7 @@
         <activity
             android:name=".feature.map.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".feature.user_profile.ProfileActivity"
             android:parentActivityName=".MainActivity" />
@@ -93,7 +94,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
         <provider
             android:name=".provider.MyFileProvider"
@@ -108,7 +109,7 @@
         <provider
             android:name=".provider.EstateContentProvider"
             android:authorities="com.openclassrooms.realestatemanager.provider"
-            android:exported="false" />
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -143,10 +143,12 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/filter_more"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:onClick="onClick"
                 android:background="@color/colorAccent"
                 android:layout_margin="5dp">
 

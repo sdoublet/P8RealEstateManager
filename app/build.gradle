@@ -86,7 +86,6 @@ dependencies {
     implementation 'com.github.chathuralakmal:AndroidImagePopup:1.2.2'
 
 
-
     // TESTING
     androidTestImplementation "android.arch.core:core-testing:$lifecycle_version"
     testImplementation 'junit:junit:4.12'

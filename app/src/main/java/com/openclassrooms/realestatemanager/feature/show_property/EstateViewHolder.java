@@ -9,6 +9,7 @@ public class EstateViewHolder extends RecyclerView.ViewHolder {
 
     public RowEstateBinding rowEstateBinding;
 
+
     public EstateViewHolder(RowEstateBinding itemBinding) {
         super(itemBinding.getRoot());
         this.rowEstateBinding = itemBinding;

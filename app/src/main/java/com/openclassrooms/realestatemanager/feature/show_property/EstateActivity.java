@@ -45,17 +45,20 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private boolean isClicked = false;
     private static long AGENT_ID = 1;
     List<Picture> pictureIdd = new ArrayList<>();
+    public static final String perms = Manifest.permission.READ_EXTERNAL_STORAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_estate);
+        perm();
         configureRecyclerView();
         configureViewModel();
         getAllEstate();
         getAllPictures();
         onClickrecyclerView();
+
 
 
 
@@ -128,6 +131,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.filter_sold:
                 ifClicked(5, binding.dropSold);
+                break;
             case R.id.filter_more:
                     Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
                     startActivity(intent);
@@ -272,5 +276,14 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     //donc mon utilisateur doit pouvoir definir la photo principale
     //peut etre en agrandissant les photos ou sinon par defaut la mainPhoto ou les 2
 
+//https://android-arsenal.com/free
+//https://github.com/stfalcon-studio/StfalconPriceRangeBar-android?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7325
 
+    private void perm(){
+        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)){
+            Log.e("tag", "ok");
+        }else {
+            EasyPermissions.requestPermissions(this, "ss", 555, perms);
+        }
+    }
 }

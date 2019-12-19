@@ -85,6 +85,9 @@ dependencies {
     //POPUP
     implementation 'com.github.chathuralakmal:AndroidImagePopup:1.2.2'
 
+    //RANGE SEEK BAR
+    implementation 'com.github.guilhe:seekbar-ranged-view:2.0.2'
+
 
     // TESTING
     androidTestImplementation "android.arch.core:core-testing:$lifecycle_version"

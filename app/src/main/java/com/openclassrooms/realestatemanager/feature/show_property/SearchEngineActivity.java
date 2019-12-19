@@ -1,12 +1,13 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.github.guilhe.views.SeekBarRangedView;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivitySearchEngineBinding;
 
@@ -25,88 +26,94 @@ public class SearchEngineActivity extends AppCompatActivity {
     private void setUi() {
 
 
-        binding.progressPriceMin.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+       
+        binding.progressPrice.setOnSeekBarRangedChangeListener(new SeekBarRangedView.OnSeekBarRangedChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                binding.editPriceSearchEngine.setText(String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onChanged(SeekBarRangedView view, float minValue, float maxValue) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        binding.progressPriceMax.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                binding.editPriceSearchEngineMax.setText(String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        binding.progressRoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                binding.editNbRoomSearchEngine.setText(String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        binding.progressBedroom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                binding.editNbBedroomSearchEngine.setText(String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        binding.progressSurface.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                binding.editSurfaceSearchEngine.setText(String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void onChanging(SeekBarRangedView view, float minValue, float maxValue) {
+                minValue = binding.progressPrice.getSelectedMinValue();
+                maxValue = binding.progressPrice.getSelectedMaxValue();
+                binding.editPriceSearchEngine.setText(String.valueOf((int) minValue));
+                binding.editPriceSearchEngineMax.setText(String.valueOf((int) maxValue));
             }
         });
 
+        binding.progressRoom.setOnSeekBarRangedChangeListener(new SeekBarRangedView.OnSeekBarRangedChangeListener() {
+            @Override
+            public void onChanged(SeekBarRangedView view, float minValue, float maxValue) {
+
+            }
+
+            @Override
+            public void onChanging(SeekBarRangedView view, float minValue, float maxValue) {
+                minValue = binding.progressRoom.getSelectedMinValue();
+                maxValue = binding.progressRoom.getSelectedMaxValue();
+                binding.editNbRoomSearchEngine.setText(String.valueOf((int) minValue));
+                binding.editNbRoomSearchEngineMax.setText(String.valueOf((int) maxValue));
+            }
+        });
+
+        binding.progressBedroom.setOnSeekBarRangedChangeListener(new SeekBarRangedView.OnSeekBarRangedChangeListener() {
+            @Override
+            public void onChanged(SeekBarRangedView view, float minValue, float maxValue) {
+
+            }
+
+            @Override
+            public void onChanging(SeekBarRangedView view, float minValue, float maxValue) {
+                minValue = binding.progressBedroom.getSelectedMinValue();
+                maxValue = binding.progressBedroom.getSelectedMaxValue();
+                binding.editNbBedroomSearchEngine.setText(String.valueOf((int) minValue));
+                binding.editNbBedroomSearchEngineMax.setText(String.valueOf((int) maxValue));
+            }
+        });
+
+        binding.progressSurface.setOnSeekBarRangedChangeListener(new SeekBarRangedView.OnSeekBarRangedChangeListener() {
+            @Override
+            public void onChanged(SeekBarRangedView view, float minValue, float maxValue) {
+
+            }
+
+            @Override
+            public void onChanging(SeekBarRangedView view, float minValue, float maxValue) {
+                minValue = binding.progressSurface.getSelectedMinValue();
+                maxValue = binding.progressSurface.getSelectedMaxValue();
+                binding.editSurfaceSearchEngine.setText(String.valueOf((int)minValue));
+                binding.editSurfaceSearchEngineMax.setText(String.valueOf((int)maxValue));
+            }
+        });
+
+        binding.progressLandSurface.setOnSeekBarRangedChangeListener(new SeekBarRangedView.OnSeekBarRangedChangeListener() {
+            @Override
+            public void onChanged(SeekBarRangedView view, float minValue, float maxValue) {
+
+            }
+
+            @Override
+            public void onChanging(SeekBarRangedView view, float minValue, float maxValue) {
+            minValue = binding.progressLandSurface.getSelectedMinValue();
+            maxValue = binding.progressLandSurface.getSelectedMaxValue();
+            binding.editLandSurfaceSearchEngine.setText(String.valueOf((int)minValue));
+            binding.editLandSurfaceSearchEngineMax.setText(String.valueOf((int)maxValue));
+            }
+        });
+
+        binding.buttonSearchEngine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EstateActivity.class);
+                //intent.putExtra(mes filtres)
+                startActivity(intent);
+            }
+        });
+        //https://android-arsenal.com/free
+        //De Thiependa Seye à tout le monde:  09:24 AM
+        //https://developer.android.com/training/permissions/requesting
+        //De Thiependa Seye à tout le monde:  09:34 AM
+        //https://developer.android.com/training/data-storage/shared/media#java
     }
 }

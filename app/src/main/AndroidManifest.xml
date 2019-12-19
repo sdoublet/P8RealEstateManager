@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS"/>
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -24,7 +25,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.show_property.SearchEngineActivity"></activity>
+
+        <activity android:name=".feature.show_property.SearchEngineActivity"
+            android:parentActivityName=".feature.show_property.EstateActivity"
+            android:label="Filter Setting"
+            />
+
         <activity android:name=".feature.add_update_property.UpdateEstateActivity" />
         <activity
             android:name=".feature.show_property.DetailEstateActivity"

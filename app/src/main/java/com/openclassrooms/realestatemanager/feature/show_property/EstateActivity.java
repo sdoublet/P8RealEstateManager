@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.Manifest;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
@@ -60,8 +60,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         onClickrecyclerView();
 
 
-
-
     }
 
     //---------------------
@@ -79,18 +77,29 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void displayEstateWithFilterDesc(int liveData) {
         switch (liveData) {
             case 1:
-                this.estateViewModel.displayEstateByPrice().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY price DESC")).observe(this, this::updateEstateList);
+
                 break;
             case 2:
-                this.estateViewModel.displayEstateByNbRoomDesc().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY nbRoom DESC")).observe(this, this::updateEstateList);
+
                 break;
             case 3:
-                this.estateViewModel.displayEstateBySurfaceDesc().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY surface DESC")).observe(this, this::updateEstateList);
+
                 break;
             case 4:
-                this.estateViewModel.displayEstatebytypeDesc().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY type DESC")).observe(this, this::updateEstateList);
+
+                break;
             case 5:
-                this.estateViewModel.displaySoldEstateDesc().observe(this, this::updateEstateList);
+                 this.estateViewModel.displaySoldEstateDesc().observe(this, this::updateEstateList);
+
+                break;
         }
 
     }
@@ -98,18 +107,28 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void displayEstateWithFilterAsc(int liveData) {
         switch (liveData) {
             case 1:
-                this.estateViewModel.displayEstateByPriceAsc().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY price ASC")).observe(this, this::updateEstateList);
                 break;
             case 4:
-                this.estateViewModel.displayEstateBytypeAsc().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY type ASC")).observe(this, this::updateEstateList);
+
                 break;
             case 2:
-                this.estateViewModel.displayEstateByNbRoomAsc().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY nbroom ASC")).observe(this, this::updateEstateList);
+
+
                 break;
             case 3:
-                this.estateViewModel.displayEstateBySurfaceAsc().observe(this, this::updateEstateList);
+
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY surface ASC")).observe(this, this::updateEstateList);
+
+                break;
             case 5:
-                this.estateViewModel.displaySoldEstateAsc().observe(this, this::updateEstateList);
+                 this.estateViewModel.displaySoldEstateAsc().observe(this, this::updateEstateList);
+                break;
         }
     }
 
@@ -133,9 +152,9 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                 ifClicked(5, binding.dropSold);
                 break;
             case R.id.filter_more:
-                    Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
-                    startActivity(intent);
-                    break;
+                Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
+                startActivity(intent);
+                break;
 
         }
 
@@ -166,15 +185,15 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         this.adapter.updateData(estates);
     }
 
-    private void allEstateForPicture(List<Estate> estates){
-        for (int i=0; i<estates.size(); i++){
+    private void allEstateForPicture(List<Estate> estates) {
+        for (int i = 0; i < estates.size(); i++) {
             long estateId = estates.get(i).getEstateId();
-            for (int j=0; j<pictureIdd.size(); j++){
-                if (pictureIdd.get(j).getEstateId()==estateId){
+            for (int j = 0; j < pictureIdd.size(); j++) {
+                if (pictureIdd.get(j).getEstateId() == estateId) {
                     Log.e("same", String.valueOf(pictureIdd.size()));
                     Log.e("same", estateId + "= " + pictureIdd.get(j));
                     this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
-                }else {
+                } else {
                     Log.e("same", "pas trouvé");
                 }
             }
@@ -182,15 +201,15 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void updateUiWithPicture(Picture picture){
-        List<Picture>pictureList = new ArrayList<>();
-        for (int i=0; i<pictureIdd.size(); i++){
+    private void updateUiWithPicture(Picture picture) {
+        List<Picture> pictureList = new ArrayList<>();
+        for (int i = 0; i < pictureIdd.size(); i++) {
             pictureList.add(picture);
 
         }
 
-       Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId());
-       Log.e("pic", String.valueOf(pictureList.size()));
+        Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId());
+        Log.e("pic", String.valueOf(pictureList.size()));
         adapter.updateDataWithPicture(pictureList);
     }
 
@@ -215,7 +234,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
     // je dois recupere la totalité des images
     // recuperer la première par estateId
     //L'afficher dans la recyclerview
@@ -225,7 +243,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     //---------------
     private void configureRecyclerView() {
         List<Estate> estateList = new ArrayList<>();
-       // List<Picture> pictureList = new ArrayList<>();
+        // List<Picture> pictureList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         adapter = new EstateAdapter(estateList, pictureIdd, this);
         binding.recyclerView.setAdapter(adapter);
@@ -254,7 +272,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         List<Estate> estateList = new ArrayList<>();
 
 
-
         estateList.add(new Estate("House", 145000, 245, 120, 8, 3, 1, "Maison de plein pied", "wood",
                 "19 rue du bois", 39380, "Chamblay", false, "22/08/2019", null, AGENT_ID, 4.5665, 1.2554, true,
                 true, false, false, false, true));
@@ -279,10 +296,10 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 //https://android-arsenal.com/free
 //https://github.com/stfalcon-studio/StfalconPriceRangeBar-android?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7325
 
-    private void perm(){
-        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)){
+    private void perm() {
+        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
             Log.e("tag", "ok");
-        }else {
+        } else {
             EasyPermissions.requestPermissions(this, "ss", 555, perms);
         }
     }

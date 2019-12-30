@@ -26,7 +26,7 @@ public class SearchEngineActivity extends AppCompatActivity {
     private void setUi() {
 
 
-       
+
         binding.progressPrice.setOnSeekBarRangedChangeListener(new SeekBarRangedView.OnSeekBarRangedChangeListener() {
             @Override
             public void onChanged(SeekBarRangedView view, float minValue, float maxValue) {
@@ -110,6 +110,8 @@ public class SearchEngineActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ///---------------------TUTO AND TIPS FROM TIE------------------------------
         //https://android-arsenal.com/free
         //De Thiependa Seye à tout le monde:  09:24 AM
         //https://developer.android.com/training/permissions/requesting

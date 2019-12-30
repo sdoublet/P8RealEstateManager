@@ -1,13 +1,16 @@
 package com.openclassrooms.realestatemanager.database.dao;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Update;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.openclassrooms.realestatemanager.models.Estate;
 
@@ -22,41 +25,20 @@ public interface EstateDao {
     @Query("SELECT * FROM Estate WHERE agentId = :agentId")
     LiveData<List<Estate>> getEstatePerAgent(long agentId);
 
-    //Price
-    @Query("SELECT * FROM Estate ORDER BY price DESC")
-    LiveData<List<Estate>> displayEstateBuyPriceDesc();
 
-    @Query("SELECT * FROM Estate ORDER BY price ASC")
-    LiveData<List<Estate>> displayEstateBuyPriceAsc();
 
-    //nbRoom
+    // test raw query
+    @RawQuery(observedEntities = Estate.class)
+    LiveData<List<Estate>>getEstateByFilter(SupportSQLiteQuery query);
 
-    @Query("SELECT * FROM Estate ORDER BY nbRoom DESC")
-    LiveData<List<Estate>> displayestateByNbRoomDesc();
 
-    @Query("SELECT * FROM Estate ORDER BY nbRoom ASC")
-    LiveData<List<Estate>> displayestateByNbRoomAsc();
-
-    //Surface
-    @Query("SELECT * FROM Estate ORDER BY surface DESC")
-    LiveData<List<Estate>>displayestateBySurfaceDesc();
-
-     @Query("SELECT * FROM Estate ORDER BY surface ASC")
-    LiveData<List<Estate>>displayestateBySurfaceAsc();
-
-    //Type
-    @Query("SELECT * FROM Estate ORDER BY type DESC")
-    LiveData<List<Estate>>displayestateByTypeDesc();
-
-    @Query("SELECT * FROM Estate ORDER BY type ASC")
-    LiveData<List<Estate>>displayestateByTypeAsc();
 
     //Sold
     @Query("SELECT * FROM Estate WHERE sold ORDER BY price DESC")
-    LiveData<List<Estate>>displaySoldEstateDesc();
+    LiveData<List<Estate>> displaySoldEstateDesc();
 
     @Query("SELECT * FROM Estate WHERE sold ORDER BY price ASC")
-    LiveData<List<Estate>>displaySoldEstateAsc();
+    LiveData<List<Estate>> displaySoldEstateAsc();
 
 
     @Query("SELECT * FROM Estate WHERE estateId = :estateId")

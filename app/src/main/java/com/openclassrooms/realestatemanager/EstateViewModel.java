@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -75,39 +76,18 @@ public  class EstateViewModel extends ViewModel {
         return estateDataRepository.getEstatePerAgent(agentId);
     }
 
-    public LiveData<List<Estate>> displayEstateByPrice() {
-        return estateDataRepository.displayEstateByProceDesc();
-    }
 
-    public LiveData<List<Estate>> displayEstateByPriceAsc() {
-        return estateDataRepository.displayEstateByProceAsc();
-    }
-
-    public LiveData<List<Estate>> displayEstateByNbRoomDesc(){
-        return estateDataRepository.displayEstateByNbRoomDesc();
-    }
-
-    public LiveData<List<Estate>> displayEstateByNbRoomAsc(){
-        return estateDataRepository.displayEstateByNbRoomAsc();
-    }
-    public LiveData<List<Estate>> displayEstateBySurfaceDesc(){
-        return estateDataRepository.displayEstateBySurfaceDesc();
-    }
-    public LiveData<List<Estate>> displayEstateBySurfaceAsc(){
-        return estateDataRepository.displayEstateBySurfaceAsc();
-    }
-    public LiveData<List<Estate>> displayEstatebytypeDesc(){
-        return estateDataRepository.displayEstateByTypeDesc();
-    }
-    public LiveData<List<Estate>> displayEstateBytypeAsc(){
-        return estateDataRepository.displayEstateByTypeAsc();
-    }
     public LiveData<List<Estate>> displaySoldEstateDesc(){
         return estateDataRepository.displaySoldEstateDesc();
     }
     public LiveData<List<Estate>> displaySoldEstateAsc(){
         return estateDataRepository.displaySoldEstateAsc();
     }
+
+
+
+    //test with raw query
+    public LiveData<List<Estate>> getEstateByFilter(SupportSQLiteQuery query){return estateDataRepository.getEstateByFilter(query);}
 
     public LiveData<Integer> getLastEstate(){
         return estateDataRepository.getLastEstate();

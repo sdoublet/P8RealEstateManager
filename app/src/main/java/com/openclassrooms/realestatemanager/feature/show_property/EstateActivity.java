@@ -46,18 +46,28 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private static long AGENT_ID = 1;
     List<Picture> pictureIdd = new ArrayList<>();
     public static final String perms = Manifest.permission.READ_EXTERNAL_STORAGE;
+    private String queryy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_estate);
+
         perm();
         configureRecyclerView();
         configureViewModel();
-        getAllEstate();
         getAllPictures();
         onClickrecyclerView();
+        Intent intent = getIntent();
+        queryy = intent.getStringExtra("query");
+        if (queryy != null) {
+            this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryy)).observe(this, this::updateEstateList);
+
+        } else {
+            getAllEstate();
+
+        }
 
 
     }
@@ -74,31 +84,23 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     //------------UI--------------
 
+
     private void displayEstateWithFilterDesc(int liveData) {
         switch (liveData) {
             case 1:
-
                 this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY price DESC")).observe(this, this::updateEstateList);
-
                 break;
             case 2:
-
                 this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY nbRoom DESC")).observe(this, this::updateEstateList);
-
                 break;
             case 3:
-
                 this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY surface DESC")).observe(this, this::updateEstateList);
-
                 break;
             case 4:
-
                 this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY type DESC")).observe(this, this::updateEstateList);
-
                 break;
             case 5:
-                 this.estateViewModel.displaySoldEstateDesc().observe(this, this::updateEstateList);
-
+                this.estateViewModel.displaySoldEstateDesc().observe(this, this::updateEstateList);
                 break;
         }
 
@@ -127,7 +129,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case 5:
-                 this.estateViewModel.displaySoldEstateAsc().observe(this, this::updateEstateList);
+                this.estateViewModel.displaySoldEstateAsc().observe(this, this::updateEstateList);
                 break;
         }
     }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".feature.show_property.SearchEngineActivity">
 
         <TextView
@@ -18,12 +18,34 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_city_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:text="City"/>
+
+        <EditText
+            android:id="@+id/city_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/price_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/tv_city_filter"
+            android:inputType="text"
+            android:layout_marginStart="20dp"
+            android:importantForAutofill="no" />
+
         <TextView
             android:id="@+id/price_search_engine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
-            app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/city_filter"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"/>

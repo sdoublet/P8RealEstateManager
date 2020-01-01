@@ -169,6 +169,9 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         } else if (!estate.isSold()) {
             binding.soldBtn.setImageDrawable(getDrawable(R.drawable.house_for_sale_color));
         }
+        if(estate.getEntryDate()!=null){
+            Log.e("entry", estate.getEntryDate());
+        }
 
     }
 

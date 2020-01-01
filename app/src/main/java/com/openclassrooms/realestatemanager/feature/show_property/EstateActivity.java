@@ -47,6 +47,10 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     List<Picture> pictureIdd = new ArrayList<>();
     public static final String perms = Manifest.permission.READ_EXTERNAL_STORAGE;
     private String queryy;
+    private String queryHouse;
+    private String queryFlat;
+    private String queryCommercial;
+    private String queryDuplex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +63,14 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         configureViewModel();
         getAllPictures();
         onClickrecyclerView();
-        Intent intent = getIntent();
-        queryy = intent.getStringExtra("query");
-        if (queryy != null) {
-            this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryy)).observe(this, this::updateEstateList);
 
-        } else {
-            getAllEstate();
 
-        }
+        queryByIntent();
 
 
     }
+
+
 
     //---------------------
     // Configure ViewModel
@@ -83,6 +83,29 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
 
     //------------UI--------------
+
+    // show estate by intent since other activity
+    private void queryByIntent() {
+        Intent intent = getIntent();
+        queryy = intent.getStringExtra("query");
+        queryHouse = intent.getStringExtra("house");
+        queryFlat = intent.getStringExtra("flat");
+        queryCommercial = intent.getStringExtra("commercial");
+        queryDuplex = intent.getStringExtra("duplex");
+        if (queryy != null) {
+            this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryy)).observe(this, this::updateEstateList);
+        }else if (queryHouse!=null){
+            this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryHouse)).observe(this, this::updateEstateList);
+        }else if (queryFlat!=null) {
+            this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryFlat)).observe(this, this::updateEstateList);
+        }else if (queryCommercial!=null){
+            this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryCommercial)).observe(this, this::updateEstateList);
+        }else if (queryDuplex!=null){
+            this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryDuplex)).observe(this, this::updateEstateList);
+        } else {
+            getAllEstate();
+        }
+    }
 
 
     private void displayEstateWithFilterDesc(int liveData) {

@@ -1,10 +1,12 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -14,6 +16,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivitySearchEngineBinding;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SearchEngineActivity extends AppCompatActivity {
@@ -21,12 +24,15 @@ public class SearchEngineActivity extends AppCompatActivity {
     ActivitySearchEngineBinding binding;
     String queryString=  "";
     List<Object> args = new ArrayList<>();
+    DatePickerDialog dpd;
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_engine);
         this.setUi();
+        this.datePickerDialog();
     }
 
     // Create query to send to EstateActivity
@@ -53,7 +59,7 @@ public class SearchEngineActivity extends AppCompatActivity {
        int maxLandSurface = (int) binding.progressLandSurface.getSelectedMaxValue();
        queryString+= " AND surfaceLand >= " + landSurface + " AND surfaceLand <= " + maxLandSurface;
 
-       boolean shcool = binding.checkboxSchool.isChecked();
+       boolean school = binding.checkboxSchool.isChecked();
        boolean shop = binding.checkboxShop.isChecked();
        boolean park = binding.checkboxPark.isChecked();
        boolean hospital = binding.checkboxHospital.isChecked();
@@ -66,7 +72,7 @@ public class SearchEngineActivity extends AppCompatActivity {
             queryString+= " AND city = '" + city + "'";
         }
 
-        if (shcool){queryString+= " AND school = '1' ";}
+        if (school){queryString+= " AND school = '1' ";}
         if (shop){queryString+=" AND shop = '1'";}
         if (park){queryString+= " AND park = '1'";}
         if (hospital){queryString += " AND hospital = '1'";}
@@ -169,11 +175,50 @@ public class SearchEngineActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+
+
         ///---------------------TUTO AND TIPS FROM TIE------------------------------
         //https://android-arsenal.com/free
         //De Thiependa Seye à tout le monde:  09:24 AM
         //https://developer.android.com/training/permissions/requesting
         //De Thiependa Seye à tout le monde:  09:34 AM
         //https://developer.android.com/training/data-storage/shared/media#java
+    }
+    private void datePickerDialog(){
+        binding.btnSinceDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                dpd = new DatePickerDialog(SearchEngineActivity.this , new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
+                        binding.btnSinceDate.setText("Since " +mDayOfMonth + "/" + (mMonth+1) + "/" + mYear);
+                    }
+                }, day, month, year);
+                dpd.show();
+            }
+        });
+
+        binding.btnToDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                dpd = new DatePickerDialog(SearchEngineActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDayOfMonth) {
+                        binding.btnToDate.setText("To " +  +mDayOfMonth + "/" + (mMonth+1) + "/" + mYear);
+                    }
+                }, day, month, year);
+                dpd.show();
+            }
+        });
     }
 }

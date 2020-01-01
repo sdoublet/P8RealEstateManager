@@ -29,23 +29,61 @@
             android:layout_marginStart="10dp"
             android:text="City"/>
 
+
+
         <EditText
             android:id="@+id/city_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/price_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_city_filter"
             app:layout_constraintLeft_toRightOf="@+id/tv_city_filter"
             android:inputType="text"
             android:layout_marginStart="20dp"
             android:importantForAutofill="no" />
 
         <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_city_filter"
+            android:text="Date"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/btn_since_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/center_layout_search_engine"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/goldLight"
+            android:text="Since date"/>
+
+  <Button
+            android:id="@+id/btn_to_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/btn_since_date"
+            app:layout_constraintBottom_toBottomOf="@id/btn_since_date"
+            app:layout_constraintLeft_toRightOf="@id/center_layout_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/goldLight"
+            android:text="To date"/>
+
+
+
+        <TextView
             android:id="@+id/price_search_engine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
-           app:layout_constraintTop_toBottomOf="@+id/city_filter"
+           app:layout_constraintTop_toBottomOf="@+id/btn_since_date"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"/>
@@ -95,8 +133,8 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:currentMin="100000"
-            app:currentMax="300000"
+            app:currentMin="0"
+            app:currentMax="1000000"
             app:min="0"
             app:max="1000000"
             app:backgroundHeight="20dp"
@@ -135,8 +173,8 @@
             android:layout_margin="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:currentMin="4"
-            app:currentMax="8"
+            app:currentMin="0"
+            app:currentMax="11"
             app:min="0"
             app:max="11"
             app:backgroundHeight="20dp"
@@ -197,8 +235,8 @@
             android:layout_margin="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:currentMin="1"
-            app:currentMax="8"
+            app:currentMin="0"
+            app:currentMax="11"
             app:max="11"
             app:min="0"
             app:backgroundHeight="20dp"
@@ -260,8 +298,8 @@
             android:layout_margin="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:currentMin="50"
-            app:currentMax="200"
+            app:currentMin="0"
+            app:currentMax="400"
             app:min="0"
             app:max="400"
             app:backgroundHeight="20dp"
@@ -315,7 +353,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:currentMin="0"
-            app:currentMax="1500"
+            app:currentMax="5000"
             app:min="0"
             app:max="5000"
             app:backgroundHeight="20dp"

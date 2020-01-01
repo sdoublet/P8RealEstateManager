@@ -442,6 +442,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(this, "Your estate is save", Toast.LENGTH_SHORT).show();
 
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
+            Log.e("entry", estate.getEntryDate());
             this.estateViewModel.createEstate(estate);
 
 

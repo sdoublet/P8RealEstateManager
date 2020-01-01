@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
+import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
@@ -109,6 +110,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent3 = new Intent(this, ProfileActivity.class);
                 startActivity(intent3);
                 break;
+
+            case R.id.house_menu:
+                Intent intent4 = new Intent(this, EstateActivity.class);
+                intent4.putExtra("house", "SELECT * FROM Estate WHERE type = 'house'");
+                startActivity(intent4);
+                break;
+            case R.id.appartement_menu:
+                Intent intent5 = new Intent(this, EstateActivity.class);
+                intent5.putExtra("flat", "SELECT * FROM Estate WHERE type = 'flat'");
+                startActivity(intent5);
+                break;
+            case R.id.commercial_menu:
+                Intent intent6 = new Intent(this, EstateActivity.class);
+                intent6.putExtra("commercial", "SELECT * FROM Estate WHERE type = 'commercial'");
+                startActivity(intent6);
+                break;
+            case R.id.duplex_menu:
+                Intent intent7 = new Intent(this, EstateActivity.class);
+                intent7.putExtra("duplex", "SELECT * FROM Estate WHERE type = 'duplex' OR type = 'triplex'");
+                startActivity(intent7);
 
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);

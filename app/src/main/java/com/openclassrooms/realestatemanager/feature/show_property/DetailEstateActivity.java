@@ -81,6 +81,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         this.soldestate();
         this.updateEstate();
 
+
     }
 
     //---------------------
@@ -166,8 +167,12 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         longitude = estate.getLongitude();
         if (estate.isSold()) {
             binding.soldBtn.setImageDrawable(getDrawable(R.drawable.sold_house_color));
+            binding.tvSoldDate.setText("Sold the " + estate.getSoldDate());
+            binding.tvSoldDate.setVisibility(View.VISIBLE);
         } else if (!estate.isSold()) {
             binding.soldBtn.setImageDrawable(getDrawable(R.drawable.house_for_sale_color));
+            binding.tvSoldDate.setVisibility(View.GONE);
+
         }
         if(estate.getEntryDate()!=null){
             Log.e("entry", estate.getEntryDate());
@@ -191,6 +196,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                         estate.setSoldDate(Utils.getTodayDate());
                         estateViewModel.updateEstate(estate);
 
+
                     });
                     builder.setNegativeButton("No", (dialog, which) -> {
                     });
@@ -204,8 +210,10 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                     builder.setMessage("Do you want to restore estate to sale?");
                     builder.setPositiveButton("Yes", (dialog, which) -> {
                         estate.setSold(false);
-                        estate.setSoldDate(null);
+                        estate.setSoldDate(Utils.convertDate());
                         estateViewModel.updateEstate(estate);
+
+
                     });
                     builder.setNegativeButton("No", (dialog, which) -> {
 
@@ -220,6 +228,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
             }
         });
     }
+
 
     //Update Estate
     private void updateEstate() {

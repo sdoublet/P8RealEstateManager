@@ -35,9 +35,7 @@
         <activity
             android:name=".feature.show_property.DetailEstateActivity"
             android:parentActivityName=".feature.show_property.EstateActivity" />
-        <activity
-            android:name=".feature.map.HereMapActivity"
-            android:parentActivityName=".MainActivity" />
+        
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

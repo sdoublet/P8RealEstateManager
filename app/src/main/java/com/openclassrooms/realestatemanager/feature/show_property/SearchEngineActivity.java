@@ -22,7 +22,7 @@ import java.util.List;
 public class SearchEngineActivity extends AppCompatActivity {
 
     ActivitySearchEngineBinding binding;
-    String queryString=  "";
+   // String queryString=  "";
     List<Object> args = new ArrayList<>();
     DatePickerDialog dpd;
     Calendar calendar;
@@ -36,8 +36,8 @@ public class SearchEngineActivity extends AppCompatActivity {
     }
 
     // Create query to send to EstateActivity
-    private void createQuery(){
-        queryString+="SELECT * FROM Estate ";
+    private String createQuery(){
+       String queryString = "SELECT * FROM Estate ";
 
        int minPrice = (int) binding.progressPrice.getSelectedMinValue();
        int maxPrice = (int) binding.progressPrice.getSelectedMaxValue();
@@ -79,6 +79,7 @@ public class SearchEngineActivity extends AppCompatActivity {
         if (transport){queryString+= " AND transport ='1'";}
         if (administration){queryString += " AND administration = '1'";}
        Log.e("query", queryString);
+        return queryString;
     }
 
 
@@ -166,10 +167,8 @@ public class SearchEngineActivity extends AppCompatActivity {
 
 
         binding.buttonSearchEngine.setOnClickListener(v -> {
-            createQuery();
             Intent intent = new Intent(getApplicationContext(), EstateActivity.class);
-            intent.putExtra("query", queryString);
-            Log.e("query", queryString);
+            intent.putExtra("query", createQuery());
             Log.e("values", String.valueOf(binding.progressPrice.getSelectedMinValue()));
             Log.e("values", "max value " + binding.progressPrice.getSelectedMaxValue());
             startActivity(intent);

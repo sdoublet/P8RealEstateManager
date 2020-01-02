@@ -102,6 +102,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_description_detail" />
 
 
+            <TextView
+                android:id="@+id/tv_sold_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/tv_price_detail"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_price_detail"
+                android:text="heloo"
+                android:textColor="@color/goldLight"
+                android:layout_marginStart="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
 
             <TextView
                 android:id="@+id/tv_price_detail"
@@ -172,11 +183,13 @@
                 app:layout_constraintLeft_toRightOf="@id/ic_room"
                 app:layout_constraintTop_toTopOf="@+id/ic_room" />
 
+
+
             <LinearLayout
                 android:id="@+id/map_layout_id"
                 android:layout_width="180dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="40dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="@+id/tv_room_detail"
                 app:layout_constraintLeft_toLeftOf="@id/tv_room_detail"

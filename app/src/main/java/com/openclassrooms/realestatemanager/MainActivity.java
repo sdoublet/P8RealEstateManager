@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.show_property.DetailEstateActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
+import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ActivityMainBinding binding;
     private DrawerHeaderBinding headerBinding;
+    private SharedPreferences sharedPreferences;
 
 
     //Fragment identifier
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         headerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.drawer_header,
                 binding.navView, false);
+
 
 
         // for connectivity
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(binding.toolbar);
         // drawer
         configureDrawerLayout();
+        //prefs
+        this.getPreferences();
     }
 
     //Display fragment
@@ -135,6 +141,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    // get preferences
+    private void getPreferences(){
+        sharedPreferences = getSharedPreferences("euro", MODE_PRIVATE);
+        boolean euro = sharedPreferences.getBoolean("euro", false);
+        if (euro){
+            MoneyPref.getInstance().setEuro(true);
+        }else {
+            MoneyPref.getInstance().setEuro(false);
+        }
     }
 
 

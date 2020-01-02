@@ -33,6 +33,7 @@ import com.openclassrooms.realestatemanager.feature.add_update_property.UpdateEs
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -155,7 +156,13 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
         binding.editDescriptionDetail.setText(estate.getDescription());
         binding.tvMedia.setText(estate.getCity().toUpperCase());
-        binding.tvPriceDetail.setText(String.valueOf(estate.getPrice()) + " $");
+        // show price in dollars or euros
+        if (!MoneyPref.getInstance().isEuro()){
+            binding.tvPriceDetail.setText(String.valueOf(estate.getPrice()) + " $");
+
+        }else {
+            binding.tvPriceDetail.setText(Utils.convertDollarToEuro(estate.getPrice()) + " €");
+        }
         binding.tvSurfaceDetail.setText(String.valueOf(estate.getSurface()));
         binding.tvSurfaceLandDetail.setText("Land " + estate.getSurfaceLand());
         binding.tvRoomDetail.setText(String.valueOf(estate.getNbRoom()));

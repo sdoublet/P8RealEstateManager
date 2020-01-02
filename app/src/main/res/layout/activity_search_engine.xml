@@ -94,7 +94,7 @@
             app:layout_constraintTop_toTopOf="@id/price_search_engine"
             app:layout_constraintBottom_toBottomOf="@+id/price_search_engine"
             app:layout_constraintLeft_toRightOf="@+id/price_search_engine"
-            android:src="@drawable/ic_euro_symbol_black_24dp"
+            android:src="@drawable/ic_dollars"
             android:layout_marginStart="10dp"/>
 
 

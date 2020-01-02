@@ -18,6 +18,8 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
+import com.openclassrooms.realestatemanager.util.MoneyPref;
+import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,8 +55,12 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
         Estate estate = estateList.get(position);
+//        if (MoneyPref.getInstance().isEuro()){
+//            estate.setPrice(Utils.convertDollarToEuro(estate.getPrice()));
+//        }else {
+//            estate.setPrice(estate.getPrice());
+//        }
         holder.rowEstateBinding.setEstate(estate);
-
 //        for (int i = 0; i < pictureList.size(); i++) {
 //            Picture picture = pictureList.get(i);
 //            if (picture.getEstateId() == estate.getEstateId()) {
@@ -95,11 +101,18 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         }
 
 
+
 //        if (estate.getEstateId() == picture.getEstateId()) {
 //            Uri uri = picture.getUri();
 //            Glide.with(context).load(uri).into(holder.rowEstateBinding.imgRowEstate);
 //        }
 //
+        if (!MoneyPref.getInstance().isEuro()){
+            holder.rowEstateBinding.rowPrice.setText(estate.getPrice() + " $");
+
+        }else {
+            holder.rowEstateBinding.rowPrice.setText(Utils.convertDollarToEuro(estate.getPrice())+ " €");
+        }
 
     }
 

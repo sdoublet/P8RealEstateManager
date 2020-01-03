@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:textColor="@color/goldLight"
-                        android:text="Most visited" />
+                        android:text="Last sold" />
 
                     <ImageView
                         android:id="@+id/most_visited"
@@ -200,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:textColor="@color/goldLight"
-                        android:text="Last visited" />
+                        android:text="Most value" />
 
                     <ImageView
                         android:id="@+id/last_visited"

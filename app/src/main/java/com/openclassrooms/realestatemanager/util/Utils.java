@@ -5,13 +5,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
+import com.openclassrooms.realestatemanager.feature.getCurrentDollarValue.DollarStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -19,6 +25,7 @@ import java.util.Date;
 
 public class Utils {
 
+    private Disposable disposable;
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -27,11 +34,11 @@ public class Utils {
      * @return
      */
     public static int convertDollarToEuro(int dollars){
-        return (int) Math.round(dollars * 0.812);
+        return (int) Math.round(dollars * MoneyPref.getInstance().getDollar());
     }
 
     // convert euros to dollars
-    public static int convertEuroToDollar(int euros){return (int)Math.round(euros/0.812);}
+    public static int convertEuroToDollar(int euros){return (int)Math.round(euros/MoneyPref.getInstance().getDollar());}
 
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
@@ -109,4 +116,6 @@ public class Utils {
             return context.getResources().getConfiguration().locale.getCountry();
         }
     }
+
+
 }

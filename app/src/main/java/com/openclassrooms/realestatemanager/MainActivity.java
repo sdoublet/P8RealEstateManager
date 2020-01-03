@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
+import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
+import com.openclassrooms.realestatemanager.feature.getCurrentDollarValue.DollarStream;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.User;
@@ -28,6 +31,9 @@ import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity
 import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.Utils;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding binding;
     private DrawerHeaderBinding headerBinding;
     private SharedPreferences sharedPreferences;
+    private Disposable disposable;
+    private double usdValue=0;
 
 
     //Fragment identifier
@@ -74,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureDrawerLayout();
         //prefs
         this.getPreferences();
+
+        this.executeHttpRequest();
     }
 
     //Display fragment
@@ -154,6 +164,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // get dollar value
+
+    private void getDollarsValue(ApiUsd usd){
+        if (usd.getRates().getEUR()!=null){
+            usdValue = usd.getRates().getEUR();
+            Log.e("dollar", String.valueOf(usdValue));
+            MoneyPref.getInstance().setDollar(usdValue);
+        }else
+        {
+            Log.e("dollar", "does'nt work");
+        }
+
+    }
+
+    public  void executeHttpRequest(){
+        this.disposable = DollarStream.streamFetchApiUsd().subscribeWith(new DisposableObserver<ApiUsd>() {
+            @Override
+            public void onNext(ApiUsd usd) {
+                getDollarsValue(usd);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("tag", e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+    }
 
     //Back pressed drawer
     @Override

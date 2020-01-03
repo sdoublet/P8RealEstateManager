@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.feature.geolocation;
 
-import com.openclassrooms.realestatemanager.api.ApiGeocoding;
+import com.openclassrooms.realestatemanager.api.googleMap.ApiGeocoding;
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;

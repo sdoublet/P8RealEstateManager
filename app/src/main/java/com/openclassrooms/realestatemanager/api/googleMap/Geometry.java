@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.api;
+package com.openclassrooms.realestatemanager.api.googleMap;
 
 
 import com.google.gson.annotations.Expose;

@@ -55,41 +55,35 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
         Estate estate = estateList.get(position);
-//        if (MoneyPref.getInstance().isEuro()){
-//            estate.setPrice(Utils.convertDollarToEuro(estate.getPrice()));
-//        }else {
-//            estate.setPrice(estate.getPrice());
-//        }
         holder.rowEstateBinding.setEstate(estate);
+//        Uri uri;
 //        for (int i = 0; i < pictureList.size(); i++) {
 //            Picture picture = pictureList.get(i);
 //            if (picture.getEstateId() == estate.getEstateId()) {
-//                Uri uri = picture.getUri();
-//                holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.country_house);
+//                 uri = picture.getUri();
+//                Log.e("uri", uri + " " + picture.getEstateId());
+//                //holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.country_house);
 //                try {
-//                   // context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                    // context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
 //                    holder.rowEstateBinding.imgRowEstate.setImageBitmap(bitmap);
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                    holder.rowEstateBinding.imgRowEstate.setVisibility(View.VISIBLE);
-
 //                    //  Glide.with(context).load(R.drawable.country_house).into(holder.rowEstateBinding.imgRowEstate);
 //                    Log.e("tag", "yes" + estate.getEstateId());
 //                    Log.e("tag", String.valueOf(picture.getEstateId()));
 //                }
 //            } else {
-
 //                Log.e("tag", "no");
 //                holder.rowEstateBinding.imgRowEstate.setVisibility(View.INVISIBLE);
-
+//            }
+//        }
            if (estate.getEstateId()%2==0){
                holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.country_house);
-
            }else {
                holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.manor);
            }
-
 
 
         if (estate.isSold()) {
@@ -101,27 +95,24 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         }
 
 
-
 //        if (estate.getEstateId() == picture.getEstateId()) {
 //            Uri uri = picture.getUri();
 //            Glide.with(context).load(uri).into(holder.rowEstateBinding.imgRowEstate);
 //        }
 //
-        if (!MoneyPref.getInstance().isEuro()){
+        if (!MoneyPref.getInstance().isEuro()) {
             holder.rowEstateBinding.rowPrice.setText(estate.getPrice() + " $");
 
-        }else {
-            holder.rowEstateBinding.rowPrice.setText(Utils.convertDollarToEuro(estate.getPrice())+ " €");
+        } else {
+            holder.rowEstateBinding.rowPrice.setText(Utils.convertDollarToEuro(estate.getPrice()) + " €");
         }
-
-    }
 
 
 //    public void setEstate(List<Estate> estates){
 //        this.estateList = estates;
 //        notifyDataSetChanged();
 //    }
-
+    }
     public Estate getEstate(int position) {
         return this.estateList.get(position);
     }

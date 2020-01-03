@@ -5,19 +5,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
-import com.openclassrooms.realestatemanager.feature.getCurrentDollarValue.DollarStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by Philippe on 21/02/2018.

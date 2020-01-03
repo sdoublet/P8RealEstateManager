@@ -219,7 +219,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                     Log.e("same", estateId + "= " + pictureIdd.get(j));
                     this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
                 } else {
-                    Log.e("same", "pas trouvé");
+                    //Log.e("same", "pas trouvé");
                 }
             }
 
@@ -246,9 +246,10 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         // pour chaque estateId, si il y a des photos recupere la premiere
 
         for (int i = 0; i < pictures.size(); i++) {
-            Log.e("pictureId", String.valueOf(pictures.get(i).getEstateId()));
-            Log.e("pictureId", String.valueOf(pictures.get(i).getPhotoId()));
+//            Log.e("pictureId", String.valueOf(pictures.get(i).getEstateId()));
+//            Log.e("pictureId", String.valueOf(pictures.get(i).getPhotoId()));
             long idd = pictures.get(i).getEstateId();
+            Log.e("pictureIddd", idd +" " + pictures.get(i).getPhotoId());
             pictureIdd.add(pictures.get(i));
 
 
@@ -318,8 +319,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     //donc mon utilisateur doit pouvoir definir la photo principale
     //peut etre en agrandissant les photos ou sinon par defaut la mainPhoto ou les 2
 
-//https://android-arsenal.com/free
-//https://github.com/stfalcon-studio/StfalconPriceRangeBar-android?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7325
+
 
     private void perm() {
         if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {

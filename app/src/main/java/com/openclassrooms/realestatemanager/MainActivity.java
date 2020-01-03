@@ -17,15 +17,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
-import com.openclassrooms.realestatemanager.feature.getCurrentDollarValue.DollarStream;
+import com.openclassrooms.realestatemanager.feature.get_current_dollar_value.DollarStream;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
-import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
 import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimulatorActivity;
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
-import com.openclassrooms.realestatemanager.feature.show_property.DetailEstateActivity;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerHeaderBinding headerBinding;
     private SharedPreferences sharedPreferences;
     private Disposable disposable;
-    private double usdValue=0;
+    private double euroValue=0;
 
 
     //Fragment identifier
@@ -164,15 +162,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // get dollar value
+    // get current euro value
 
     private void getDollarsValue(ApiUsd usd){
         if (usd.getRates().getEUR()!=null){
-            usdValue = usd.getRates().getEUR();
-            Log.e("dollar", String.valueOf(usdValue));
-            MoneyPref.getInstance().setDollar(usdValue);
+            euroValue = usd.getRates().getEUR();
+            Log.e("dollar", String.valueOf(euroValue));
+            MoneyPref.getInstance().setDollar(euroValue);
         }else
         {
+            MoneyPref.getInstance().setDollar(0.90);
             Log.e("dollar", "does'nt work");
         }
 

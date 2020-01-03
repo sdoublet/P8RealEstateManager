@@ -1,12 +1,14 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -29,11 +31,13 @@ import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityDetailEstateBinding;
+import com.openclassrooms.realestatemanager.databinding.ActivityPopupBinding;
 import com.openclassrooms.realestatemanager.feature.add_update_property.UpdateEstateActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
+import com.openclassrooms.realestatemanager.util.PopupActivity;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -81,6 +85,8 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
         this.soldestate();
         this.updateEstate();
+        this.showPoi();
+
 
 
     }
@@ -235,6 +241,24 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
             }
         });
     }
+
+    //show points of interest
+    private void showPoi(){
+
+        binding.btnPoi.setOnClickListener(v -> {
+            PopupActivity popupActivity = new PopupActivity(DetailEstateActivity.this);
+            popupActivity.getCheckBoxSchool().setChecked(estate.isSchool());
+            popupActivity.getCheckBoxShop().setChecked(estate.isShop());
+            popupActivity.getCheckBoxPark().setChecked(estate.isPark());
+            popupActivity.getCheckBoxHospital().setChecked(estate.isHospital());
+            popupActivity.getCheckBoxTransport().setChecked(estate.isTransport());
+            popupActivity.getCheckBoxAdministration().setChecked(estate.isAdministration());
+            popupActivity.show();
+
+        });
+    }
+
+
 
 
     //Update Estate

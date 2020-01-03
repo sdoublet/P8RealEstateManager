@@ -11,10 +11,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS"/>
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -25,17 +26,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".util.PopupActivity"
+            android:parentActivityName=".feature.show_property.DetailEstateActivity">
 
-        <activity android:name=".feature.show_property.SearchEngineActivity"
-            android:parentActivityName=".feature.show_property.EstateActivity"
+        </activity>
+        <activity
+            android:name=".feature.show_property.SearchEngineActivity"
             android:label="Filter Setting"
-            />
-
+            android:parentActivityName=".feature.show_property.EstateActivity" />
         <activity android:name=".feature.add_update_property.UpdateEstateActivity" />
         <activity
             android:name=".feature.show_property.DetailEstateActivity"
             android:parentActivityName=".feature.show_property.EstateActivity" />
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

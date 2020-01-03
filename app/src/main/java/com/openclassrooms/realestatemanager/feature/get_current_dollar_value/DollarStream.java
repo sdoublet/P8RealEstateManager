@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.feature.getCurrentDollarValue;
+package com.openclassrooms.realestatemanager.feature.get_current_dollar_value;
 
 
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;

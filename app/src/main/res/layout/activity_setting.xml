@@ -7,19 +7,57 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.setting.SettingActivity">
+        tools:context=".feature.setting.SettingActivity"
+        android:background="@color/goldLight">
+
+
+
+        <TextView
+            android:id="@+id/show_estate_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_margin="25dp"
+            android:text="Show estates in"
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"/>
 
 
         <Switch
             android:id="@+id/euro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/show_estate_value"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/show_estate_value"
+            app:layout_constraintBottom_toBottomOf="@id/show_estate_value"
+            android:padding="25dp"
 
             />
+
+        <TextView
+            android:id="@+id/current_dollar_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/show_estate_value"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="25dp"
+            android:text="Current dollar value"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/euro_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/current_dollar_value"
+            app:layout_constraintBottom_toBottomOf="@id/current_dollar_value"
+            app:layout_constraintLeft_toRightOf="@id/current_dollar_value"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/purple"
+            android:textSize="20sp"/>
 
   <Switch
             android:id="@+id/theme"

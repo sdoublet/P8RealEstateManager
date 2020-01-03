@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.feature.setting;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CompoundButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,29 +25,38 @@ public class SettingActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("euro", MODE_PRIVATE);
         euro = sharedPreferences.getBoolean("euro", false);
         binding.euro.setChecked(euro);
+        String euro = String.valueOf(MoneyPref.getInstance().getDollar() + " €");
+        binding.euroValue.setText(euro);
         dollarsEuro();
 
     }
 
     private void dollarsEuro() {
-        if (binding.euro.isChecked()){binding.euro.setText("euros");
-        MoneyPref.getInstance().setEuro(true);
-        }else binding.euro.setText("dollars");
+        if (binding.euro.isChecked()) {
+            binding.euro.setText("euros");
+            binding.euro.setTextColor(getResources().getColor(R.color.colorAccent));
+            binding.euro.setTextSize(20);
+            MoneyPref.getInstance().setEuro(true);
+        } else {
+            binding.euro.setText("dollars");
+            binding.euro.setTextColor(getResources().getColor(R.color.colorAccent));
+            binding.euro.setTextSize(20);
+        }
 
-       binding.euro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-           @Override
-           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if (isChecked){
-                   buttonView.setText("euros");
-                   MoneyPref.getInstance().setEuro(true);
-                   sharedPreferences.edit().putBoolean("euro", true).apply();
-               }else{
-                   buttonView.setText("dollars");
-                   MoneyPref.getInstance().setEuro(false);
-                   sharedPreferences.edit().putBoolean("euro", false).apply();
-               }
-           }
-       });
+        binding.euro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    buttonView.setText("euros");
+                    MoneyPref.getInstance().setEuro(true);
+                    sharedPreferences.edit().putBoolean("euro", true).apply();
+                } else {
+                    buttonView.setText("dollars");
+                    MoneyPref.getInstance().setEuro(false);
+                    sharedPreferences.edit().putBoolean("euro", false).apply();
+                }
+            }
+        });
 
     }
 }

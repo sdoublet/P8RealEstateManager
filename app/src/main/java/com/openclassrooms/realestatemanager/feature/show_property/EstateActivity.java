@@ -200,8 +200,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void getAllEstate() {
         this.estateViewModel.getAllEstates().observe(this, this::updateEstateList);
         this.estateViewModel.getAllEstates().observe(this, this::allEstateForPicture);
-        Log.e("est", "done");
-
     }
 
 
@@ -219,7 +217,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                     Log.e("same", estateId + "= " + pictureIdd.get(j));
                     this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
                 } else {
-                    //Log.e("same", "pas trouvé");
+                    Log.e("same", "pas trouvé");
                 }
             }
 
@@ -231,8 +229,9 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         for (int i = 0; i < pictureIdd.size(); i++) {
             pictureList.add(picture);
 
-        }
 
+        }
+        Log.e("size", String.valueOf(pictureList.size()));
         Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId());
         Log.e("pic", String.valueOf(pictureList.size()));
         adapter.updateDataWithPicture(pictureList);

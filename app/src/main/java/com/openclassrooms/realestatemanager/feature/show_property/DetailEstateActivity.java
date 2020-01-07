@@ -36,9 +36,13 @@ import com.openclassrooms.realestatemanager.feature.add_update_property.UpdateEs
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
+import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.PopupActivity;
 import com.openclassrooms.realestatemanager.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -56,6 +60,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     private long allId;
     private double latitude;
     private double longitude;
+    private DeatailAdapter adapter;
     FusedLocationProviderClient fusedLocationProviderClient;
 
 
@@ -86,6 +91,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         this.soldestate();
         this.updateEstate();
         this.showPoi();
+        this.getPhotos(estateId);
 
 
 
@@ -106,8 +112,10 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
     //Configure recyclerView
     private void configureRecyclerView() {
-        // List<Estate> estateList = new ArrayList<>();
+        List<Picture> pictureList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        adapter = new DeatailAdapter(pictureList, this);
+        binding.recyclerViewDetail.setAdapter(adapter);
         binding.recyclerViewDetail.setLayoutManager(layoutManager);
 
         // TODO: 02/12/2019 créer l'adapter et le viewholder
@@ -152,6 +160,17 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
     private void getCurrentEstate(long estateId) {
         this.estateViewModel.getEstateFromId(estateId).observe(this, this::updateUi);
+    }
+
+    private void getPhotos(long estateId){
+        this.estateViewModel.getAllPicturesFromEstate(estateId).observe(this, this::updatePictureRecyclerView);
+    }
+
+    private void updatePictureRecyclerView(List<Picture> pictureList){
+        List<Picture> pictureList1 = new ArrayList<>(pictureList);
+        this.adapter.updatePictureData(pictureList1);
+        Log.e("picss", String.valueOf(pictureList1.size()));
+
     }
 
 

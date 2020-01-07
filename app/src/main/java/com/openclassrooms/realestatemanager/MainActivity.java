@@ -14,6 +14,8 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Query;
+import androidx.room.RawQuery;
 
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
@@ -26,6 +28,7 @@ import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimul
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
+import com.openclassrooms.realestatemanager.repositories.PictureDataRepository;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.Utils;
 
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.getPreferences();
 
         this.executeHttpRequest();
+
+
     }
 
     //Display fragment

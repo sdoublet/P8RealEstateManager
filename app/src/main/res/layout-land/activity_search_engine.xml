@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".feature.show_property.SearchEngineActivity">
+
+        <TextView
+            android:id="@+id/center_layout_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_city_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:text="City"/>
+
+
+
+        <EditText
+            android:id="@+id/city_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_city_filter"
+            app:layout_constraintLeft_toRightOf="@+id/tv_city_filter"
+            android:inputType="text"
+            android:layout_marginStart="20dp"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_city_filter"
+            android:text="Date"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/btn_since_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/center_layout_search_engine"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/goldLight"
+            android:text="Since date"/>
+
+  <Button
+            android:id="@+id/btn_to_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/btn_since_date"
+            app:layout_constraintBottom_toBottomOf="@id/btn_since_date"
+            app:layout_constraintLeft_toRightOf="@id/center_layout_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/goldLight"
+            android:text="To date"/>
+
+
+
+        <TextView
+            android:id="@+id/price_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+           app:layout_constraintTop_toBottomOf="@+id/btn_since_date"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/price_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/price_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/price_search_engine"
+            android:src="@drawable/ic_dollars"
+            android:layout_marginStart="10dp"/>
+
+
+        <EditText
+            android:id="@+id/edit_price_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/price_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/price_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/price_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"
+            android:hint="Min"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+         <EditText
+            android:id="@+id/edit_price_search_engine_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/price_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/price_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"
+             android:hint="Max"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+
+        <com.github.guilhe.views.SeekBarRangedView
+            android:id="@+id/progress_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/price_search_engine"
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:currentMin="0"
+            app:currentMax="1000000"
+            app:min="0"
+            app:max="1000000"
+            app:backgroundHeight="20dp"
+            app:progressHeight="20dp"
+            app:backgroundColor="@color/colorAccent"
+            app:progressColor="@color/goldLight"
+            app:rounded="true"/>
+
+
+
+        <TextView
+            android:id="@+id/nbRoom_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rooms"
+            app:layout_constraintTop_toBottomOf="@+id/progress_price"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iv_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/nbRoom_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/nbRoom_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/nbRoom_search_engine"
+            android:src="@drawable/ic_home_black"
+            android:layout_marginStart="10dp"/>
+
+        <com.github.guilhe.views.SeekBarRangedView
+            android:id="@+id/progress_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/nbRoom_search_engine"
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:currentMin="0"
+            app:currentMax="11"
+            app:min="0"
+            app:max="11"
+            app:backgroundHeight="20dp"
+            app:progressHeight="20dp"
+            app:backgroundColor="@color/colorAccent"
+            app:progressColor="@color/goldLight"
+            app:rounded="true"/>
+
+        <EditText
+            android:id="@+id/edit_nbRoom_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/nbRoom_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/nbRoom_search_engine"
+            app:layout_constraintLeft_toLeftOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="@+id/edit_price_search_engine"
+            android:layout_marginBottom="10dp"
+            android:hint="Min"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/edit_nbRoom_search_engine_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/nbRoom_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/nbRoom_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/edit_nbRoom_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"
+            android:hint="Max"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+  <TextView
+            android:id="@+id/nbBedroom_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bedrooms"
+            app:layout_constraintTop_toBottomOf="@+id/progress_room"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <ImageView
+            android:id="@+id/iv_bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/nbBedroom_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/nbBedroom_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/nbBedroom_search_engine"
+            android:src="@drawable/ic_bedroom_black"
+            android:layout_marginStart="10dp"/>
+
+        <com.github.guilhe.views.SeekBarRangedView
+            android:id="@+id/progress_bedroom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/nbBedroom_search_engine"
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:currentMin="0"
+            app:currentMax="11"
+            app:max="11"
+            app:min="0"
+            app:backgroundHeight="20dp"
+            app:progressHeight="20dp"
+            app:backgroundColor="@color/colorAccent"
+            app:progressColor="@color/goldLight"
+            app:rounded="true"/>
+
+        <EditText
+            android:id="@+id/edit_nbBedroom_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/nbBedroom_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/nbBedroom_search_engine"
+            app:layout_constraintLeft_toLeftOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="@+id/edit_price_search_engine"
+            android:layout_marginBottom="10dp"
+            android:hint="Min"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/edit_nbBedroom_search_engine_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/nbBedroom_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/nbBedroom_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"
+            android:hint="Max"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+
+ <TextView
+            android:id="@+id/surface_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Surface"
+            app:layout_constraintTop_toBottomOf="@+id/progress_bedroom"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <ImageView
+            android:id="@+id/iv_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/surface_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/surface_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/surface_search_engine"
+            android:src="@drawable/ic_surface_black"
+            android:layout_marginStart="10dp"/>
+
+        <com.github.guilhe.views.SeekBarRangedView
+            android:id="@+id/progress_surface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/surface_search_engine"
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:currentMin="0"
+            app:currentMax="400"
+            app:min="0"
+            app:max="400"
+            app:backgroundHeight="20dp"
+            app:progressHeight="20dp"
+            app:backgroundColor="@color/colorAccent"
+            app:progressColor="@color/goldLight"
+            app:rounded="true"/>
+
+        <EditText
+            android:id="@+id/edit_surface_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/surface_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/surface_search_engine"
+            app:layout_constraintLeft_toLeftOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="@+id/edit_price_search_engine"
+            android:layout_marginBottom="10dp"
+            android:inputType="number"
+            android:hint="Min"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/edit_surface_search_engine_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/surface_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/surface_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"
+            android:hint="Max"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+
+ <TextView
+            android:id="@+id/land_surface_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="land surface"
+            app:layout_constraintTop_toBottomOf="@+id/progress_surface"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <com.github.guilhe.views.SeekBarRangedView
+            android:id="@+id/progress_land_surface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/land_surface_search_engine"
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:currentMin="0"
+            app:currentMax="5000"
+            app:min="0"
+            app:max="5000"
+            app:backgroundHeight="20dp"
+            app:progressHeight="20dp"
+            app:backgroundColor="@color/colorAccent"
+            app:progressColor="@color/goldLight"
+            app:rounded="true"/>
+
+        <EditText
+            android:id="@+id/edit_land_surface_search_engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/land_surface_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/land_surface_search_engine"
+            app:layout_constraintLeft_toLeftOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="@+id/edit_price_search_engine"
+            android:layout_marginBottom="10dp"
+            android:inputType="number"
+            android:hint="Min"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/edit_land_surface_search_engine_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/land_surface_search_engine"
+            app:layout_constraintBottom_toBottomOf="@+id/land_surface_search_engine"
+            app:layout_constraintLeft_toRightOf="@+id/edit_price_search_engine"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"
+            android:hint="Max"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/tv_poi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Point of Interest"
+            app:layout_constraintTop_toBottomOf="@+id/progress_land_surface"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteY="386dp" />
+
+        <TextView
+            android:id="@+id/tv_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="School"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_poi"
+            tools:layout_editor_absoluteX="10dp" />
+
+        <TextView
+            android:id="@+id/tv_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Shop"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_school"
+            tools:layout_editor_absoluteX="10dp" />
+
+        <TextView
+            android:id="@+id/tv_park"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Park"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@id/tv_shop"
+            tools:layout_editor_absoluteX="10dp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_school"
+            app:layout_constraintRight_toRightOf="@+id/center_layout_search_engine"
+            app:layout_constraintTop_toTopOf="@id/tv_school" />
+
+        <CheckBox
+            android:id="@+id/checkbox_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_shop"
+            app:layout_constraintRight_toRightOf="@+id/center_layout_search_engine"
+            app:layout_constraintTop_toTopOf="@id/tv_shop" />
+
+        <CheckBox
+            android:id="@+id/checkbox_park"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_park"
+            app:layout_constraintRight_toRightOf="@+id/center_layout_search_engine"
+            app:layout_constraintTop_toTopOf="@id/tv_park" />
+
+        <TextView
+            android:id="@+id/tv_hospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Hospital"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_school"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout_search_engine"
+            app:layout_constraintTop_toTopOf="@+id/tv_school" />
+
+        <TextView
+            android:id="@+id/tv_transports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Transports"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_shop"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout_search_engine"
+            app:layout_constraintTop_toTopOf="@+id/tv_shop" />
+
+        <TextView
+            android:id="@+id/tv_administration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Administration"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_park"
+            app:layout_constraintLeft_toLeftOf="@+id/center_layout_search_engine"
+            app:layout_constraintTop_toTopOf="@+id/tv_park" />
+
+        <CheckBox
+            android:id="@+id/checkbox_hospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_hospital"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_hospital" />
+
+        <CheckBox
+            android:id="@+id/checkbox_transport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_transports"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_transports" />
+
+        <CheckBox
+            android:id="@+id/checkbox_administration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_administration"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_administration" />
+
+        <Button
+            android:id="@+id/button_search_engine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@color/colorAccent"
+            android:text="Search"
+            android:textColor="@color/goldLight"
+            app:layout_constraintTop_toBottomOf="@id/tv_park"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+</layout>

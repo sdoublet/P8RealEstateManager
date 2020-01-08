@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -30,6 +29,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     private List<Estate> estateList;
     private List<Picture> pictureList;
     private Context context;
+    private Uri uri;
 
 
     public EstateAdapter(List<Estate> estateList, Context context) {
@@ -57,65 +57,58 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
         Estate estate = estateList.get(position);
         holder.rowEstateBinding.setEstate(estate);
-       // peut etre pour chaque estate
-        for (int i = 0; i < pictureList.size(); i++) {
-            Picture picture = pictureList.get(i);
-            Log.e("picturelist", String.valueOf(picture.getEstateId()));
-            Uri uri = picture.getUri();
-            if (picture.getEstateId() == estate.getEstateId()) {
-                Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
-                //holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.country_house);
-                try {
-                    context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                    holder.rowEstateBinding.imgRowEstate.setImageBitmap(bitmap);
-                    //Glide.with(context).load(bitmap).into(holder.rowEstateBinding.imgRowEstate);
-                     holder.rowEstateBinding.imgRowEstate.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    // holder.rowEstateBinding.imgRowEstate.setVisibility(View.VISIBLE);
-                    //  Glide.with(context).load(R.drawable.country_house).into(holder.rowEstateBinding.imgRowEstate);
-                    Log.e("tag", "yes" + estate.getEstateId());
-                    Log.e("tag", String.valueOf(picture.getEstateId()));
-                }
-            } else {
-                Log.e("tag", "different " + estate.getEstateId());
-                // holder.rowEstateBinding.imgRowEstate.setVisibility(View.INVISIBLE);
-            }
-
-//           if (estate.getEstateId()%2==0){
-//               holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.country_house);
-//           }else {
-//               holder.rowEstateBinding.imgRowEstate.setImageResource(R.drawable.manor);
-//           }
 
 
-            if (estate.isSold()) {
-                holder.rowEstateBinding.soldView.setImageResource(R.drawable.sold_house);
-                holder.rowEstateBinding.soldView.setVisibility(View.VISIBLE);
+//        for (int i = 0; i < pictureList.size(); i++) {
+//            Picture picture = pictureList.get(i);
+//            Log.e("picadp", String.valueOf(picture.getUri() + " " + picture.getEstateId()));
+//            if (picture.getEstateId() == estate.getEstateId()) {
+////                Log.e("picturelist", String.valueOf(picture.getEstateId()));
+//                Uri uri = picture.getUri();
+//                Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
+//                holder.rowEstateBinding.rowPrice.setVisibility(View.INVISIBLE);
 
-            } else {
-                holder.rowEstateBinding.soldView.setVisibility(View.INVISIBLE);
-            }
+//                try {
+//                    context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//                    holder.rowEstateBinding.imgRowEstate.setImageBitmap(bitmap);
+//                    holder.rowEstateBinding.imgRowEstate.setVisibility(View.VISIBLE);
 
-
-//        if (estate.getEstateId() == picture.getEstateId()) {
-//            Uri uri = picture.getUri();
-//            Glide.with(context).load(uri).into(holder.rowEstateBinding.imgRowEstate);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                holder.rowEstateBinding.imgRowEstate.setVisibility(View.INVISIBLE);
+//            }
 //        }
-//
-            if (!MoneyPref.getInstance().isEuro()) {
-                holder.rowEstateBinding.rowPrice.setText(estate.getPrice() + " $");
 
-            } else {
-                holder.rowEstateBinding.rowPrice.setText(Utils.convertDollarToEuro(estate.getPrice()) + " €");
-            }
 
+        this.isEstateSold(holder, estate);
+
+        this.moneyPref(holder, estate);
+
+    }
+
+
+    //Catch money preference
+    private void moneyPref(@NonNull EstateViewHolder holder, Estate estate) {
+        if (!MoneyPref.getInstance().isEuro()) {
+            holder.rowEstateBinding.rowPrice.setText(estate.getPrice() + " $");
+
+        } else {
+            holder.rowEstateBinding.rowPrice.setText(Utils.convertDollarToEuro(estate.getPrice()) + " €");
         }
-//    public void setEstate(List<Estate> estates){
-//        this.estateList = estates;
-//        notifyDataSetChanged();
-//    }
+    }
+
+    //Show sold icon
+    private void isEstateSold(@NonNull EstateViewHolder holder, Estate estate) {
+        if (estate.isSold()) {
+            holder.rowEstateBinding.soldView.setImageResource(R.drawable.sold_house);
+            holder.rowEstateBinding.soldView.setVisibility(View.VISIBLE);
+
+        } else {
+            holder.rowEstateBinding.soldView.setVisibility(View.INVISIBLE);
+        }
     }
 
     public Estate getEstate(int position) {

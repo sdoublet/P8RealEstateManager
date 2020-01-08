@@ -45,6 +45,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private boolean isClicked = false;
     private static long AGENT_ID = 1;
     List<Picture> pictureIdd = new ArrayList<>();
+    List<Picture> pictureList = new ArrayList<>();
     public static final String perms = Manifest.permission.READ_EXTERNAL_STORAGE;
     private String queryy;
     private String queryHouse;
@@ -203,6 +204,8 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+
+
     private void updateEstateList(List<Estate> estates) {
 
         this.adapter.updateData(estates);
@@ -215,6 +218,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
                 if (pictureIdd.get(j).getEstateId() == estateId) {
                     Log.e("same", String.valueOf(pictureIdd.size()));
                     Log.e("same", estateId + "= " + pictureIdd.get(j));
+                    //get only one picture
                     this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
                 } else {
                     Log.e("same", "pas trouvé");
@@ -225,23 +229,22 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void updateUiWithPicture(Picture picture) {
-        List<Picture> pictureList = new ArrayList<>();
+
         for (int i = 0; i < pictureIdd.size(); i++) {
             pictureList.add(picture);
-
-
         }
         Log.e("size", String.valueOf(pictureList.size()));
-        Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId());
-        Log.e("pic", String.valueOf(pictureList.size()));
-        adapter.updateDataWithPicture(pictureList);
+        Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId() + " " + picture.getUri());
+        adapter.updateDataWithPicture(pictureList);// ne renvoi pas la liste restreinte
     }
 
     private void getAllPictures() {
         this.estateViewModel.getAllPictures().observe(this, this::takePictureId);
     }
 
-    private List<Picture> takePictureId(List<Picture> pictures) {
+
+
+    private void takePictureId(List<Picture> pictures) {
         // pour chaque estateId, si il y a des photos recupere la premiere
 
         for (int i = 0; i < pictures.size(); i++) {
@@ -253,7 +256,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
 
         }
-        return pictureIdd;
+
 
 
     }
@@ -270,7 +273,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         List<Estate> estateList = new ArrayList<>();
         // List<Picture> pictureList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new EstateAdapter(estateList, pictureIdd, this);
+        adapter = new EstateAdapter(estateList, pictureList, this);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new Divider(this, LinearLayout.VERTICAL));
         binding.recyclerView.setLayoutManager(linearLayoutManager);

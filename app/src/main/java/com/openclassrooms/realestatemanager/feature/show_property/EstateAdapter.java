@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -59,28 +60,26 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         holder.rowEstateBinding.setEstate(estate);
 
 
-//        for (int i = 0; i < pictureList.size(); i++) {
-//            Picture picture = pictureList.get(i);
-//            Log.e("picadp", String.valueOf(picture.getUri() + " " + picture.getEstateId()));
-//            if (picture.getEstateId() == estate.getEstateId()) {
-////                Log.e("picturelist", String.valueOf(picture.getEstateId()));
-//                Uri uri = picture.getUri();
-//                Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
-//                holder.rowEstateBinding.rowPrice.setVisibility(View.INVISIBLE);
+    for (int i = 0; i < pictureList.size(); i++) {
+         Picture picture = pictureList.get(i);
 
-//                try {
-//                    context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-//                    holder.rowEstateBinding.imgRowEstate.setImageBitmap(bitmap);
-//                    holder.rowEstateBinding.imgRowEstate.setVisibility(View.VISIBLE);
 
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                holder.rowEstateBinding.imgRowEstate.setVisibility(View.INVISIBLE);
+        Log.e("picadp", String.valueOf(picture.getUri() + " " + picture.getEstateId()));
+        if (picture.getEstateId() == estate.getEstateId()) {
+              Log.e("picturelist", String.valueOf(picture.getEstateId()));
+            Uri uri = picture.getUri();
+            Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
+
+            Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+//            try {
+//                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//                Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+//            } catch (IOException e) {
+//                e.printStackTrace();
 //            }
-//        }
+         }}
+
 
 
         this.isEstateSold(holder, estate);
@@ -93,10 +92,10 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     //Catch money preference
     private void moneyPref(@NonNull EstateViewHolder holder, Estate estate) {
         if (!MoneyPref.getInstance().isEuro()) {
-            holder.rowEstateBinding.rowPrice.setText(estate.getPrice() + " $");
+            holder.rowEstateBinding.rowPrice.setText(Utils.stringFromatPrice(estate.getPrice()) + " $");
 
         } else {
-            holder.rowEstateBinding.rowPrice.setText(Utils.convertDollarToEuro(estate.getPrice()) + " €");
+            holder.rowEstateBinding.rowPrice.setText(Utils.stringFromatPrice(Utils.convertDollarToEuro(estate.getPrice())) + " €");
         }
     }
 

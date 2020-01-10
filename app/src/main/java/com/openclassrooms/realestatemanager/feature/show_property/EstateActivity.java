@@ -229,13 +229,13 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void updateUiWithPicture(Picture picture) {
-
-        for (int i = 0; i < pictureIdd.size(); i++) {
-            pictureList.add(picture);
-        }
+        pictureList.add(picture);
+//        for (int i = 0; i < pictureIdd.size(); i++) {
+//            pictureList.add(picture);
+//        }
         Log.e("size", String.valueOf(pictureList.size()));
-        Log.e("pic", picture.getEstateId() + " " + picture.getPhotoId() + " " + picture.getUri());
-        adapter.updateDataWithPicture(pictureList);// ne renvoi pas la liste restreinte
+        Log.e("photoParId", picture.getEstateId() + " " + picture.getPhotoId() + " " + picture.getUri()); // list restreint
+        adapter.updateDataWithPicture(pictureList);// renvoi la liste restreinte
     }
 
     private void getAllPictures() {

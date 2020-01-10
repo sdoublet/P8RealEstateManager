@@ -24,9 +24,8 @@ import java.util.List;
 public class DeatailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     private List<Picture> pictureList;
-    RowPhotoDetailBinding binding;
     private Context context;
-    private Uri uri;
+   // private Uri uri;
     private Bitmap bitmap;
 
     public DeatailAdapter(List<Picture> pictureList, Context context) {
@@ -46,27 +45,19 @@ public class DeatailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull DetailViewHolder holder, int position) {
 
-
-//        Log.e("pci", String.valueOf(pictureList.size()));
-//        for (int i=0; i<pictureList.size(); i++){
-//            Log.e("picssuri", String.valueOf(pictureList.get(i).getUri()));
             Picture picture = pictureList.get(position);
-            uri = picture.getUri();
-            try {
-                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                Log.e("bmpUri", String.valueOf(uri));
-               // holder.binding.rowImg.setImageBitmap(bitmap);
-                // holder.rowEstateBinding.imgRowEstate.setVisibility(View.VISIBLE);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // holder.rowEstateBinding.imgRowEstate.setVisibility(View.VISIBLE);
-                //  Glide.with(context).load(R.drawable.country_house).into(holder.rowEstateBinding.imgRowEstate);
+           Uri uri = picture.getUri();
+//            try {
+//                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//                Log.e("bmpUri", String.valueOf(uri));
 
-                Log.e("tag", String.valueOf(picture.getEstateId()));
-            }
-            Log.e("bmpUrii", String.valueOf(uri));
-            Glide.with(context).load(bitmap).into(holder.binding.rowImg);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                Log.e("tag", String.valueOf(picture.getEstateId()));
+//            }
+//            Log.e("bmpUrii", String.valueOf(uri));
+            Glide.with(context).load(uri).centerCrop().into(holder.binding.rowImg);
 
 
 

@@ -126,14 +126,14 @@ public class MainFragment extends Fragment {
             estate = estateList.get(i);
         }
         Log.e("last", String.valueOf(estate.getEstateId()));
-        this.estateViewModel.getAllPicturesFromEstate(estate.getEstateId()).observe(this, this::pictureFromLastEstate);
+        this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromLastEstate);
     }
 
     private void getPictureFromMostValueEstate(List<Estate> estates) {
         Estate estate = new Estate();
         for (int i = 0; i < estates.size(); i++) {
             estate = estates.get(i);
-            this.estateViewModel.getAllPicturesFromEstate(estate.getEstateId()).observe(this, this::pictureFromMostValue);
+            this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromMostValue);
             Log.e("value", String.valueOf(estate.getPrice()));
         }
 
@@ -143,14 +143,14 @@ public class MainFragment extends Fragment {
         Estate estate = new Estate();
         for (int i = 0; i < estateList.size(); i++) {
             estate = estateList.get(i);
-            this.estateViewModel.getAllPicturesFromEstate(estate.getEstateId()).observe(this, this::pictureFromLastSold);
+            this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromLastSold);
 //            Log.e("sold", estate.getSoldDate());
         }
     }
 
-    private void pictureFromLastEstate(List<Picture> pictureList) {
-        for (int i = 0; i < pictureList.size(); i++) {
-            Uri uri = pictureList.get(i).getUri();
+    private void pictureFromLastEstate(Picture picture) {
+
+            Uri uri = picture.getUri();
             Log.e("uriPic", String.valueOf(uri));
             context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             try {
@@ -161,11 +161,10 @@ public class MainFragment extends Fragment {
             }
         }
 
-    }
 
-    private void pictureFromMostValue(List<Picture> pictureList) {
-        for (int i = 0; i < pictureList.size(); i++) {
-            Uri uri = pictureList.get(i).getUri();
+
+    private void pictureFromMostValue(Picture picture) {
+            Uri uri = picture.getUri();
             context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
@@ -174,11 +173,10 @@ public class MainFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-    }
 
-    private void pictureFromLastSold(List<Picture> pictureList) {
-        for (int i = 0; i < pictureList.size(); i++) {
-            Uri uri = pictureList.get(i).getUri();
+
+    private void pictureFromLastSold(Picture picture) {
+            Uri uri = picture.getUri();
             context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
@@ -190,4 +188,4 @@ public class MainFragment extends Fragment {
     }
 
 
-}
+

@@ -10,8 +10,12 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import io.reactivex.disposables.Disposable;
 
@@ -99,6 +103,16 @@ public class Utils {
     //-----------------
     public  static String stringFormat(double d){
      return String.format("%s", d);
+    }
+
+    public  static String stringFromatPrice(double d){
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.FRENCH);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+        String s = formatter.format(d);
+        return s;
     }
 
     //------------------

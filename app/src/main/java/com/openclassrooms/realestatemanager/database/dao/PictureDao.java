@@ -25,7 +25,7 @@ public interface PictureDao {
     @Query("SELECT * FROM Picture WHERE estateId = :estateId")
     LiveData<List<Picture>> getPicture(long estateId);
 
-    @Query("SELECT * FROM Picture WHERE estateId = :estateId ORDER BY photoId DESC LIMIT 1")
+    @Query("SELECT * FROM Picture WHERE estateId = :estateId ORDER BY photoId ASC LIMIT 1")
     LiveData<Picture> getPictureByIdAsc(long estateId);
 
     @Query("SELECT * FROM Picture")

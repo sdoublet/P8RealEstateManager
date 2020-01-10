@@ -183,10 +183,10 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         binding.tvMedia.setText(estate.getCity().toUpperCase());
         // show price in dollars or euros
         if (!MoneyPref.getInstance().isEuro()){
-            binding.tvPriceDetail.setText(String.valueOf(estate.getPrice()) + " $");
+            binding.tvPriceDetail.setText(Utils.stringFromatPrice(estate.getPrice()) + " $");
 
         }else {
-            binding.tvPriceDetail.setText(Utils.convertDollarToEuro(estate.getPrice()) + " €");
+            binding.tvPriceDetail.setText(Utils.stringFromatPrice(Utils.convertDollarToEuro(estate.getPrice())) + " €");
         }
         binding.tvSurfaceDetail.setText(String.valueOf(estate.getSurface()));
         binding.tvSurfaceLandDetail.setText("Land " + estate.getSurfaceLand());

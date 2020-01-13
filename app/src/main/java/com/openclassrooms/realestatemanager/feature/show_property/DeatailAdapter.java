@@ -47,17 +47,17 @@ public class DeatailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
             Picture picture = pictureList.get(position);
            Uri uri = picture.getUri();
-//            try {
-//                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-//                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-//                Log.e("bmpUri", String.valueOf(uri));
+           try {
+               context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+               bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+               Log.e("bmpUri", String.valueOf(uri));
 
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                Log.e("tag", String.valueOf(picture.getEstateId()));
-//            }
-//            Log.e("bmpUrii", String.valueOf(uri));
-            Glide.with(context).load(uri).centerCrop().into(holder.binding.rowImg);
+           } catch (IOException e) {
+               e.printStackTrace();
+               Log.e("tag", String.valueOf(picture.getEstateId()));
+           }
+           Log.e("bmpUrii", String.valueOf(uri));
+            Glide.with(context).load(bitmap).centerCrop().into(holder.binding.rowImg);
 
 
 

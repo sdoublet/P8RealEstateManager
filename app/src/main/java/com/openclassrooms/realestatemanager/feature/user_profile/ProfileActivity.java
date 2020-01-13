@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityProfileBinding;
 
@@ -15,6 +16,8 @@ public class ProfileActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
+    Glide.with(this).load(getDrawable(R.drawable.photo_seb)).circleCrop().into(binding.photoProfile);// take photo since db
+
   }
 
 }

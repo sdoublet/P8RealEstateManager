@@ -30,6 +30,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     private List<Estate> estateList;
     private List<Picture> pictureList;
     private Context context;
+    private Bitmap bitmap;
     private Uri uri;
 
 
@@ -70,15 +71,17 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
             Uri uri = picture.getUri();
             Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
 
-            Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
-//            try {
-//                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-//                Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-         }}
+         //   Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+            try {
+                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                 bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+                Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+           // Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+
+        }}
 
 
 

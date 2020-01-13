@@ -9,13 +9,136 @@
         tools:context=".feature.user_profile.ProfileActivity">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PROFILE ACTIVITY"
-            android:textSize="40sp"
-            android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <ImageView
+            android:id="@+id/photo_profile"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/photo_seb"/>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/photo_profile"
+            app:layout_constraintBottom_toBottomOf="@+id/center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="45dp"
+            android:layout_marginStart="20dp"
+            android:text="Name: "
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/profile_name"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="DOUBLET"
+            android:textSize="20sp"/>
+
+   <TextView
+            android:id="@+id/profile_surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/profile_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:text="Surname: "
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/profile_surname"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_surname"
+            app:layout_constraintLeft_toLeftOf="@+id/name"
+            android:text="Sébastien"
+            android:textSize="20sp"/>
+
+     <TextView
+            android:id="@+id/profile_agency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/profile_surname"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:text="Agency: "
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/agency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/profile_agency"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_agency"
+            app:layout_constraintLeft_toLeftOf="@+id/surname"
+            android:text="Agence de la fontaine"
+            android:textSize="20sp"/>
+
+
+      <TextView
+            android:id="@+id/profile_number_estates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/profile_agency"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:text="Estates: "
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/estates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/profile_number_estates"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_number_estates"
+            app:layout_constraintLeft_toLeftOf="@+id/agency"
+            android:text="25"
+            android:textSize="20sp"/>
+
+      <TextView
+            android:id="@+id/profile_sold_estates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/profile_number_estates"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:text="Sold: "
+            android:textSize="20sp"/>
+
+       <TextView
+            android:id="@+id/sold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/profile_sold_estates"
+           app:layout_constraintBottom_toBottomOf="@+id/profile_sold_estates"
+            app:layout_constraintLeft_toLeftOf="@+id/name"
+            android:text="12"
+            android:textSize="20sp"/>
+
+
+
+
+
 
 
 

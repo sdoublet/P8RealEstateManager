@@ -20,5 +20,9 @@ public interface UserDao {
     LiveData<User> getUser(long agentId);
 
     @Query("SELECT * FROM User")
-    LiveData<List<User>> getUser();
+    LiveData<List<User>> getUsers();
+
+    @Query("DELETE FROM User WHERE agentId= :agentId")
+    int deleteUser(long agentId);
+
 }

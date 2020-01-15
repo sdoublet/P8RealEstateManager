@@ -359,11 +359,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         Log.e("bill", String.valueOf(bitmapList.size()));
     }
 
-    // keep uri from all image in list
-//    private void picture(Uri uri, String descritpion, long estateId) {
-//        Picture picture = new Picture(uri, descritpion, estateId);
-//        estateViewModel.createPicture(picture);
-//    }
 
     //Popup Image
 

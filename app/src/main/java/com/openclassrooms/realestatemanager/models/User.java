@@ -9,6 +9,7 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     private long agentId;
     private String name;
+
     //private int photo;
     private String email;
 

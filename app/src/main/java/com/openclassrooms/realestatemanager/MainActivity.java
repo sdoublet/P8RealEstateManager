@@ -20,6 +20,7 @@ import androidx.room.RawQuery;
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
 import com.openclassrooms.realestatemanager.feature.get_current_dollar_value.DollarStream;
+import com.openclassrooms.realestatemanager.feature.login.LoginActivity;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
@@ -121,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent1 = new Intent(this, SettingActivity.class);
                 startActivity(intent1);
                 break;
+            case R.id.log_out:
+                Intent intent8 = new Intent(this, LoginActivity.class);
+                startActivity(intent8);
+                break;
             case R.id.all_property:
                 Intent intent2 = new Intent(this, EstateActivity.class);
                 startActivity(intent2);
@@ -132,22 +137,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.house_menu:
                 Intent intent4 = new Intent(this, EstateActivity.class);
-                intent4.putExtra("house", "SELECT * FROM Estate WHERE type = 'house'");
+                intent4.putExtra("house", "SELECT * FROM Estate WHERE type = 'House'");
                 startActivity(intent4);
                 break;
             case R.id.appartement_menu:
                 Intent intent5 = new Intent(this, EstateActivity.class);
-                intent5.putExtra("flat", "SELECT * FROM Estate WHERE type = 'flat'");
+                intent5.putExtra("flat", "SELECT * FROM Estate WHERE type = 'Flat'");
                 startActivity(intent5);
                 break;
             case R.id.commercial_menu:
                 Intent intent6 = new Intent(this, EstateActivity.class);
-                intent6.putExtra("commercial", "SELECT * FROM Estate WHERE type = 'commercial'");
+                intent6.putExtra("commercial", "SELECT * FROM Estate WHERE type = 'Commercial'");
                 startActivity(intent6);
                 break;
             case R.id.duplex_menu:
                 Intent intent7 = new Intent(this, EstateActivity.class);
-                intent7.putExtra("duplex", "SELECT * FROM Estate WHERE type = 'duplex' OR type = 'triplex'");
+                intent7.putExtra("duplex", "SELECT * FROM Estate WHERE type = 'Duplex' OR type = 'Triplex'");
                 startActivity(intent7);
 
         }

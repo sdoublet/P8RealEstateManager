@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.login.LoginActivity"
+        android:background="@color/goldLight">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="RealEstateManager"
+            android:textSize="30sp"/>
+
+
+        <EditText
+            android:id="@+id/login_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:hint="Name"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="120dp"
+            android:inputType="textPersonName"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/login_surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:hint="Surname"
+            app:layout_constraintTop_toTopOf="@id/login_name"
+            android:layout_marginTop="50dp"
+            android:inputType="textPersonName"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/login_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:hint="Email"
+            app:layout_constraintTop_toTopOf="@id/login_surname"
+            android:layout_marginTop="50dp"
+            android:inputType="textEmailAddress"
+            android:importantForAutofill="no" />
+
+        <EditText
+            android:id="@+id/login_agency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:hint="Agency"
+            app:layout_constraintTop_toTopOf="@id/login_email"
+            android:layout_marginTop="50dp"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+
+         <EditText
+            android:id="@+id/login_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:hint="Password"
+            app:layout_constraintTop_toTopOf="@id/login_agency"
+            android:layout_marginTop="80dp"
+            android:inputType="textPassword"
+            android:importantForAutofill="no" />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/login_password"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/colorAccent"
+            android:text="LOGIN"
+            android:textSize="20sp"
+            android:textColor="@color/goldLight"
+            android:layout_margin="25dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/login_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="No account yet? Create one"
+            android:layout_marginTop="25dp"/>
+
+
+
+
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

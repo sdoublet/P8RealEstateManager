@@ -24,12 +24,12 @@
     </string-array>
 
     <string-array name="type">
-        <item>flat</item>
-        <item>house</item>
-        <item>duplex</item>
-        <item>triplex</item>
-        <item>commercial</item>
-        <item>land</item>
+        <item>Flat</item>
+        <item>House</item>
+        <item>Duplex</item>
+        <item>Triplex</item>
+        <item>Commercial</item>
+        <item>Land</item>
     </string-array>
 
     <string-array name="heating">
@@ -46,6 +46,15 @@
 
     </string-array>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 
 
 </resources>

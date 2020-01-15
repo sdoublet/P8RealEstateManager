@@ -13,6 +13,10 @@
         android:id="@+id/credit_calculator_menu"
         android:title="Credit calculator"
         android:icon="@drawable/ic_credit"/>
+    <item
+      android:id="@+id/log_out"
+      android:title="Log-out"
+      android:icon="@drawable/ic_power_settings"/>
   </group>
 
   <item android:title="Property type">

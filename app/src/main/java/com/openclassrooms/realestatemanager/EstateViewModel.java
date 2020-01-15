@@ -46,6 +46,12 @@ public  class EstateViewModel extends ViewModel {
         currentUser = userDataRepository.getUser(userId);
     }
 
+    public void insertNewUser(User user){
+        Gson gson = new Gson();
+        Log.e("gson", gson.toJson(user));
+        executor.execute(() -> userDataRepository.insertUser(user));
+    }
+
     public void initEstate(long estateId) {
         if (this.currentEstate != null) {
             return;
@@ -59,6 +65,10 @@ public  class EstateViewModel extends ViewModel {
     //------------------
     public LiveData<User> getUser(long userId) {
         return this.currentUser;
+    }
+    public LiveData<List<User>> getAllUsers(){return this.userDataRepository.getAllUsers();}
+    public void deleteUser(long agentId){
+        executor.execute(()-> userDataRepository.deleteUser(agentId));
     }
 
     //------------------

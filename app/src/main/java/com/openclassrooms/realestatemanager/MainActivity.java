@@ -19,6 +19,7 @@ import androidx.room.RawQuery;
 
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
+import com.openclassrooms.realestatemanager.feature.auth.AuthentificationActivity;
 import com.openclassrooms.realestatemanager.feature.get_current_dollar_value.DollarStream;
 import com.openclassrooms.realestatemanager.feature.login.LoginActivity;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent1);
                 break;
             case R.id.log_out:
-                Intent intent8 = new Intent(this, LoginActivity.class);
+                Intent intent8 = new Intent(this, AuthentificationActivity.class);
                 startActivity(intent8);
                 break;
             case R.id.all_property:

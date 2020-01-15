@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.login.LoginActivity"></activity>
+        <activity android:name=".feature.auth.AuthentificationActivity"></activity>
+        <activity android:name=".feature.login.LoginActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />

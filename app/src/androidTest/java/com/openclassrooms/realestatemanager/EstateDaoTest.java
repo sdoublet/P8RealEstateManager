@@ -31,7 +31,7 @@ public class EstateDaoTest {
 
     // DATA SET FOR TEST
     private static int AGENT_ID =1;
-    private static User USER_DEMO = new User(AGENT_ID, "seb", "doubletsebastien@sfr.fr");
+    private static User USER_DEMO = new User(AGENT_ID, "seb","bill", "doubletsebastien@sfr.fr");
     private static Estate NEW_ESTATE = new Estate( "Manoir", 250000, 125, 0, 8, 5, 1, "super", "gas", "19 rue dun champs", 39500, "Ounans", false, "now", "non", 1, 0.25455, 5.421, true, false, false, true, true, false);
 
     @Rule

@@ -9,8 +9,9 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     private long agentId;
     private String name;
-
-
+    private String surname;
+    private String password;
+    private String agency;
     //private int photo;
     private String email;
 
@@ -18,11 +19,22 @@ public class User {
     public User() {
     }
 
-    public User(long agentId, String name, String email) {
+    public User(long agentId, String name,String surname,String password, String agency, String email) {
         this.name = name;
         //this.photo = photo;
+        this.surname = surname;
+        this.password = password;
+        this.agency = agency;
         this.email = email;
         this.agentId = agentId;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public long getAgentId() {
@@ -41,8 +53,22 @@ public class User {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
-   // public int getPhoto() {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAgency() {
+        return agency;
+    }
+
+    public void setAgency(String agency) {
+        this.agency = agency;
+    }
+// public int getPhoto() {
    //     return photo;
    // }
 

@@ -41,6 +41,7 @@ public class Estate {
     private boolean administration;
 
 
+
    public Estate() {
     }
 

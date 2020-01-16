@@ -58,6 +58,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
         Estate estate = estateList.get(position);
+        Log.e("idi", String.valueOf(estate.getAgentId()));
         holder.rowEstateBinding.setEstate(estate);
 
 
@@ -125,6 +126,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     public void updateData(List<Estate> estates) {
         this.estateList = estates;
         this.notifyDataSetChanged();
+        Log.e("estateSize", String.valueOf(estateList.size()));
     }
 
     public void updateDataWithPicture(List<Picture> picture) {

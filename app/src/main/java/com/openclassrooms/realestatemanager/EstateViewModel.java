@@ -64,7 +64,7 @@ public  class EstateViewModel extends ViewModel {
     // FOR USER
     //------------------
     public LiveData<User> getUser(long userId) {
-        return this.currentUser;
+        return this.userDataRepository.getUser(userId);
     }
     public LiveData<List<User>> getAllUsers(){return this.userDataRepository.getAllUsers();}
     public void deleteUser(long agentId){

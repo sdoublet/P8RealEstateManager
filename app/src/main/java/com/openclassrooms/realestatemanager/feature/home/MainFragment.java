@@ -150,6 +150,7 @@ public class MainFragment extends Fragment {
 
     private void pictureFromLastEstate(Picture picture) {
 
+        if (picture != null) {
             Uri uri = picture.getUri();
             Log.e("uriPic", String.valueOf(uri));
             context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
@@ -159,11 +160,15 @@ public class MainFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            binding.imgLastEntry.setImageDrawable(getResources().getDrawable(R.drawable.country_house));
         }
 
+    }
 
 
     private void pictureFromMostValue(Picture picture) {
+        if (picture != null) {
             Uri uri = picture.getUri();
             context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             try {
@@ -172,10 +177,15 @@ public class MainFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.manor));
         }
+
+    }
 
 
     private void pictureFromLastSold(Picture picture) {
+        if (picture != null) {
             Uri uri = picture.getUri();
             context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             try {
@@ -184,8 +194,11 @@ public class MainFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            binding.mostVisited.setImageDrawable(getResources().getDrawable(R.drawable.modern_house));
         }
     }
+}
 
 
 

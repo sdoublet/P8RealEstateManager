@@ -38,6 +38,7 @@ import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
+import com.openclassrooms.realestatemanager.util.AgentId;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.io.File;
@@ -84,7 +85,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     //FOR DATA
     private EstateViewModel estateViewModel;
-    private static long AGENT_ID = 1;
+    private static long AGENT_ID = AgentId.getInstance().getAgentId();
 
     //FILE PURPOSE
     // public static final String FOLDERNAME=  "estateFolder";
@@ -130,6 +131,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 //add * picture in list
               //  savePhotoInDb(0);
 //                Log.e("estateiidd", String.valueOf(estateId));
+                Log.e("agentId", String.valueOf(AGENT_ID));
 
             }
         });

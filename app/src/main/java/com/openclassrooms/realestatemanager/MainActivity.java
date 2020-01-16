@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.room.Query;
 import androidx.room.RawQuery;
 
@@ -23,6 +24,8 @@ import com.openclassrooms.realestatemanager.feature.auth.AuthentificationActivit
 import com.openclassrooms.realestatemanager.feature.get_current_dollar_value.DollarStream;
 import com.openclassrooms.realestatemanager.feature.login.LoginActivity;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
+import com.openclassrooms.realestatemanager.injections.Injection;
+import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.databinding.DrawerHeaderBinding;
@@ -31,6 +34,7 @@ import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
 import com.openclassrooms.realestatemanager.repositories.PictureDataRepository;
+import com.openclassrooms.realestatemanager.util.AgentId;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.Utils;
 
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerHeaderBinding headerBinding;
     private SharedPreferences sharedPreferences;
     private Disposable disposable;
+    private EstateViewModel estateViewModel;
     private double euroValue=0;
 
 
@@ -69,26 +74,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //for nav header
         binding.navView.addHeaderView(headerBinding.getRoot());
-        User userModel = new User();
-        userModel.setName("Seb");
-       // userModel.setPhoto(R.drawable.photo_seb);
-        userModel.setEmail("doubletsebastien@sfr.fr");
-        headerBinding.setUser(userModel);
+
         //for nav item selected
         binding.navView.setNavigationItemSelectedListener(this);
 
         //frag
-        displayFragment(FRAGMENT_MAIN);
+       this.displayFragment(FRAGMENT_MAIN);
         //toolbar
-        setSupportActionBar(binding.toolbar);
+       this. setSupportActionBar(binding.toolbar);
+       this.configureViewmodel();
         // drawer
-        configureDrawerLayout();
+        this.configureDrawerLayout();
         //prefs
         this.getPreferences();
 
         this.executeHttpRequest();
 
+        this.getDataSinceViewmodel();
 
+
+    }
+
+    private void configureViewmodel(){
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
+    }
+
+    private void getDataSinceViewmodel(){
+        estateViewModel.getUser(AgentId.getInstance().getAgentId()).observe(this, this::setHeaderData);
+    }
+
+    private void setHeaderData(User user){
+        headerBinding.headerUsername.setText(user.getName());
+        headerBinding.headerEmail.setText(user.getEmail());
     }
 
     //Display fragment

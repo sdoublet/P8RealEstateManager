@@ -26,11 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.auth.AuthentificationActivity"></activity>
-        <activity android:name=".feature.login.LoginActivity" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
+        <activity android:name=".feature.auth.AuthentificationActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".feature.login.LoginActivity"
+            android:parentActivityName=".feature.auth.AuthentificationActivity"/>
+
         <activity
             android:name=".util.PopupActivity"
             android:parentActivityName=".feature.show_property.DetailEstateActivity" />

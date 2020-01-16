@@ -19,7 +19,7 @@ import com.openclassrooms.realestatemanager.database.dao.UserDao;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Estate.class, Picture.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Estate.class, Picture.class}, version = 3, exportSchema = false)
 public abstract class RoomDb extends RoomDatabase {
 
     //SINGLETON

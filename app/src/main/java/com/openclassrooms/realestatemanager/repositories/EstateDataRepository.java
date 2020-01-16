@@ -22,10 +22,7 @@ public class EstateDataRepository {
         pictureDao = null;
     }
 
-    public EstateDataRepository(EstateDao estateDao, PictureDao pictureDao) {
-        this.estateDao = estateDao;
-        this.pictureDao = pictureDao;
-    }
+
 
     //--------GET---------
     public LiveData<List<Estate>> getAllEstate(){return this.estateDao.getAllEstate();}

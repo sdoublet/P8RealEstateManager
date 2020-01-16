@@ -16,7 +16,7 @@ public class UserDataRepository {
     }
 
     //-------INSERT USER--------
-    public void insertUser(User user){  long userId = userDao.createUser(user);}
+    public void insertUser(User user){  long agentId = userDao.createUser(user);}
 
     //-------GET USER ---------
 

@@ -3,7 +3,7 @@ package com.openclassrooms.realestatemanager.util;
 public class AgentId {
     private static final AgentId ourInstance = new AgentId();
 
-    private long AgentId;
+    private long AgentId = 1;
     public static AgentId getInstance() {
         return ourInstance;
     }

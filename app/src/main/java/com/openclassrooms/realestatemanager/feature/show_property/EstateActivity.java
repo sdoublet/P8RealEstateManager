@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
+import com.openclassrooms.realestatemanager.util.AgentId;
 import com.openclassrooms.realestatemanager.util.Divider;
 import com.openclassrooms.realestatemanager.util.ItemClickSupport;
 
@@ -43,7 +44,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private EstateAdapter adapter;
     EstateDao estateDao;
     private boolean isClicked = false;
-    private static long AGENT_ID = 1;
+    private long AGENT_ID = AgentId.getInstance().getAgentId();
     List<Picture> pictureIdd = new ArrayList<>();
     List<Picture> pictureList = new ArrayList<>();
     public static final String perms = Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -64,7 +65,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         configureViewModel();
         getAllPictures();
         onClickrecyclerView();
-
+        Log.e("agent", String.valueOf(AGENT_ID));
 
         queryByIntent();
 
@@ -79,7 +80,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-        this.estateViewModel.intit(AGENT_ID);
+       // this.estateViewModel.intit(AGENT_ID);
     }
 
 
@@ -199,8 +200,8 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void getAllEstate() {
-        this.estateViewModel.getAllEstates().observe(this, this::updateEstateList);
-        this.estateViewModel.getAllEstates().observe(this, this::allEstateForPicture);
+        this.estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::updateEstateList);
+        this.estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::allEstateForPicture);
     }
 
 
@@ -209,6 +210,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void updateEstateList(List<Estate> estates) {
 
         this.adapter.updateData(estates);
+        Log.e("sizeId", String.valueOf(estates.size()));
     }
 
     private void allEstateForPicture(List<Estate> estates) {

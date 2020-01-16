@@ -113,16 +113,16 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void displayEstateWithFilterDesc(int liveData) {
         switch (liveData) {
             case 1:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY price DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY price DESC")).observe(this, this::updateEstateList);
                 break;
             case 2:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY nbRoom DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY nbRoom DESC")).observe(this, this::updateEstateList);
                 break;
             case 3:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY surface DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY surface DESC")).observe(this, this::updateEstateList);
                 break;
             case 4:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY type DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY type DESC")).observe(this, this::updateEstateList);
                 break;
             case 5:
                 this.estateViewModel.displaySoldEstateDesc().observe(this, this::updateEstateList);
@@ -135,22 +135,22 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         switch (liveData) {
             case 1:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY price ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + "  ORDER BY price ASC")).observe(this, this::updateEstateList);
                 break;
             case 4:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY type ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + "  ORDER BY type ASC")).observe(this, this::updateEstateList);
 
                 break;
             case 2:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY nbroom ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY nbroom ASC")).observe(this, this::updateEstateList);
 
 
                 break;
             case 3:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY surface ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY surface ASC")).observe(this, this::updateEstateList);
 
                 break;
             case 5:

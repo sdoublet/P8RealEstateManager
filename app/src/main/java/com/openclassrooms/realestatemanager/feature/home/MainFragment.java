@@ -29,6 +29,7 @@ import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.EstateAgency;
 import com.openclassrooms.realestatemanager.models.Picture;
+import com.openclassrooms.realestatemanager.util.AgentId;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +43,7 @@ public class MainFragment extends Fragment {
     private FragmentMainBinding binding;
     EstateViewModel estateViewModel;
     Context context;
+    private long AGENT_ID = AgentId.getInstance().getAgentId();
 
     public static Fragment newInstance() {
         return new MainFragment();
@@ -115,9 +117,9 @@ public class MainFragment extends Fragment {
     }
 
     private void getPicture() {
-        this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY estateId DESC LIMIT 1")).observe(this, this::getLastPictureFromLastEstate);
-        this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY price DESC LIMIT 1 ")).observe(this, this::getPictureFromMostValueEstate);
-        this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate ORDER BY sold DESC LIMIT 1")).observe(this, this::getPictureLastSold);
+        this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate  ORDER BY estateId DESC LIMIT 1")).observe(this, this::getLastPictureFromLastEstate);
+        this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate  ORDER BY price DESC LIMIT 1 ")).observe(this, this::getPictureFromMostValueEstate);
+        this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate  ORDER BY sold DESC LIMIT 1")).observe(this, this::getPictureLastSold);
     }
 
     private void getLastPictureFromLastEstate(List<Estate> estateList) {

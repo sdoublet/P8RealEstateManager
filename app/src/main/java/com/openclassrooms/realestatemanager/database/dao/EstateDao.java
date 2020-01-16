@@ -47,7 +47,7 @@ public interface EstateDao {
     @Query("SELECT MAX(estateId) FROM Estate")
     LiveData<Integer> getLastEstate();
 
-    @Query("SELECT * FROM Estate ORDER BY estateId DESC LIMIT 1")
+    @Query("SELECT * FROM Estate  ORDER BY estateId DESC LIMIT 1")
     Estate getTheLast();
 
 

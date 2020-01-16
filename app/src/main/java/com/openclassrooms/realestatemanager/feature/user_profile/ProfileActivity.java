@@ -54,9 +54,19 @@ public class ProfileActivity extends AppCompatActivity {
 
   private void getAllEstateByAgent(){
     estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::setEstatesNumber);
+    estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::setSoldNumber);
   }
   private void setEstatesNumber(List<Estate> estateList){
     binding.estates.setText(String.valueOf(estateList.size()));
+  }
+  private void setSoldNumber(List<Estate> estateList){
+    int nbSold = 0;
+    for (int i=0; i<estateList.size(); i++){
+      if (estateList.get(i).isSold()){
+        nbSold++;
+      }
+    }
+    binding.sold.setText(String.valueOf(nbSold));
   }
 
 }

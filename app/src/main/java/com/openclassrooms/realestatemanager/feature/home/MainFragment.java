@@ -29,6 +29,7 @@ import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.EstateAgency;
 import com.openclassrooms.realestatemanager.models.Picture;
+import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.util.AgentId;
 
 import java.io.IOException;
@@ -74,6 +75,7 @@ public class MainFragment extends Fragment {
         onClickMap();
         onClickAddProperty();
         this.configureViewModel();
+        this.getAgent();
         this.getPicture();
         return view;
     }
@@ -114,6 +116,19 @@ public class MainFragment extends Fragment {
             Intent intent = new Intent(getContext(), AddPropertyActivity.class);
             startActivity(intent);
         });
+    }
+
+    //--------------------pbm de get user?????------------------
+    private void getAgent(){
+        this.estateViewModel.getAllUsers().observe(this, this::setAgencyData);
+    }
+
+    private void setAgencyData(List<User> userList){
+        for (int i=0; i<userList.size(); i++){
+            if (userList.get(i).getAgentId()==AGENT_ID){
+                binding.angencyName.setText(userList.get(i).getAgency());
+            }
+        }
     }
 
     private void getPicture() {

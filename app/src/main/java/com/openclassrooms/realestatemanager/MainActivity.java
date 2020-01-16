@@ -15,14 +15,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.room.Query;
-import androidx.room.RawQuery;
 
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
-import com.openclassrooms.realestatemanager.feature.auth.AuthentificationActivity;
+import com.openclassrooms.realestatemanager.feature.auth.AuthenticationActivity;
 import com.openclassrooms.realestatemanager.feature.get_current_dollar_value.DollarStream;
-import com.openclassrooms.realestatemanager.feature.login.LoginActivity;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
@@ -33,7 +30,6 @@ import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimul
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
-import com.openclassrooms.realestatemanager.repositories.PictureDataRepository;
 import com.openclassrooms.realestatemanager.util.AgentId;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.Utils;
@@ -142,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent1);
                 break;
             case R.id.log_out:
-                Intent intent8 = new Intent(this, AuthentificationActivity.class);
+                Intent intent8 = new Intent(this, AuthenticationActivity.class);
                 startActivity(intent8);
                 break;
             case R.id.all_property:

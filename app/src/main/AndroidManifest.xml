@@ -26,10 +26,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.auth.AuthentificationActivity"
+        <activity android:name=".feature.auth.AuthenticationActivity"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".feature.login.LoginActivity"
-            android:parentActivityName=".feature.auth.AuthentificationActivity"/>
+            android:parentActivityName=".feature.auth.AuthenticationActivity"/>
 
         <activity
             android:name=".util.PopupActivity"

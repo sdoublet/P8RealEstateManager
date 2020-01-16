@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.EstateViewModel;
+import com.openclassrooms.realestatemanager.MainActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityAuthentificationBinding;
 import com.openclassrooms.realestatemanager.feature.login.LoginActivity;
@@ -20,7 +22,7 @@ import com.openclassrooms.realestatemanager.util.AgentId;
 
 import java.util.List;
 
-public class AuthentificationActivity extends AppCompatActivity {
+public class AuthenticationActivity extends AppCompatActivity {
 
     ActivityAuthentificationBinding binding;
     private EstateViewModel estateViewModel;
@@ -56,6 +58,9 @@ public class AuthentificationActivity extends AppCompatActivity {
             if (users.get(i).getName().equals(name) && users.get(i).getPassword().equals(password)){
                 Log.e("userPro", String.valueOf(users.get(i).getAgentId()));
                 AgentId.getInstance().setAgentId(users.get(i).getAgentId());
+                Toast.makeText(this, "Welcome back" + users.get(i).getSurname() + " " + users.get(i).getName(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
         }
     }

@@ -53,10 +53,11 @@
             app:layout_constraintTop_toBottomOf="@id/logo_fragment_main">
 
             <TextView
+                android:id="@+id/angency_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@{agency.name}"
+                android:text="Agency"
                 android:textColor="@color/goldLight"
                 android:textSize="25sp" />
 

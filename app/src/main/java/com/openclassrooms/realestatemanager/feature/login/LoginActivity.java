@@ -67,9 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 && user.getSurname() != null && !user.getSurname().equals("") && user.getAgency() != null && !user.getAgency().equals("")
                 && user.getPassword() != null && !user.getPassword().equals("")) {
             estateViewModel.insertNewUser(user);
-
-
-
         }
     }
 

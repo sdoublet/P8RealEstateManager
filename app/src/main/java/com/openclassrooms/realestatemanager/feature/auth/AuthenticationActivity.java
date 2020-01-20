@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     ActivityAuthentificationBinding binding;
     private EstateViewModel estateViewModel;
+    private SharedPreferences sharedPreferences;
+    public static final String PREFS = "PREFS";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +61,13 @@ public class AuthenticationActivity extends AppCompatActivity {
             if (users.get(i).getName().equals(name) && users.get(i).getPassword().equals(password)){
                 Log.e("userPro", String.valueOf(users.get(i).getAgentId()));
                 AgentId.getInstance().setAgentId(users.get(i).getAgentId());
-                Toast.makeText(this, "Welcome back" + users.get(i).getSurname() + " " + users.get(i).getName(), Toast.LENGTH_LONG).show();
+                sharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
+                sharedPreferences.edit().putLong(PREFS , users.get(i).getAgentId()).apply();
+                Toast.makeText(this, "Welcome back " + users.get(i).getSurname() + " " + users.get(i).getName(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+            }else {
+                Toast.makeText(this, "Your password is not available with this user name", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -70,3 +77,4 @@ public class AuthenticationActivity extends AppCompatActivity {
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
     }
 }
+// https://developer.android.com/training/camera/photobasics

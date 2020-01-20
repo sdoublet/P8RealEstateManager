@@ -76,6 +76,7 @@ public class MainFragment extends Fragment {
         onClickAddProperty();
         this.configureViewModel();
         this.getAgent();
+        this.getCurrentUser();
         this.getPicture();
         return view;
     }
@@ -126,10 +127,22 @@ public class MainFragment extends Fragment {
     private void setAgencyData(List<User> userList){
         for (int i=0; i<userList.size(); i++){
             if (userList.get(i).getAgentId()==AGENT_ID){
-                binding.angencyName.setText(userList.get(i).getAgency());
+                binding.agencyName.setText(userList.get(i).getAgency());
+                Log.e("userSize", String.valueOf(userList.size()));
             }
         }
     }
+
+    private void getCurrentUser(){
+        this.estateViewModel.getUser(AgentId.getInstance().getAgentId()).observe(this, this::setAgencyTitle);
+    }
+
+    private void setAgencyTitle(User user){
+        Log.e("user", user.getName() + " " + user.getAgency());
+        binding.agencyName.setText(user.getAgency());
+    }
+
+
 
     private void getPicture() {
         this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate  ORDER BY estateId DESC LIMIT 1")).observe(this, this::getLastPictureFromLastEstate);

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -47,13 +48,17 @@ public class Utils {
      */
     public static String getTodayDate(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Log.e("date2",  dateFormat.format(new Date()));
+
         return dateFormat.format(new Date());
     }
 
     // convert to the good format
     public static String convertDate(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+        Log.e("date",  dateFormat.format(new Date()));
         return dateFormat.format(new Date());
+
     }
 
     /**

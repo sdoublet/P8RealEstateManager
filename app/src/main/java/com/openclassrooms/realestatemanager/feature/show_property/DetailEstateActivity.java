@@ -225,7 +225,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                     builder.setMessage("Do you want sold this estate?");
                     builder.setPositiveButton("Yes", (dialog, which) -> {
                         estate.setSold(true);
-                        estate.setSoldDate(Utils.getTodayDate());
+                        estate.setSoldDate(Utils.convertDate());
                         estateViewModel.updateEstate(estate);
 
 

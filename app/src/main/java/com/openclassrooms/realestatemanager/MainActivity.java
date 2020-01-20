@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
+import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
 import com.openclassrooms.realestatemanager.feature.auth.AuthenticationActivity;
 import com.openclassrooms.realestatemanager.feature.get_current_dollar_value.DollarStream;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 binding.navView, false);
 
 
-
         // for connectivity
         Utils.onCheckNetworkStatus(this, binding.drawerLayout);
         Utils.checkNetworkType(this, binding.drawerLayout);
@@ -82,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // drawer
         this.configureDrawerLayout();
         //prefs
-        this.getPreferences();
+        this.getPreferencesMoney();
+        this.getPreferencesUser();
+
 
         this.executeHttpRequest();
 
@@ -177,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // get preferences
-    private void getPreferences(){
+    private void getPreferencesMoney(){
         sharedPreferences = getSharedPreferences("euro", MODE_PRIVATE);
         boolean euro = sharedPreferences.getBoolean("euro", false);
         if (euro){
@@ -186,6 +189,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             MoneyPref.getInstance().setEuro(false);
         }
     }
+    private void getPreferencesUser(){
+        sharedPreferences = getSharedPreferences("PREFS", MODE_PRIVATE);
+        AgentId.getInstance().setAgentId(sharedPreferences.getLong("PREFS", 1));
+    }
+
+
+
+
 
     // get current euro value
 

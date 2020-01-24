@@ -62,7 +62,7 @@
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/tv_media"
+                app:layout_constraintTop_toBottomOf="@+id/tv_sold_date"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="19dp">
@@ -106,8 +106,8 @@
                 android:id="@+id/tv_sold_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/tv_price_detail"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_price_detail"
+                app:layout_constraintTop_toBottomOf="@+id/tv_media"
+                app:layout_constraintRight_toRightOf="parent"
                 android:text="heloo"
                 android:textColor="@color/goldLight"
                 android:layout_marginStart="15dp"
@@ -187,26 +187,23 @@
 
             <LinearLayout
                 android:id="@+id/map_layout_id"
-                android:layout_width="180dp"
+                android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="@+id/tv_room_detail"
-                app:layout_constraintLeft_toLeftOf="@id/tv_room_detail"
+                app:layout_constraintLeft_toRightOf="@id/tv_heating_detail"
                 app:layout_constraintRight_toRightOf="parent"
                 >
 
-            <fragment
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:map="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/map_id"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                map:mapType="normal"
-                map:liteMode="true"
-                />
+                <fragment
+                    android:id="@+id/map_id"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:liteMode="true"
+                    app:mapType="normal" />
             </LinearLayout>
             <ImageView
                 android:id="@+id/ic_bedroom_detail"

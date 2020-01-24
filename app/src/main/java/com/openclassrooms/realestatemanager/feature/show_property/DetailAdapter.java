@@ -21,14 +21,14 @@ import com.openclassrooms.realestatemanager.models.Picture;
 import java.io.IOException;
 import java.util.List;
 
-public class DeatailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
+public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     private List<Picture> pictureList;
     private Context context;
-   // private Uri uri;
+    // private Uri uri;
     private Bitmap bitmap;
 
-    public DeatailAdapter(List<Picture> pictureList, Context context) {
+    public DetailAdapter(List<Picture> pictureList, Context context) {
         this.pictureList = pictureList;
         this.context = context;
     }
@@ -45,21 +45,25 @@ public class DeatailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull DetailViewHolder holder, int position) {
 
-            Picture picture = pictureList.get(position);
-           Uri uri = picture.getUri();
-           try {
-               context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-               bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-               Log.e("bmpUri", String.valueOf(uri));
-
-           } catch (IOException e) {
-               e.printStackTrace();
-               Log.e("tag", String.valueOf(picture.getEstateId()));
-           }
-           Log.e("bmpUrii", String.valueOf(uri));
-            Glide.with(context).load(bitmap).centerCrop().into(holder.binding.rowImg);
-
-
+        Picture picture = pictureList.get(position);
+        Uri uri = picture.getUri();
+        String uriString = uri.toString();
+        if (uriString.contains("content")) {
+            Glide.with(context).load(uri).centerCrop().into(holder.binding.rowImg);
+        } else {
+            Glide.with(context).load(uri.getPath()).centerCrop().into(holder.binding.rowImg);
+        }
+//           try {
+//               context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//               bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//               Log.e("bmpUri", String.valueOf(uri));
+//
+//           } catch (IOException e) {
+//               e.printStackTrace();
+//               Log.e("tag", String.valueOf(picture.getEstateId()));
+//           }
+//           Log.e("bmpUrii", String.valueOf(uri));
+//            Glide.with(context).load(bitmap).centerCrop().into(holder.binding.rowImg);
 
 
     }
@@ -73,5 +77,9 @@ public class DeatailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
         this.pictureList = pictureList;
         this.notifyDataSetChanged();
 
+    }
+
+    public Picture getPicture(int position) {
+        return this.pictureList.get(position);
     }
 }

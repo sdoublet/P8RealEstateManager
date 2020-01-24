@@ -201,7 +201,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     private void getAllEstate() {
         this.estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::updateEstateList);
-        this.estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::allEstateForPicture);
+        this.estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::allEstateForPicture); // it's here that's failed
     }
 
 
@@ -210,22 +210,23 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void updateEstateList(List<Estate> estates) {
 
         this.adapter.updateData(estates);
-        Log.e("sizeId", String.valueOf(estates.size()));
+        Log.e("EstateSizeId", String.valueOf(estates.size()));
     }
 
     private void allEstateForPicture(List<Estate> estates) {
         for (int i = 0; i < estates.size(); i++) {
             long estateId = estates.get(i).getEstateId();
-            for (int j = 0; j < pictureIdd.size(); j++) {
-                if (pictureIdd.get(j).getEstateId() == estateId) {
-                    Log.e("same", String.valueOf(pictureIdd.size()));
-                    Log.e("same", estateId + "= " + pictureIdd.get(j));
-                    //get only one picture
-                    this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
-                } else {
-                    Log.e("same", "pas trouvé");
-                }
-            }
+            this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
+//            for (int j = 0; j < pictureIdd.size(); j++) {
+//                if (pictureIdd.get(j).getEstateId() == estateId) {
+//                    Log.e("same", String.valueOf(pictureIdd.size()));
+//                    Log.e("same", estateId + "= " + pictureIdd.get(j));
+//                    //get only one picture
+//                    this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
+//                } else {
+//                    Log.e("same", "pas trouvé");
+//                }
+           // }
 
         }
     }
@@ -253,7 +254,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 //            Log.e("pictureId", String.valueOf(pictures.get(i).getEstateId()));
 //            Log.e("pictureId", String.valueOf(pictures.get(i).getPhotoId()));
             long idd = pictures.get(i).getEstateId();
-            Log.e("pictureIddd", idd +" " + pictures.get(i).getPhotoId());
+            Log.e("EstateTakePictureId", idd +" " + pictures.get(i).getPhotoId());
             pictureIdd.add(pictures.get(i));
 
 

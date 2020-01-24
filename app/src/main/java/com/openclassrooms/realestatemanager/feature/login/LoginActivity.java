@@ -1,15 +1,21 @@
 package com.openclassrooms.realestatemanager.feature.login;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.EstateViewModel;
+import com.openclassrooms.realestatemanager.MainActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityLoginBinding;
 import com.openclassrooms.realestatemanager.injections.Injection;
@@ -31,6 +37,26 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         this.configureViewModel();
         this.onClickLoginBtn();
+        this.getUserForFirstLogin();
+    }
+
+    private void alertDialog(){
+        AlertDialog alertDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Dialog);
+        builder.setTitle("First visit")
+                .setMessage("Welcome and thanks to choose RealEstateManager app for your business. \nTo use it, you must identify yourself for the first time. \nHave a good experience")
+                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.e("hello", "hello");
+                    }
+                });
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getButton(alertDialog.BUTTON_NEUTRAL).setTextColor(Color.WHITE);
+        alertDialog.getButton(alertDialog.BUTTON_NEUTRAL).setGravity(Gravity.CENTER_HORIZONTAL);
+
+
     }
 
     private void onClickLoginBtn() {
@@ -41,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 //create new user in db
                 insertNewUser();
                 getAllUsers();
+
 
 
             }
@@ -67,11 +94,26 @@ public class LoginActivity extends AppCompatActivity {
                 && user.getSurname() != null && !user.getSurname().equals("") && user.getAgency() != null && !user.getAgency().equals("")
                 && user.getPassword() != null && !user.getPassword().equals("")) {
             estateViewModel.insertNewUser(user);
+            AgentId.getInstance().setAgentId(user.getAgentId());
+            Toast.makeText(this, "Welcome " + user.getSurname(), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
     }
 
     private void getAllUsers() {
         this.estateViewModel.getAllUsers().observe(this, this::showAllUsers);
+    }
+
+    private void getUserForFirstLogin(){
+        this.estateViewModel.getAllUsers().observe(this, this::firstLogin);
+
+    }
+
+    private void firstLogin(List<User> users){
+        if (users.size()<1){
+            this.alertDialog();
+        }
     }
 
     private void showAllUsers(List<User> users) {
@@ -81,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("userIdNull", String.valueOf(users.get(i).getAgentId()) + users.get(i).getPassword());
                // estateViewModel.deleteUser(users.get(i).getAgentId());
                 Toast.makeText(this, "You forget a field", Toast.LENGTH_LONG).show();
+
             }
         }
     }

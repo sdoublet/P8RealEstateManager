@@ -26,11 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.auth.AuthenticationActivity"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".feature.login.LoginActivity"
-            android:parentActivityName=".feature.auth.AuthenticationActivity"/>
-
+        <activity
+            android:name=".feature.auth.AuthenticationActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".feature.login.LoginActivity"
+            android:parentActivityName=".feature.auth.AuthenticationActivity" />
         <activity
             android:name=".util.PopupActivity"
             android:parentActivityName=".feature.show_property.DetailEstateActivity" />
@@ -106,6 +107,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <provider
             android:name=".provider.MyFileProvider"
             android:authorities="${applicationId}.provider"

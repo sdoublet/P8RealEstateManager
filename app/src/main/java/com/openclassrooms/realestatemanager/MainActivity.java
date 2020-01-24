@@ -100,12 +100,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getDataSinceViewmodel(){
-        estateViewModel.getUser(AgentId.getInstance().getAgentId()).observe(this, this::setHeaderData);
+            estateViewModel.getUser(AgentId.getInstance().getAgentId()).observe(this, this::setHeaderData);
     }
 
     private void setHeaderData(User user){
-        headerBinding.headerUsername.setText(user.getName());
-        headerBinding.headerEmail.setText(user.getEmail());
+            headerBinding.headerUsername.setText(user.getName());
+            headerBinding.headerEmail.setText(user.getEmail());
+
     }
 
     //Display fragment

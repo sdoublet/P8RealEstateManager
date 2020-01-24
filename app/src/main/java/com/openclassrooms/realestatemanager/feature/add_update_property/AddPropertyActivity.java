@@ -24,6 +24,7 @@ import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -82,7 +83,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private Uri photoUri;
 
 
-
     //FOR DATA
     private EstateViewModel estateViewModel;
     private static long AGENT_ID = AgentId.getInstance().getAgentId();
@@ -103,7 +103,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
         //Configure ViewModel
         this.configureViewModel();
-        estateViewModel.getAllPictures().observe(this, this::updateData);
+        // estateViewModel.getAllPictures().observe(this, this::updateData);
         addPhoto();
 
         //Save data on db
@@ -119,49 +119,55 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
     // Save property in database
     private void save() {
-        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkPermissions();
-                configureViewModel();
-                createEstate();
-                String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
-                        + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
-                executeHttpRequestWithretrofit(address);
-                //add * picture in list
-              //  savePhotoInDb(0);
+        binding.buttonSave.setOnClickListener(v -> {
+            checkPermissions();
+            //configureViewModel();
+            createEstate();
+            String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
+                    + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
+            executeHttpRequestWithretrofit(address);
+            //add * picture in list
+            //  savePhotoInDb(0);
 //                Log.e("estateiidd", String.valueOf(estateId));
-                Log.e("agentId", String.valueOf(AGENT_ID));
+            Log.e("agentId", String.valueOf(AGENT_ID));
+            estateViewModel.getAllEstates().observe(this, this::allEstate);
 
-            }
         });
-        estateViewModel.getLastEstate().observe(this, this::tackeLastEntry);
-
-
+        //c ici le pbm
+        //estateViewModel.getLastEstate().observe(this, this::takeLastEntry);
     }
-    public void tackeLastEntry(int lastId){
+
+    private void allEstate(List<Estate> estates) {
+        Log.e("help", String.valueOf(estates.size()));
+        if (estates.size() > 0) {
+            estateViewModel.getLastEstate().observe(this, this::takeLastEntry);
+
+        }
+    }
+ // it's for why????????????????????
+    public void takeLastEntry(int lastId) {
         Log.e("last", String.valueOf(lastId));
-        estateId = (long) lastId  ;
+        estateId = (long) lastId;
         savePhotoInDb(estateId);
     }
 
     public void updateData(List<Picture> pictures) {
 
         Log.e("haha", String.valueOf(pictures.size()));
-        for (int i =0; i<pictures.size(); i++){
+        for (int i = 0; i < pictures.size(); i++) {
 
             Log.e("all", String.valueOf(pictures.get(i).getEstateId()));
-            Log.e("all", pictures.get(i).getEstateId() +" " + pictures.get(i).getUri() + " " + pictures.get(i).getPhotoId() + "hello");
+            Log.e("all", pictures.get(i).getEstateId() + " " + pictures.get(i).getUri() + " " + pictures.get(i).getPhotoId() + "hello");
         }
- //       Uri uri = pictures.get(0).getUri();
+        //       Uri uri = pictures.get(0).getUri();
 //        Bitmap bitmap = null;
 //        try {
 //            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri );
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-  //      binding.addPhoto.setImageBitmap(bitmap);
-  //      Log.e("myUri", String.valueOf(uri));
+        //      binding.addPhoto.setImageBitmap(bitmap);
+        //      Log.e("myUri", String.valueOf(uri));
 
     }
 
@@ -248,17 +254,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         for (Picture picture : pictureList) {
             picture.setEstateId(estateId);
             estateViewModel.createPicture(picture);
-            Log.e("saveDb", String.valueOf(picture.getPhotoId()));
+            Log.e("saveDb", String.valueOf(picture.getPhotoId())+ pictureList.size() + estateId);
         }
-    }
-
-    private void testPicture() {
-        if (binding.mainPhoto != null) {
-            binding.mainPhoto.setImageURI(photoUri);
-
-        }
-
-
     }
 
 
@@ -270,6 +267,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         //FROM CAMERA
         if (requestCode == REQUEST_PHOTO_CODE && resultCode == RESULT_OK) {
             image = BitmapFactory.decodeFile(photoPath);
+
 
             // TODO: 04/12/2019 sauvegarder la photo dans la db
             AlertDialog dialog;
@@ -284,10 +282,14 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     // TODO: 04/12/2019 save in db
 
                     //savePhotoInDb(estateId);
-                    savePhotoInGallery();
-                    setImageViewWithPicture(Uri.parse(photoPath));//jen suis la--------------------
+                    //savePhotoInGallery();
+
+                    setImageViewWithPicture(photoUri);//jen suis la--------------------
                     Picture picture = new Picture(Uri.parse(photoPath), null, 0);
+
+                    // ca s'affiche mais ca ne la recupere pas dans show property
                     pictureList.add(picture);
+                    Log.e("AddProPicList", String.valueOf(pictureList.size()));
 
                 }
             });
@@ -295,7 +297,11 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             builder.setNegativeButton("App", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    setImageViewWithPicture(Uri.parse(photoPath));
+                    setImageViewWithPicture(photoUri);
+                    Picture picture = new Picture(Uri.parse(photoPath), null, 0);
+                    pictureList.add(picture);
+                    //attention ca ne sera que sur la main photo
+
                 }
             });
             dialog = builder.create();
@@ -329,30 +335,19 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void setImageViewWithPicture(Uri uri) {
 
         if (binding.mainPhoto.getDrawable() == null) {
-            binding.mainPhoto.setImageBitmap(image);
-            // binding.mainPhoto.setImageURI(uri);
+            Glide.with(this).load(uri).into(binding.mainPhoto);
 
-            Log.e("urii", uri.getPath());
-            //a voir si c utile
         } else if (binding.photo2.getDrawable() == null) {
-            binding.photo2.setImageBitmap(image);
-            // binding.photo2.setImageURI(uri);
+            Glide.with(this).load(uri).into(binding.photo2);
 
-            Log.e("urii", uri.getPath());
         } else if (binding.photo3.getDrawable() == null) {
-            binding.photo3.setImageBitmap(image);
-            //  binding.photo3.setImageURI(uri);
-
+            Glide.with(this).load(uri).into(binding.photo3);
 
         } else if (binding.photo4.getDrawable() == null) {
-            binding.photo4.setImageBitmap(image);
-            // binding.photo4.setImageURI(uri);
-
+            Glide.with(this).load(uri).into(binding.photo4);
 
         } else if (binding.photo5.getDrawable() == null) {
-            binding.photo5.setImageBitmap(image);
-            // binding.photo5.setImageURI(uri);
-
+            Glide.with(this).load(uri).into(binding.photo5);
 
         } else {
             Toast.makeText(getApplicationContext(), "you must buy pro version to add more photos", Toast.LENGTH_LONG).show();
@@ -417,8 +412,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
         this.estateViewModel.intit(AGENT_ID);
-
-        // this.estateViewModel.initEstate(1);
     }
 
 
@@ -431,7 +424,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                     Integer.parseInt(binding.spinnerRoom.getSelectedItem().toString()), Integer.parseInt(binding.spinnerBedroom.getSelectedItem().toString()),
                     Integer.parseInt(binding.spinnerBathroom.getSelectedItem().toString()), binding.editDescription.getText().toString(),
                     binding.spinnerHeating.getSelectedItem().toString(), binding.editAddress.getText().toString(), Integer.parseInt(binding.editZipCode.getText().toString()),
-                    binding.editCity.getText().toString(), false, Utils.getTodayDate(), null, AGENT_ID, geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
+                    binding.editCity.getText().toString(), false, Utils.convertDate(), null, AGENT_ID, geocoding.getResults().get(0).getGeometry().getLocation().getLat(),
                     geocoding.getResults().get(0).getGeometry().getLocation().getLng(), binding.checkboxSchool.isChecked(), binding.checkboxSchool.isChecked(),
                     binding.checkboxPark.isChecked(), binding.checkboxHospital.isChecked(), binding.checkboxTransport.isChecked(), binding.checkboxAdministration.isChecked());
 
@@ -441,7 +434,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             Log.e("EstateTag", estate.getAddress() + ", " + estate.getNbRoom());
             Log.e("entry", estate.getEntryDate());
             this.estateViewModel.createEstate(estate);
-
 
 
         } catch (Exception e) {

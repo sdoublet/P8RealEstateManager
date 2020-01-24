@@ -128,12 +128,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //get all estate
     private void getAllEstate() {
-        this.estateViewModel.getAllEstates().observe(this, this::displayEstateonMap);
+        this.estateViewModel.getAllEstates().observe(this, this::displayEstateOnMap);
         Log.e("est", "done");
     }
 
     //Display estate on map
-    private void displayEstateonMap(List<Estate> estateList) {
+    private void displayEstateOnMap(List<Estate> estateList) {
 
         mMap.setOnMarkerClickListener(this);
         this.estates = estateList;

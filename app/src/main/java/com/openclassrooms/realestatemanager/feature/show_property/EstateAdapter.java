@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.GlideException;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -22,6 +23,7 @@ import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.Utils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -58,32 +60,41 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull EstateViewHolder holder, int position) {
         Estate estate = estateList.get(position);
-        Log.e("idi", String.valueOf(estate.getAgentId()));
+        Log.e("adapterId", String.valueOf(estate.getAgentId()));
         holder.rowEstateBinding.setEstate(estate);
 
 
-    for (int i = 0; i < pictureList.size(); i++) {
-         Picture picture = pictureList.get(i);
+        for (int i = 0; i < pictureList.size(); i++) {
+            Picture picture = pictureList.get(i);
 
 
-        Log.e("picadp", String.valueOf(picture.getUri() + " " + picture.getEstateId()));
-        if (picture.getEstateId() == estate.getEstateId()) {
-              Log.e("picturelist", String.valueOf(picture.getEstateId()));
-            Uri uri = picture.getUri();
-            Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
+            Log.e("AdapterPic", String.valueOf(picture.getUri() + " " + picture.getEstateId()) + estate.getCity());
+            if (picture.getEstateId() == estate.getEstateId()) {
+                Log.e("picturelist", String.valueOf(picture.getEstateId()));
+                Uri uri = picture.getUri();
+                String uriString = uri.toString();
+                // to make difference between content and storage provide
+                if (uriString.contains("content")){
+                    Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
 
-         //   Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
-            try {
-                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                 bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
-            } catch (IOException e) {
-                e.printStackTrace();
+                }else {
+                    Glide.with(context).load(uri.getPath()).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+
+                }
+                Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
+
+                //   Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+//            try {
+//                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//                 bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//                Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//           // Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+
             }
-           // Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
-
-        }}
-
+        }
 
 
         this.isEstateSold(holder, estate);

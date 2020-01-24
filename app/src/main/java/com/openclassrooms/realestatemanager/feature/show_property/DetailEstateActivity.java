@@ -1,14 +1,17 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -17,6 +20,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,12 +35,12 @@ import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityDetailEstateBinding;
-import com.openclassrooms.realestatemanager.databinding.ActivityPopupBinding;
 import com.openclassrooms.realestatemanager.feature.add_update_property.UpdateEstateActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
+import com.openclassrooms.realestatemanager.util.ItemClickSupport;
 import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.PopupActivity;
 import com.openclassrooms.realestatemanager.util.Utils;
@@ -60,7 +64,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     private long allId;
     private double latitude;
     private double longitude;
-    private DeatailAdapter adapter;
+    private DetailAdapter adapter;
     FusedLocationProviderClient fusedLocationProviderClient;
 
 
@@ -88,11 +92,11 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         getCurrentEstate(allId);
 
 
-        this.soldestate();
+        this.soldEstate();
         this.updateEstate();
         this.showPoi();
         this.getPhotos(estateId);
-
+        this.onClickRecyclerView();
 
 
     }
@@ -114,14 +118,46 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     private void configureRecyclerView() {
         List<Picture> pictureList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        adapter = new DeatailAdapter(pictureList, this);
+        adapter = new DetailAdapter(pictureList, this);
         binding.recyclerViewDetail.setAdapter(adapter);
         binding.recyclerViewDetail.setLayoutManager(layoutManager);
 
-        // TODO: 02/12/2019 créer l'adapter et le viewholder
-        // TODO: 02/12/2019 créer une base pour les photos
+
     }
 
+    private void onClickRecyclerView() {
+        ItemClickSupport.addTo(binding.recyclerViewDetail, R.layout.row_photo_detail)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    Picture picture = adapter.getPicture(position);
+                    Uri uri = picture.getUri();
+                    String uriString = uri.toString();
+                    if (uriString.contains("content")){
+                        ImagePopup imagePopup = new ImagePopup(this);
+                        imagePopup.setBackgroundColor(Color.BLACK);
+                        imagePopup.setFullScreen(true);
+                        imagePopup.setHideCloseIcon(true);
+                        imagePopup.setImageOnClickClose(true);
+                        imagePopup.initiatePopupWithPicasso(uri);
+                        imagePopup.viewPopup();
+                        Log.e("popup", String.valueOf(position) + uri);
+                    }else {
+                        Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath());
+                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                        ImagePopup imagePopup = new ImagePopup(this);
+                        imagePopup.setBackgroundColor(Color.BLACK);
+                        imagePopup.setFullScreen(true);
+                        imagePopup.setHideCloseIcon(true);
+                        imagePopup.setImageOnClickClose(true);
+                        imagePopup.initiatePopup(drawable);
+                        imagePopup.viewPopup();
+                        
+                    }
+
+                });
+    }
+
+
+    //FOR MAP
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -162,14 +198,14 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         this.estateViewModel.getEstateFromId(estateId).observe(this, this::updateUi);
     }
 
-    private void getPhotos(long estateId){
+    private void getPhotos(long estateId) {
         this.estateViewModel.getAllPicturesFromEstate(estateId).observe(this, this::updatePictureRecyclerView);
     }
 
-    private void updatePictureRecyclerView(List<Picture> pictureList){
+    private void updatePictureRecyclerView(List<Picture> pictureList) {
         List<Picture> pictureList1 = new ArrayList<>(pictureList);
         this.adapter.updatePictureData(pictureList1);
-        Log.e("picss", String.valueOf(pictureList1.size()));
+        Log.e("DetailPics", String.valueOf(pictureList1.size()));
 
     }
 
@@ -182,10 +218,10 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         binding.editDescriptionDetail.setText(estate.getDescription());
         binding.tvMedia.setText(estate.getCity().toUpperCase());
         // show price in dollars or euros
-        if (!MoneyPref.getInstance().isEuro()){
+        if (!MoneyPref.getInstance().isEuro()) {
             binding.tvPriceDetail.setText(Utils.stringFromatPrice(estate.getPrice()) + " $");
 
-        }else {
+        } else {
             binding.tvPriceDetail.setText(Utils.stringFromatPrice(Utils.convertDollarToEuro(estate.getPrice())) + " €");
         }
         binding.tvSurfaceDetail.setText(String.valueOf(estate.getSurface()));
@@ -203,17 +239,18 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
             binding.tvSoldDate.setVisibility(View.VISIBLE);
         } else if (!estate.isSold()) {
             binding.soldBtn.setImageDrawable(getDrawable(R.drawable.house_for_sale_color));
-            binding.tvSoldDate.setVisibility(View.GONE);
+            binding.tvSoldDate.setText("Entry the " + estate.getEntryDate());
+            binding.tvSoldDate.setVisibility(View.VISIBLE);
 
         }
-        if(estate.getEntryDate()!=null){
+        if (estate.getEntryDate() != null) {
             Log.e("entry", estate.getEntryDate());
         }
 
     }
 
     //sold house
-    private void soldestate() {
+    private void soldEstate() {
 
         binding.soldBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,9 +279,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                     builder.setMessage("Do you want to restore estate to sale?");
                     builder.setPositiveButton("Yes", (dialog, which) -> {
                         estate.setSold(false);
-                        estate.setSoldDate(Utils.convertDate());
                         estateViewModel.updateEstate(estate);
-
 
                     });
                     builder.setNegativeButton("No", (dialog, which) -> {
@@ -262,7 +297,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     }
 
     //show points of interest
-    private void showPoi(){
+    private void showPoi() {
 
         binding.btnPoi.setOnClickListener(v -> {
             PopupActivity popupActivity = new PopupActivity(DetailEstateActivity.this);
@@ -276,8 +311,6 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
         });
     }
-
-
 
 
     //Update Estate

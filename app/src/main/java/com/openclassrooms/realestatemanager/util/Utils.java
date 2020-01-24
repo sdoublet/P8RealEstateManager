@@ -61,6 +61,7 @@ public class Utils {
 
     }
 
+
     /**
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE

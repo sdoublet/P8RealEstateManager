@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
@@ -63,8 +64,8 @@ public class MainFragment extends Fragment {
         View view = binding.getRoot();
         estateAgency = new EstateAgency();
         estateAgency.setLogo(R.drawable.real_estate);
-        estateAgency.setName("Agence de la fontaine");
-        estateAgency.setAdress("19 rue du bois 39380 CHAMBLAY");
+//        estateAgency.setName("Agence de la fontaine");
+//        estateAgency.setAdress("19 rue du bois 39380 CHAMBLAY");
         binding.setAgency(estateAgency);
 //        binding.imgLastEntry.setImageResource(R.drawable.country_house);
 //        binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.modern_house));
@@ -87,7 +88,7 @@ public class MainFragment extends Fragment {
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-        this.estateViewModel.intit(0);
+        // this.estateViewModel.intit(1);
     }
 
 
@@ -119,31 +120,29 @@ public class MainFragment extends Fragment {
         });
     }
 
-    //--------------------pbm de get user?????------------------
-    private void getAgent(){
+
+    private void getAgent() {
         this.estateViewModel.getAllUsers().observe(this, this::setAgencyData);
     }
 
-    private void setAgencyData(List<User> userList){
-        for (int i=0; i<userList.size(); i++){
-            if (userList.get(i).getAgentId()==AGENT_ID){
+    private void setAgencyData(List<User> userList) {
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getAgentId() == AGENT_ID) {
                 binding.agencyName.setText(userList.get(i).getAgency());
-                Log.e("userSize", String.valueOf(userList.size()));
             }
         }
     }
 
-    private void getCurrentUser(){
+    private void getCurrentUser() {
         this.estateViewModel.getUser(AgentId.getInstance().getAgentId()).observe(this, this::setAgencyTitle);
+        Log.e("agent", String.valueOf(AgentId.getInstance().getAgentId()));
     }
 
-    private void setAgencyTitle(User user){
-        Log.e("user", user.getName() + " " + user.getAgency());
+    private void setAgencyTitle(User user) {
         binding.agencyName.setText(user.getAgency());
     }
 
-
-
+    // TODO: 22/01/2020 change by agentId
     private void getPicture() {
         this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate  ORDER BY estateId DESC LIMIT 1")).observe(this, this::getLastPictureFromLastEstate);
         this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate  ORDER BY price DESC LIMIT 1 ")).observe(this, this::getPictureFromMostValueEstate);
@@ -155,7 +154,6 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < estateList.size(); i++) {
             estate = estateList.get(i);
         }
-        Log.e("last", String.valueOf(estate.getEstateId()));
         this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromLastEstate);
     }
 
@@ -164,7 +162,6 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < estates.size(); i++) {
             estate = estates.get(i);
             this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromMostValue);
-            Log.e("value", String.valueOf(estate.getPrice()));
         }
 
     }
@@ -174,7 +171,6 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < estateList.size(); i++) {
             estate = estateList.get(i);
             this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromLastSold);
-//            Log.e("sold", estate.getSoldDate());
         }
     }
 
@@ -182,15 +178,17 @@ public class MainFragment extends Fragment {
 
         if (picture != null) {
             Uri uri = picture.getUri();
-            Log.e("uriPic", String.valueOf(uri));
-            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                binding.imgLastEntry.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
+            Glide.with(this).load(uri).into(binding.imgLastEntry);
+
+//            Log.e("uriPic", String.valueOf(uri));
+//            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//                //binding.imgLastEntry.setImageBitmap(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            } else {
             binding.imgLastEntry.setImageDrawable(getResources().getDrawable(R.drawable.country_house));
         }
 
@@ -200,35 +198,41 @@ public class MainFragment extends Fragment {
     private void pictureFromMostValue(Picture picture) {
         if (picture != null) {
             Uri uri = picture.getUri();
-            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                binding.lastVisited.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-            binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.manor));
-        }
+            Glide.with(this).load(uri).into(binding.lastVisited);
 
-    }
+//            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//                //binding.lastVisited.setImageBitmap(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.manor));
+//        }
+
+    }}
 
 
     private void pictureFromLastSold(Picture picture) {
         if (picture != null) {
             Uri uri = picture.getUri();
-            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                binding.mostVisited.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Glide.with(this).load(uri).into(binding.mostVisited);
+
+//            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//               // binding.mostVisited.setImageBitmap(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }else {
-            binding.mostVisited.setImageDrawable(getResources().getDrawable(R.drawable.modern_house));
+            Glide.with(this).load(R.drawable.modern_house).into(binding.mostVisited);
+            //binding.mostVisited.setImageDrawable(getResources().getDrawable(R.drawable.modern_house));
+        }
         }
     }
-}
+
 
 
 

@@ -150,7 +150,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                         imagePopup.setImageOnClickClose(true);
                         imagePopup.initiatePopup(drawable);
                         imagePopup.viewPopup();
-                        
+
                     }
 
                 });

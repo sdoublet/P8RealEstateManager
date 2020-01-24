@@ -64,12 +64,8 @@ public class MainFragment extends Fragment {
         View view = binding.getRoot();
         estateAgency = new EstateAgency();
         estateAgency.setLogo(R.drawable.real_estate);
-//        estateAgency.setName("Agence de la fontaine");
-//        estateAgency.setAdress("19 rue du bois 39380 CHAMBLAY");
         binding.setAgency(estateAgency);
-//        binding.imgLastEntry.setImageResource(R.drawable.country_house);
-//        binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.modern_house));
-//        binding.mostVisited.setImageDrawable(getResources().getDrawable(R.drawable.manor));
+
         context = this.getContext();
         onClickSimulator();
         onClickEstate();
@@ -178,7 +174,13 @@ public class MainFragment extends Fragment {
 
         if (picture != null) {
             Uri uri = picture.getUri();
-            Glide.with(this).load(uri).into(binding.imgLastEntry);
+            String uriString = uri.toString();
+            if (uriString.contains("content")){
+                Glide.with(this).load(uri).into(binding.imgLastEntry);
+
+            }else {
+                Glide.with(this).load(uri.getPath()).into(binding.imgLastEntry);
+            }
 
 //            Log.e("uriPic", String.valueOf(uri));
 //            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
@@ -198,7 +200,13 @@ public class MainFragment extends Fragment {
     private void pictureFromMostValue(Picture picture) {
         if (picture != null) {
             Uri uri = picture.getUri();
-            Glide.with(this).load(uri).into(binding.lastVisited);
+            String urisString = uri.toString();
+            if (urisString.contains("content")){
+                Glide.with(this).load(uri).into(binding.lastVisited);
+
+            }else {
+                Glide.with(this).load(uri.getPath()).into(binding.lastVisited);
+            }
 
 //            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 //            try {
@@ -217,8 +225,12 @@ public class MainFragment extends Fragment {
     private void pictureFromLastSold(Picture picture) {
         if (picture != null) {
             Uri uri = picture.getUri();
-            Glide.with(this).load(uri).into(binding.mostVisited);
-
+            String uriString = uri.toString();
+            if (uriString.contains("content")){
+                Glide.with(this).load(uri).into(binding.mostVisited);
+            }else {
+                Glide.with(this).load(uri.getPath()).into(binding.mostVisited);
+            }
 //            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 //            try {
 //                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);

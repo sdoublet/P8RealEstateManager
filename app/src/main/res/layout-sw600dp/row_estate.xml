@@ -23,7 +23,7 @@
         android:background="#ffffdd"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:weightSum="6">
+        android:weightSum="8">
 
         <ImageView
             android:id="@+id/img_row_estate"
@@ -70,24 +70,25 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{estate.description}"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="2"/>
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{estate.heating}"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"/>-->
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{estate.address}"
+            android:layout_weight="2"
             android:layout_gravity="center"/>
 
         <ImageView
@@ -95,7 +96,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:layout_weight="0.05"
             android:layout_marginStart="20dp"
             tools:ignore="ContentDescription" />
 

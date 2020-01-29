@@ -77,15 +77,15 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
                     Log.e("EstatePictureList", String.valueOf(picture.getEstateId()));
                     Uri uri = picture.getUri();
                     String uriString = uri.toString();
-
+                    Glide.with(context).load(uri.getPath()).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
                     // to make difference between content and storage provide
-                    if (uriString.contains("content")) {
-                        Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+//                    if (uriString.contains("content")) {
+//                        Glide.with(context).load(uri).centerInside().into(holder.rowEstateBinding.imgRowEstate);
 
-                    } else {
-                        Glide.with(context).load(uri.getPath()).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+//                    } else {
+//                        Glide.with(context).load(uri.getPath()).centerInside().into(holder.rowEstateBinding.imgRowEstate);
 
-                    }
+//                    }
                     Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
 
                     //   Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);

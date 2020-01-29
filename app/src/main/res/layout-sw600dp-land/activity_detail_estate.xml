@@ -192,8 +192,8 @@
 
             <LinearLayout
                 android:id="@+id/map_layout_id"
-                android:layout_width="380dp"
-                android:layout_height="220dp"
+                android:layout_width="540dp"
+                android:layout_height="240dp"
                 android:layout_marginStart="40dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="@+id/tv_room_detail"
@@ -201,17 +201,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 >
 
-            <fragment
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:map="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/map_id"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                map:mapType="normal"
-                map:liteMode="true"
-                />
+                <fragment
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/map_id"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    map:mapType="normal"
+                    map:liteMode="true"
+                    />
             </LinearLayout>
             <ImageView
                 android:id="@+id/ic_bedroom_detail"
@@ -327,7 +327,7 @@
                 android:padding="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="35dp"
-                 />
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"

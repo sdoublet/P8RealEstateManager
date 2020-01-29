@@ -34,7 +34,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.googleMap.ApiGeocoding;
 import com.openclassrooms.realestatemanager.api.googleMap.Result;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
-import com.openclassrooms.realestatemanager.feature.geolocation.LocationStream;
+import com.openclassrooms.realestatemanager.api.geolocation.LocationStream;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
@@ -74,7 +74,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private ApiGeocoding geocoding;
     private String photoPath = null;
     private Bitmap image;
-    private List<Bitmap> bitmapList;
     private Long estateId;
     private int nbPictures;
     private List<Picture> pictureList;
@@ -97,7 +96,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
         pictureList = new ArrayList<>();
-        bitmapList = new ArrayList<>();
+
         //UI spinners
         this.configureSpinners();
 
@@ -122,21 +121,26 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         binding.buttonSave.setOnClickListener(v -> {
             checkPermissions();
             //configureViewModel();
-            createEstate();
+            //createEstate();
             String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
                     + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
+            // get lat lng
             executeHttpRequestWithretrofit(address);
             //add * picture in list
             //  savePhotoInDb(0);
 //                Log.e("estateiidd", String.valueOf(estateId));
             Log.e("agentId", String.valueOf(AGENT_ID));
-            estateViewModel.getAllEstates().observe(this, this::allEstate);
+           // estateViewModel.getAllEstates().observe(this, this::allEstate);
 
         });
         //c ici le pbm
         //estateViewModel.getLastEstate().observe(this, this::takeLastEntry);
     }
 
+    private void getAllEstates(){
+        estateViewModel.getAllEstates().observe(this, this::allEstate);
+
+    }
     private void allEstate(List<Estate> estates) {
         Log.e("help", String.valueOf(estates.size()));
         if (estates.size() > 0) {
@@ -151,25 +155,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         savePhotoInDb(estateId);
     }
 
-    public void updateData(List<Picture> pictures) {
 
-        Log.e("haha", String.valueOf(pictures.size()));
-        for (int i = 0; i < pictures.size(); i++) {
-
-            Log.e("all", String.valueOf(pictures.get(i).getEstateId()));
-            Log.e("all", pictures.get(i).getEstateId() + " " + pictures.get(i).getUri() + " " + pictures.get(i).getPhotoId() + "hello");
-        }
-        //       Uri uri = pictures.get(0).getUri();
-//        Bitmap bitmap = null;
-//        try {
-//            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri );
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        //      binding.addPhoto.setImageBitmap(bitmap);
-        //      Log.e("myUri", String.valueOf(uri));
-
-    }
 
     //-----------------------
     //PHOTO
@@ -239,6 +225,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(intent, REQUEST_GALLERY_CODE);
     }
@@ -254,7 +241,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         for (Picture picture : pictureList) {
             picture.setEstateId(estateId);
             estateViewModel.createPicture(picture);
-            Log.e("saveDb", String.valueOf(picture.getPhotoId())+ pictureList.size() + estateId);
+            Log.e("AddP", String.valueOf(picture.getPhotoId())+" " +  pictureList.size() + " " + estateId);
         }
     }
 
@@ -279,27 +266,24 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 public void onClick(DialogInterface dialog, int which) {
                     savePhotoInGallery();
                     Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
-                    // TODO: 04/12/2019 save in db
 
-                    //savePhotoInDb(estateId);
-                    //savePhotoInGallery();
 
                     setImageViewWithPicture(photoUri);//jen suis la--------------------
                     Picture picture = new Picture(Uri.parse(photoPath), null, 0);
 
-                    // ca s'affiche mais ca ne la recupere pas dans show property
                     pictureList.add(picture);
-                    Log.e("AddProPicList", String.valueOf(pictureList.size()));
+                    Log.e("AddP", String.valueOf(pictureList.size()));
 
                 }
             });
-            // TODO: 04/12/2019 save in db for negative btn
+
             builder.setNegativeButton("App", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     setImageViewWithPicture(photoUri);
                     Picture picture = new Picture(Uri.parse(photoPath), null, 0);
                     pictureList.add(picture);
+                    Log.e("AddP", String.valueOf(pictureList.size()));
                     //attention ca ne sera que sur la main photo
 
                 }
@@ -322,6 +306,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
                 setImageViewWithPicture(uri);
                 Picture picture = new Picture(uri, null, 0);
                 pictureList.add(picture);
+                Log.e("AddP", String.valueOf(pictureList.size()));
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -353,7 +339,6 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(getApplicationContext(), "you must buy pro version to add more photos", Toast.LENGTH_LONG).show();
         }
 
-        Log.e("bill", String.valueOf(bitmapList.size()));
     }
 
 
@@ -485,6 +470,9 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onComplete() {
                 Log.e("TAG", "on complete");
+                getAllEstates();
+                createEstate();
+
             }
         });
     }

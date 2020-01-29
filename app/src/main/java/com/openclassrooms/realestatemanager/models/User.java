@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.models;
 
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -12,21 +13,21 @@ public class User {
     private String surname;
     private String password;
     private String agency;
-    //private int photo;
     private String email;
+
 
     @Ignore
     public User() {
     }
 
-    public User(long agentId, String name,String surname,String password, String agency, String email) {
+    public User(long agentId, String name, String surname, String password, String agency,  String email) {
+        this.agentId = agentId;
         this.name = name;
-        //this.photo = photo;
         this.surname = surname;
         this.password = password;
         this.agency = agency;
         this.email = email;
-        this.agentId = agentId;
+
     }
 
     public String getSurname() {
@@ -68,13 +69,7 @@ public class User {
     public void setAgency(String agency) {
         this.agency = agency;
     }
-// public int getPhoto() {
-   //     return photo;
-   // }
 
-   // public void setPhoto(int photo) {
-//        this.photo = photo;
-//    }
 
     public String getEmail() {
         return email;
@@ -83,4 +78,10 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setAgentId(long agentId) {
+        this.agentId = agentId;
+    }
+
+
 }

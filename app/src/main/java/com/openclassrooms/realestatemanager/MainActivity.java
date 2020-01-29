@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,9 +18,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.api.apiUsd.ApiUsd;
-import com.openclassrooms.realestatemanager.databinding.FragmentMainBinding;
 import com.openclassrooms.realestatemanager.feature.auth.AuthenticationActivity;
-import com.openclassrooms.realestatemanager.feature.get_current_dollar_value.DollarStream;
+import com.openclassrooms.realestatemanager.api.get_current_dollar_value.DollarStream;
 import com.openclassrooms.realestatemanager.feature.setting.SettingActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
@@ -75,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //for nav item selected
         binding.navView.setNavigationItemSelectedListener(this);
 
+        // for dollar api
+        this.executeHttpRequest();
+
         //frag
        this.displayFragment(FRAGMENT_MAIN);
         //toolbar
@@ -82,12 +83,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
        this.configureViewmodel();
         // drawer
         this.configureDrawerLayout();
+
+
         //prefs
         this.getPreferencesMoney();
         this.getPreferencesUser();
 
 
-        this.executeHttpRequest();
 
         this.getDataSinceViewmodel();
 

@@ -150,7 +150,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
                         imagePopup.setImageOnClickClose(true);
                         imagePopup.initiatePopup(drawable);
                         imagePopup.viewPopup();
-
+                        Log.e("DetailUri", uriString);
                     }
 
                 });
@@ -203,9 +203,17 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void updatePictureRecyclerView(List<Picture> pictureList) {
-        List<Picture> pictureList1 = new ArrayList<>(pictureList);
-        this.adapter.updatePictureData(pictureList1);
-        Log.e("DetailPics", String.valueOf(pictureList1.size()));
+       // List<Picture> pictureList1 = new ArrayList<>(pictureList);
+        //send picture list in adapter
+       // this.adapter.updatePictureData(pictureList1);
+        Gson gson = new Gson();
+       // Log.e("pict", gson.toJson(pictureList) + pictureList.get(0).getUri());
+        for (int i=0; i<pictureList.size(); i++){
+
+            Log.e("DetailPics " + i, String.valueOf(pictureList.get(i).getUri()));
+        }
+        this.adapter.updatePictureData(pictureList);
+        Log.e("DetailPics", String.valueOf(pictureList.size()));
 
     }
 
@@ -214,7 +222,8 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     private void updateUi(Estate estate) {
 
         this.estate = estate;
-
+        Gson gson = new Gson();
+        Log.e("este", gson.toJson(estate));
         binding.editDescriptionDetail.setText(estate.getDescription());
         binding.tvMedia.setText(estate.getCity().toUpperCase());
         // show price in dollars or euros

@@ -3,10 +3,12 @@ package com.openclassrooms.realestatemanager.feature.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,10 @@ import com.openclassrooms.realestatemanager.models.EstateAgency;
 import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.util.AgentId;
+import com.openclassrooms.realestatemanager.util.CheckTabletDevice;
+import com.openclassrooms.realestatemanager.util.EstateValues;
+import com.openclassrooms.realestatemanager.util.MoneyPref;
+import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,10 +47,10 @@ import java.util.List;
  */
 public class MainFragment extends Fragment {
 
-    private EstateAgency estateAgency;
     private FragmentMainBinding binding;
-    EstateViewModel estateViewModel;
-    Context context;
+    private EstateViewModel estateViewModel;
+    private Context context;
+
     private long AGENT_ID = AgentId.getInstance().getAgentId();
 
     public static Fragment newInstance() {
@@ -62,7 +68,7 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         View view = binding.getRoot();
-        estateAgency = new EstateAgency();
+        EstateAgency estateAgency = new EstateAgency();
         estateAgency.setLogo(R.drawable.real_estate);
         binding.setAgency(estateAgency);
 
@@ -75,7 +81,18 @@ public class MainFragment extends Fragment {
         this.getAgent();
         this.getCurrentUser();
         this.getPicture();
+        this.forTest();
+        this.setUiTabMode();
         return view;
+
+    }
+
+    private void forTest() {
+        estateViewModel.getAllPicturesFromEstate(2).observe(this, this::getNbPict);
+    }
+
+    private void getNbPict(List<Picture> pictures) {
+        Log.e("testPict", String.valueOf(pictures.size()));
     }
 
     //---------------------
@@ -150,6 +167,7 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < estateList.size(); i++) {
             estate = estateList.get(i);
         }
+        EstateValues.getInstance().setLastEntry(estate.getEntryDate());
         this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromLastEstate);
     }
 
@@ -157,8 +175,10 @@ public class MainFragment extends Fragment {
         Estate estate = new Estate();
         for (int i = 0; i < estates.size(); i++) {
             estate = estates.get(i);
-            this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromMostValue);
+
         }
+        EstateValues.getInstance().setMostValue(estate.getPrice());
+        this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromMostValue);
 
     }
 
@@ -166,8 +186,10 @@ public class MainFragment extends Fragment {
         Estate estate = new Estate();
         for (int i = 0; i < estateList.size(); i++) {
             estate = estateList.get(i);
-            this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromLastSold);
         }
+        EstateValues.getInstance().setLastSold(estate.getSoldDate());
+        this.estateViewModel.getPictureByIdAsc(estate.getEstateId()).observe(this, this::pictureFromLastSold);
+
     }
 
     private void pictureFromLastEstate(Picture picture) {
@@ -175,10 +197,10 @@ public class MainFragment extends Fragment {
         if (picture != null) {
             Uri uri = picture.getUri();
             String uriString = uri.toString();
-            if (uriString.contains("content")){
+            if (uriString.contains("content")) {
                 Glide.with(this).load(uri).into(binding.imgLastEntry);
 
-            }else {
+            } else {
                 Glide.with(this).load(uri.getPath()).into(binding.imgLastEntry);
             }
 
@@ -190,7 +212,7 @@ public class MainFragment extends Fragment {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-            } else {
+        } else {
             binding.imgLastEntry.setImageDrawable(getResources().getDrawable(R.drawable.country_house));
         }
 
@@ -201,10 +223,10 @@ public class MainFragment extends Fragment {
         if (picture != null) {
             Uri uri = picture.getUri();
             String urisString = uri.toString();
-            if (urisString.contains("content")){
+            if (urisString.contains("content")) {
                 Glide.with(this).load(uri).into(binding.lastVisited);
 
-            }else {
+            } else {
                 Glide.with(this).load(uri.getPath()).into(binding.lastVisited);
             }
 
@@ -215,20 +237,20 @@ public class MainFragment extends Fragment {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-//        } else {
-//            binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.manor));
-//        }
+        } else {
+            binding.lastVisited.setImageDrawable(getResources().getDrawable(R.drawable.manor));
+        }
 
-    }}
+    }
 
 
     private void pictureFromLastSold(Picture picture) {
         if (picture != null) {
             Uri uri = picture.getUri();
             String uriString = uri.toString();
-            if (uriString.contains("content")){
+            if (uriString.contains("content")) {
                 Glide.with(this).load(uri).into(binding.mostVisited);
-            }else {
+            } else {
                 Glide.with(this).load(uri.getPath()).into(binding.mostVisited);
             }
 //            context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
@@ -238,12 +260,62 @@ public class MainFragment extends Fragment {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-        }else {
+        } else {
             Glide.with(this).load(R.drawable.modern_house).into(binding.mostVisited);
             //binding.mostVisited.setImageDrawable(getResources().getDrawable(R.drawable.modern_house));
         }
+    }
+
+    //--------------------TABLET MODE---------------------------
+
+    private void getAllEstates() {
+        this.estateViewModel.getEstatePerAgent(AGENT_ID).observe(this, this::uiForAllEstates);
+    }
+
+    private void uiForAllEstates(List<Estate> estates) {
+        binding.nbEstate.setText("Estates in your catalog: " + estates.size());
+        for (int i = 0; i < estates.size(); i++) {
+            int sold = 0;
+            int nbFlat = 0;
+            int nbHouse = 0;
+            int nbDuplex = 0;
+            int nbTriplex = 0;
+            if (estates.get(i).isSold()) {
+                sold++;
+            }
+            if (estates.get(i).getType().equals("Flat")) {
+                nbFlat++;
+            }
+            if (estates.get(i).getType().equals("House")) {
+                nbHouse++;
+            }
+             if (estates.get(i).getType().equals("Duplex")) {
+                nbDuplex++;
+            }
+             if (estates.get(i).getType().equals("Triplex")) {
+                nbTriplex++;
+            }
+
+            binding.nbSold.setText("Sold:       " + sold);
+            binding.nbFlat.setText("Flats:      " + nbFlat);
+            binding.nbHouse.setText("Houses: " + nbHouse);
+            binding.nbDuplex.setText("Duplex:   " + nbDuplex);
+            binding.nbTriplex.setText("Triplex:   " + nbTriplex);
+
         }
     }
+
+    private void setUiTabMode() {
+        if (CheckTabletDevice.isTablet(context)&&CheckTabletDevice.isLand(context)) {
+            binding.dollarValue.setText("Dollar value: " + MoneyPref.getInstance().getDollar());
+            binding.lastEntry.setText("last entry the: " + EstateValues.getInstance().getLastEntry());
+            binding.lastSold.setText("Last sold the: " + EstateValues.getInstance().getLastSold());
+            binding.mostValue.setText("Most value: " + Utils.stringFromatPrice(EstateValues.getInstance().getMostValue()) + " $");
+            getAllEstates();
+
+        }
+    }
+}
 
 
 

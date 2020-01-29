@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.feature.geolocation;
+package com.openclassrooms.realestatemanager.api.geolocation;
 
 import com.openclassrooms.realestatemanager.api.googleMap.ApiGeocoding;
 

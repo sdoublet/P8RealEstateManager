@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/goldLight">
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/logo_fragment_main"
@@ -98,9 +98,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="30dp"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@color/blackLight"
                     android:text="ESTATE"
-                    android:textColor="@color/goldLight" />
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/button_add_property"
@@ -109,9 +109,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="30dp"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@color/blackLight"
                     android:text="ADD PROPERTY"
-                    android:textColor="@color/goldLight" />
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/button_simulator"
@@ -120,9 +120,9 @@
                     android:layout_gravity="center"
                     android:layout_margin="30dp"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@color/blackLight"
                     android:text="SIMULATOR"
-                    android:textColor="@color/goldLight" />
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/button_map"
@@ -131,9 +131,9 @@
                     android:layout_gravity="center"
                     android:layout_margin="30dp"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@color/blackLight"
                     android:text="MAP"
-                    android:textColor="@color/goldLight" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -148,7 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@color/blackLight"
                     android:orientation="vertical">
 
                     <TextView
@@ -156,7 +156,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:layout_margin="2dp"
-                        android:textColor="@color/goldLight"
+                        android:textColor="@color/white"
                         android:text="Last entry" />
 
                     <ImageView
@@ -171,14 +171,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@color/blackLight"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textColor="@color/goldLight"
+                        android:textColor="@color/white"
                         android:text="Last sold" />
 
                     <ImageView
@@ -193,14 +193,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@color/blackLight"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textColor="@color/goldLight"
+                        android:textColor="@color/white"
                         android:text="Most value" />
 
                     <ImageView

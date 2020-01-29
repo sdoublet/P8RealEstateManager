@@ -27,6 +27,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <ImageView
 
                 android:layout_width="match_parent"
@@ -51,6 +52,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logo_fragment_main">
+
+            <TextView
+                android:id="@+id/agency_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Agency"
+                android:textColor="@color/goldLight"
+                android:textSize="25sp" />
+
 
             <TextView
                 android:layout_width="wrap_content"

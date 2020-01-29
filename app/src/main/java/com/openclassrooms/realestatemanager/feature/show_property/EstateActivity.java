@@ -73,14 +73,13 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
     //---------------------
     // Configure ViewModel
     //---------------------
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-       // this.estateViewModel.intit(AGENT_ID);
+        // this.estateViewModel.intit(AGENT_ID);
     }
 
 
@@ -96,13 +95,13 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         queryDuplex = intent.getStringExtra("duplex");
         if (queryy != null) {
             this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryy)).observe(this, this::updateEstateList);
-        }else if (queryHouse!=null){
+        } else if (queryHouse != null) {
             this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryHouse)).observe(this, this::updateEstateList);
-        }else if (queryFlat!=null) {
+        } else if (queryFlat != null) {
             this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryFlat)).observe(this, this::updateEstateList);
-        }else if (queryCommercial!=null){
+        } else if (queryCommercial != null) {
             this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryCommercial)).observe(this, this::updateEstateList);
-        }else if (queryDuplex!=null){
+        } else if (queryDuplex != null) {
             this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery(queryDuplex)).observe(this, this::updateEstateList);
         } else {
             getAllEstate();
@@ -113,16 +112,16 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private void displayEstateWithFilterDesc(int liveData) {
         switch (liveData) {
             case 1:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY price DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + " ORDER BY price DESC")).observe(this, this::updateEstateList);
                 break;
             case 2:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY nbRoom DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + " ORDER BY nbRoom DESC")).observe(this, this::updateEstateList);
                 break;
             case 3:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY surface DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + " ORDER BY surface DESC")).observe(this, this::updateEstateList);
                 break;
             case 4:
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY type DESC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + " ORDER BY type DESC")).observe(this, this::updateEstateList);
                 break;
             case 5:
                 this.estateViewModel.displaySoldEstateDesc().observe(this, this::updateEstateList);
@@ -135,22 +134,22 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
         switch (liveData) {
             case 1:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + "  ORDER BY price ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + "  ORDER BY price ASC")).observe(this, this::updateEstateList);
                 break;
             case 4:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + "  ORDER BY type ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + "  ORDER BY type ASC")).observe(this, this::updateEstateList);
 
                 break;
             case 2:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY nbroom ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + " ORDER BY nbroom ASC")).observe(this, this::updateEstateList);
 
 
                 break;
             case 3:
 
-                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId ="+ AGENT_ID + " ORDER BY surface ASC")).observe(this, this::updateEstateList);
+                this.estateViewModel.getEstateByFilter(new SimpleSQLiteQuery("SELECT * FROM Estate WHERE agentId =" + AGENT_ID + " ORDER BY surface ASC")).observe(this, this::updateEstateList);
 
                 break;
             case 5:
@@ -205,8 +204,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
-
     private void updateEstateList(List<Estate> estates) {
 
         this.adapter.updateData(estates);
@@ -214,31 +211,19 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void allEstateForPicture(List<Estate> estates) {
+
         for (int i = 0; i < estates.size(); i++) {
             long estateId = estates.get(i).getEstateId();
             this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
-//            for (int j = 0; j < pictureIdd.size(); j++) {
-//                if (pictureIdd.get(j).getEstateId() == estateId) {
-//                    Log.e("same", String.valueOf(pictureIdd.size()));
-//                    Log.e("same", estateId + "= " + pictureIdd.get(j));
-//                    //get only one picture
-//                    this.estateViewModel.getPictureByIdAsc(estateId).observe(this, this::updateUiWithPicture);
-//                } else {
-//                    Log.e("same", "pas trouvé");
-//                }
-           // }
 
         }
     }
 
     private void updateUiWithPicture(Picture picture) {
         pictureList.add(picture);
-//        for (int i = 0; i < pictureIdd.size(); i++) {
-//            pictureList.add(picture);
-//        }
+
         Log.e("size", String.valueOf(pictureList.size()));
-        Log.e("photoParId", picture.getEstateId() + " " + picture.getPhotoId() + " " + picture.getUri()); // list restreint
-        adapter.updateDataWithPicture(pictureList);// renvoi la liste restreinte
+        adapter.updateDataWithPicture(pictureList);
     }
 
     private void getAllPictures() {
@@ -246,28 +231,16 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
     private void takePictureId(List<Picture> pictures) {
-        // pour chaque estateId, si il y a des photos recupere la premiere
 
         for (int i = 0; i < pictures.size(); i++) {
-//            Log.e("pictureId", String.valueOf(pictures.get(i).getEstateId()));
-//            Log.e("pictureId", String.valueOf(pictures.get(i).getPhotoId()));
+
             long idd = pictures.get(i).getEstateId();
-            Log.e("EstateTakePictureId", idd +" " + pictures.get(i).getPhotoId());
+            Log.e("EstateTakePictureId", idd + " " + pictures.get(i).getPhotoId());
             pictureIdd.add(pictures.get(i));
-
-
         }
-
-
-
     }
 
-
-    // je dois recupere la totalité des images
-    // recuperer la première par estateId
-    //L'afficher dans la recyclerview
 
     //---------------
     //RECYCLER VIEW
@@ -314,15 +287,6 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    //----------------TEST FOR PICTURE---------------------
-    // je dois recuperer la photo prinicpale
-    // je dois donc faire une requete de la photo avec l'id de l'estate
-    // je dois faire un get mainPhoto depuis le ViewModel
-    //donc je dois modifier mon repository
-    // et mon dao
-    // donc je dois avoir une ref de la photo principale
-    //donc mon utilisateur doit pouvoir definir la photo principale
-    //peut etre en agrandissant les photos ou sinon par defaut la mainPhoto ou les 2
 
 
 

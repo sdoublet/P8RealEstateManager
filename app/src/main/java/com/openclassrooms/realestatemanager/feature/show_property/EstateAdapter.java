@@ -2,10 +2,12 @@ package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
     private Context context;
     private Bitmap bitmap;
     private Uri uri;
+    private RowEstateBinding binding;
 
 
     public EstateAdapter(List<Estate> estateList, Context context) {
@@ -47,11 +50,13 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         this.context = context;
     }
 
+
     @NonNull
     @Override
     public EstateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        RowEstateBinding binding = DataBindingUtil.inflate(inflater, R.layout.row_estate, parent, false);
+
+         binding = DataBindingUtil.inflate(inflater, R.layout.row_estate, parent, false);
 
         return new EstateViewHolder(binding);
 
@@ -63,27 +68,27 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
         Log.e("adapterId", String.valueOf(estate.getAgentId()));
         holder.rowEstateBinding.setEstate(estate);
 
-
         for (int i = 0; i < pictureList.size(); i++) {
-            Picture picture = pictureList.get(i);
+            if (pictureList.get(i) != null) {
+                Picture picture = pictureList.get(i);
 
+                Log.e("EstateAdapterPic", String.valueOf(picture.getUri() + " " + picture.getEstateId()) + estate.getCity());
+                if (picture.getEstateId() == estate.getEstateId()) {
+                    Log.e("EstatePictureList", String.valueOf(picture.getEstateId()));
+                    Uri uri = picture.getUri();
+                    String uriString = uri.toString();
 
-            Log.e("AdapterPic", String.valueOf(picture.getUri() + " " + picture.getEstateId()) + estate.getCity());
-            if (picture.getEstateId() == estate.getEstateId()) {
-                Log.e("picturelist", String.valueOf(picture.getEstateId()));
-                Uri uri = picture.getUri();
-                String uriString = uri.toString();
-                // to make difference between content and storage provide
-                if (uriString.contains("content")){
-                    Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+                    // to make difference between content and storage provide
+                    if (uriString.contains("content")) {
+                        Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
 
-                }else {
-                    Glide.with(context).load(uri.getPath()).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+                    } else {
+                        Glide.with(context).load(uri.getPath()).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
 
-                }
-                Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
+                    }
+                    Log.e("uri", "yes " + uri + " " + picture.getEstateId() + " " + position);
 
-                //   Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
+                    //   Glide.with(context).load(uri).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
 //            try {
 //                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 //                 bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
@@ -93,7 +98,10 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
 //            }
 //           // Glide.with(context).load(bitmap).centerCrop().into(holder.rowEstateBinding.imgRowEstate);
 
+
+                }
             }
+
         }
 
 

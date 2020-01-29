@@ -58,7 +58,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void launchFirstConnection(List<User> userList){
         Log.e("userlist", String.valueOf(userList.size()));
-        if (userList.size()>=1){
+        if (userList.size()>1){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();

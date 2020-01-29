@@ -25,8 +25,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     private List<Picture> pictureList;
     private Context context;
-    // private Uri uri;
-    private Bitmap bitmap;
+    Bitmap bitmap;
 
     public DetailAdapter(List<Picture> pictureList, Context context) {
         this.pictureList = pictureList;
@@ -47,9 +46,19 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
         Picture picture = pictureList.get(position);
         Uri uri = picture.getUri();
+
         String uriString = uri.toString();
         if (uriString.contains("content")) {
-            Glide.with(context).load(uri).centerCrop().into(holder.binding.rowImg);
+            try {
+                context.grantUriPermission(context.getPackageName(), uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+
+                //bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+                Log.e("e", e.getMessage());
+            }
+             Glide.with(context).load(uri).centerCrop().into(holder.binding.rowImg);
+
         } else {
             Glide.with(context).load(uri.getPath()).centerCrop().into(holder.binding.rowImg);
         }
@@ -70,6 +79,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailViewHolder> {
 
     @Override
     public int getItemCount() {
+        Log.e("detailSize", String.valueOf(pictureList.size()));
+
         return pictureList.size();
     }
 

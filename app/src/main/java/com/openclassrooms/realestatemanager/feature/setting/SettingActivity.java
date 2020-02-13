@@ -25,7 +25,7 @@ public class SettingActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("euro", MODE_PRIVATE);
         euro = sharedPreferences.getBoolean("euro", false);
         binding.euro.setChecked(euro);
-        String euro = String.valueOf(SharePreferencesHelper.getInstance().getDollar() + " €");
+        String euro = SharePreferencesHelper.getInstance().getDollar() + " €";
         binding.euroValue.setText(euro);
         dollarsEuro();
 
@@ -43,18 +43,15 @@ public class SettingActivity extends AppCompatActivity {
             binding.euro.setTextSize(20);
         }
 
-        binding.euro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    buttonView.setText("euros");
-                    SharePreferencesHelper.getInstance().setEuro(true);
-                    sharedPreferences.edit().putBoolean("euro", true).apply();
-                } else {
-                    buttonView.setText("dollars");
-                    SharePreferencesHelper.getInstance().setEuro(false);
-                    sharedPreferences.edit().putBoolean("euro", false).apply();
-                }
+        binding.euro.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                buttonView.setText("euros");
+                SharePreferencesHelper.getInstance().setEuro(true);
+                sharedPreferences.edit().putBoolean("euro", true).apply();
+            } else {
+                buttonView.setText("dollars");
+                SharePreferencesHelper.getInstance().setEuro(false);
+                sharedPreferences.edit().putBoolean("euro", false).apply();
             }
         });
 

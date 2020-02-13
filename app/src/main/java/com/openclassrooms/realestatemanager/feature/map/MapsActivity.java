@@ -164,12 +164,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    private Drawable resize(Drawable image) {
-        Bitmap b = ((BitmapDrawable) image).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 10, 10, false);
-        return new BitmapDrawable(getResources(), bitmapResized);
-    }
-
 
     @Override
     protected void onDestroy() {
@@ -182,7 +176,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onMarkerClick(Marker marker) {
 
         Intent intent = new Intent(getApplicationContext(), DetailEstateActivity.class);
-        //String ref = marker.getTag().toString();
         String ref = String.valueOf(marker.getTag());
         intent.putExtra("estate_map_id", ref);
         startActivity(intent);

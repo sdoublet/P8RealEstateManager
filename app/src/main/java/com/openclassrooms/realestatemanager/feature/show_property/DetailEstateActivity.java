@@ -96,7 +96,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         this.soldEstate();
         this.updateEstate();
         this.showPoi();
-        this.getPhotos(estateId);
+        this.getPhotos(allId);
         this.onClickRecyclerView();
 
 

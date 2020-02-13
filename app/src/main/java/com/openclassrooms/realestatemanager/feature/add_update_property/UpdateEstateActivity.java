@@ -88,6 +88,7 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
 
     private void getPictureByEstate() {
         this.estateViewModel.getAllPicturesFromEstate(estate.getEstateId()).observe(this, this::setPicture);
+        Log.e("getPict", "yes");
     }
 
     //UI
@@ -235,7 +236,10 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Dialog);
         builder.setTitle("Do you want to delete this picture?");
         //delete photo
-        builder.setPositiveButton("Yes", (dialog, which) -> estateViewModel.deletePicture(picture));
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            estateViewModel.deletePicture(picture);
+            getPictureByEstate();
+        });
         builder.setNegativeButton("No", (dialog, which) -> Log.e("UpdatePicUri", String.valueOf(picture.getUri())));
         alertDialog = builder.create();
         alertDialog.show();
@@ -263,6 +267,7 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 takePhoto();
+
                             }
                         });
                 alertDialog = builder.create();

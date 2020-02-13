@@ -211,7 +211,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         for (Picture picture : pictureList) {
             picture.setEstateId(estateId);
             estateViewModel.createPicture(picture);
-            Log.e("AddP", String.valueOf(picture.getPhotoId())+" " +  pictureList.size() + " " + estateId);
+            Log.e("AddP", picture.getPhotoId() +" " +  pictureList.size() + " " + estateId);
         }
         estateViewModel.getAllPicturesFromEstate(estateId).observe(this, pictures -> Log.e("photoDb", pictures.size() + ""));
     }
@@ -232,32 +232,26 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Dialog);
             builder.setTitle("Save directory");
             //Save photo in gallery
-            builder.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    savePhotoInGallery();
-                    Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
+            builder.setPositiveButton("Gallery", (dialog1, which) -> {
+                savePhotoInGallery();
+                Toast.makeText(getApplicationContext(), "Your photo is save", Toast.LENGTH_SHORT).show();
 
 
-                    setImageViewWithPicture(photoUri);//jen suis la--------------------
-                    Picture picture = new Picture(Uri.parse(photoPath), null, 0);
+                setImageViewWithPicture(photoUri);//jen suis la--------------------
+                Picture picture = new Picture(Uri.parse(photoPath), null, 0);
 
-                    pictureList.add(picture);
-                    Log.e("AddP", String.valueOf(pictureList.size()));
+                pictureList.add(picture);
+                Log.e("AddP", String.valueOf(pictureList.size()));
 
-                }
             });
 
-            builder.setNegativeButton("App", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    setImageViewWithPicture(photoUri);
-                    Picture picture = new Picture(Uri.parse(photoPath), null, 0);
-                    pictureList.add(picture);
-                    Log.e("AddP", String.valueOf(pictureList.size()));
-                    //attention ca ne sera que sur la main photo
+            builder.setNegativeButton("App", (dialog12, which) -> {
+                setImageViewWithPicture(photoUri);
+                Picture picture = new Picture(Uri.parse(photoPath), null, 0);
+                pictureList.add(picture);
+                Log.e("AddP", String.valueOf(pictureList.size()));
+                //attention ca ne sera que sur la main photo
 
-                }
             });
             dialog = builder.create();
             dialog.show();
@@ -396,7 +390,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(this, "you forget some fields", Toast.LENGTH_SHORT).show();
             Log.e("tag", e.getMessage());
         }
-        //savePhotoInDb(estateId);
+
 
 
     }

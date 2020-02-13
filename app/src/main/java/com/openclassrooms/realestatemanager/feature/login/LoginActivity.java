@@ -21,7 +21,7 @@ import com.openclassrooms.realestatemanager.databinding.ActivityLoginBinding;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.User;
-import com.openclassrooms.realestatemanager.util.AgentId;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 
 import java.util.List;
 
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 && user.getSurname() != null && !user.getSurname().equals("") && user.getAgency() != null && !user.getAgency().equals("")
                 && user.getPassword() != null && !user.getPassword().equals("")) {
             estateViewModel.insertNewUser(user);
-            AgentId.getInstance().setAgentId(user.getAgentId());
+            SharePreferencesHelper.getInstance().setAgentId(user.getAgentId());
             Toast.makeText(this, "Welcome " + user.getSurname(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

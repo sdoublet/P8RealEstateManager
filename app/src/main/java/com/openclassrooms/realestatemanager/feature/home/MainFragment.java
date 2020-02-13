@@ -3,12 +3,8 @@ package com.openclassrooms.realestatemanager.feature.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +29,11 @@ import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.EstateAgency;
 import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.models.User;
-import com.openclassrooms.realestatemanager.util.AgentId;
 import com.openclassrooms.realestatemanager.util.CheckTabletDevice;
 import com.openclassrooms.realestatemanager.util.EstateValues;
-import com.openclassrooms.realestatemanager.util.MoneyPref;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 import com.openclassrooms.realestatemanager.util.Utils;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -51,7 +45,7 @@ public class MainFragment extends Fragment {
     private EstateViewModel estateViewModel;
     private Context context;
 
-    private long AGENT_ID = AgentId.getInstance().getAgentId();
+    private long AGENT_ID = SharePreferencesHelper.getInstance().getAgentId();
 
     public static Fragment newInstance() {
         return new MainFragment();
@@ -147,8 +141,8 @@ public class MainFragment extends Fragment {
     }
 
     private void getCurrentUser() {
-        this.estateViewModel.getUser(AgentId.getInstance().getAgentId()).observe(this, this::setAgencyTitle);
-        Log.e("agent", String.valueOf(AgentId.getInstance().getAgentId()));
+        this.estateViewModel.getUser(SharePreferencesHelper.getInstance().getAgentId()).observe(this, this::setAgencyTitle);
+        Log.e("agent", String.valueOf(SharePreferencesHelper.getInstance().getAgentId()));
     }
 
     private void setAgencyTitle(User user) {
@@ -307,7 +301,7 @@ public class MainFragment extends Fragment {
 
     private void setUiTabMode() {
         if (CheckTabletDevice.isTablet(context)&&CheckTabletDevice.isLand(context)) {
-            binding.dollarValue.setText("Dollar value: " + MoneyPref.getInstance().getDollar());
+            binding.dollarValue.setText("Dollar value: " + SharePreferencesHelper.getInstance().getDollar());
             binding.lastEntry.setText("last entry the: " + EstateValues.getInstance().getLastEntry());
             binding.lastSold.setText("Last sold the: " + EstateValues.getInstance().getLastSold());
             binding.mostValue.setText("Most value: " + Utils.stringFromatPrice(EstateValues.getInstance().getMostValue()) + " $");

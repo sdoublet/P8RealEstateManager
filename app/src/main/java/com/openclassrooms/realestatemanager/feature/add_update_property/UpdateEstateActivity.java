@@ -158,29 +158,29 @@ public class UpdateEstateActivity extends AppCompatActivity implements AdapterVi
             Log.e("UpdatePiceSize", String.valueOf(pictureList.size()));
             switch (pictureList.size()) {
                 case 1:
-                    Glide.with(this).load(pictureList.get(0).getUri()).into(binding.mainPhoto);
+                    Glide.with(this).load(pictureList.get(0).getUri().getPath()).into(binding.mainPhoto);
                     break;
                 case 2:
-                    Glide.with(this).load(pictureList.get(0).getUri()).into(binding.mainPhoto);
-                    Glide.with(this).load(pictureList.get(1).getUri()).into(binding.photo2);
+                    Glide.with(this).load(pictureList.get(0).getUri().getPath()).into(binding.mainPhoto);
+                    Glide.with(this).load(pictureList.get(1).getUri().getPath()).into(binding.photo2);
                     break;
                 case 3:
-                    Glide.with(this).load(pictureList.get(0).getUri()).into(binding.mainPhoto);
-                    Glide.with(this).load(pictureList.get(1).getUri()).into(binding.photo2);
-                    Glide.with(this).load(pictureList.get(2).getUri()).into(binding.photo3);
+                    Glide.with(this).load(pictureList.get(0).getUri().getPath()).into(binding.mainPhoto);
+                    Glide.with(this).load(pictureList.get(1).getUri().getPath()).into(binding.photo2);
+                    Glide.with(this).load(pictureList.get(2).getUri().getPath()).into(binding.photo3);
                     break;
                 case 4:
-                    Glide.with(this).load(pictureList.get(0).getUri()).into(binding.mainPhoto);
-                    Glide.with(this).load(pictureList.get(1).getUri()).into(binding.photo2);
-                    Glide.with(this).load(pictureList.get(2).getUri()).into(binding.photo3);
-                    Glide.with(this).load(pictureList.get(3).getUri()).into(binding.photo4);
+                    Glide.with(this).load(pictureList.get(0).getUri().getPath()).into(binding.mainPhoto);
+                    Glide.with(this).load(pictureList.get(1).getUri().getPath()).into(binding.photo2);
+                    Glide.with(this).load(pictureList.get(2).getUri().getPath()).into(binding.photo3);
+                    Glide.with(this).load(pictureList.get(3).getUri().getPath()).into(binding.photo4);
                     break;
                 case 5:
-                    Glide.with(this).load(pictureList.get(0).getUri()).into(binding.mainPhoto);
-                    Glide.with(this).load(pictureList.get(1).getUri()).into(binding.photo2);
-                    Glide.with(this).load(pictureList.get(2).getUri()).into(binding.photo3);
-                    Glide.with(this).load(pictureList.get(3).getUri()).into(binding.photo4);
-                    Glide.with(this).load(pictureList.get(4).getUri()).into(binding.photo5);
+                    Glide.with(this).load(pictureList.get(0).getUri().getPath()).into(binding.mainPhoto);
+                    Glide.with(this).load(pictureList.get(1).getUri().getPath()).into(binding.photo2);
+                    Glide.with(this).load(pictureList.get(2).getUri().getPath()).into(binding.photo3);
+                    Glide.with(this).load(pictureList.get(3).getUri().getPath()).into(binding.photo4);
+                    Glide.with(this).load(pictureList.get(4).getUri().getPath()).into(binding.photo5);
                     break;
 
             }

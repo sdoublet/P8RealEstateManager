@@ -1,13 +1,9 @@
 package com.openclassrooms.realestatemanager.feature.show_property;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +13,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.GlideException;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.RowEstateBinding;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
-import com.openclassrooms.realestatemanager.util.MoneyPref;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 import com.openclassrooms.realestatemanager.util.Utils;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
@@ -114,7 +107,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateViewHolder> {
 
     //Catch money preference
     private void moneyPref(@NonNull EstateViewHolder holder, Estate estate) {
-        if (!MoneyPref.getInstance().isEuro()) {
+        if (!SharePreferencesHelper.getInstance().isEuro()) {
             holder.rowEstateBinding.rowPrice.setText(Utils.stringFromatPrice(estate.getPrice()) + " $");
 
         } else {

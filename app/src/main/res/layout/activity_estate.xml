@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".feature.show_property.EstateActivity"
-        android:background="@color/white">
+        android:background="@color/goldLight">
 
         <LinearLayout
             android:id="@+id/filter_bar"
@@ -22,7 +22,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:baselineAligned="false"
             android:weightSum="6"
-            android:background="@color/white">
+            android:background="@color/goldLight">
 
             <LinearLayout
                 android:id="@+id/filter_price"
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:text="Price"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/goldLight"
                     android:textStyle="bold" />
                 <ImageView
                     android:id="@+id/drop_price"
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:text="Room"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/goldLight"
                     android:textStyle="bold" />
                 <ImageView
                     android:id="@+id/drop_room"
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="Surface"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/goldLight"
                     android:textStyle="bold" />
                 <ImageView
                     android:id="@+id/drop_surface"
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="Sold"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/goldLight"
                     android:textStyle="bold" />
                 <ImageView
                     android:id="@+id/drop_sold"
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:text="Type"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/goldLight"
                     android:textStyle="bold" />
                 <ImageView
                     android:id="@+id/drop_type"
@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:text="More"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/goldLight"
                     android:textStyle="bold" />
                 <ImageView
                     android:layout_width="match_parent"

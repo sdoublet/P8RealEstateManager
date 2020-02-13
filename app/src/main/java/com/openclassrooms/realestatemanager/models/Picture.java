@@ -5,6 +5,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
@@ -13,8 +14,8 @@ import androidx.room.TypeConverters;
 import com.openclassrooms.realestatemanager.util.Converters;
 
 @Entity(foreignKeys = @ForeignKey(entity = Estate.class,
-parentColumns = "estateId",
-childColumns = "estateId"))
+        parentColumns = "estateId",
+        childColumns = "estateId"))
 public class Picture {
 
     @PrimaryKey(autoGenerate = true)
@@ -24,9 +25,11 @@ public class Picture {
     private String description;
     private long estateId;
 
+    @Ignore
     public Picture() {
     }
 
+    @Ignore
     public Picture(Uri uri, String description) {
         this.uri = uri;
         this.description = description;
@@ -76,7 +79,7 @@ public class Picture {
     // converter
     @NonNull
     @Override
-    public  String toString(){
+    public String toString() {
         return "Picture{" +
                 "photoId=" + photoId +
                 ", uri=" + uri +
@@ -85,8 +88,9 @@ public class Picture {
                 '}';
 
     }
+
     //---------------POPULATE DATA------------
-    public static Picture[] populateDta(){
+    public static Picture[] populateDta() {
         return new Picture[]{
                 new Picture(Uri.parse("android.ressource://com.openclassrooms.realestatemanager/drawable/country_house"), "country", 1),
                 new Picture(Uri.parse("android.ressource://com.openclassrooms.realestatemanager/drawable/manor"), "manor", 1),

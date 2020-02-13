@@ -94,14 +94,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             locationResult.addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Location currentLocation = (Location) task.getResult();
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM));
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                    markerOptions.title("My position");
-                    marker = mMap.addMarker(markerOptions);
-                    Log.e("location", "latitude = " + currentLocation.getLatitude());
-                    Log.e("location", "longitude = " + currentLocation.getLongitude());
+                    if (currentLocation!=null){
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM));
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                        markerOptions.title("My position");
+                        marker = mMap.addMarker(markerOptions);
+                        Log.e("location", "latitude = " + currentLocation.getLatitude());
+                        Log.e("location", "longitude = " + currentLocation.getLongitude());
+                    }else {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.9933416, 5.7056111), DEFAULT_ZOOM));
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(new LatLng(46.9933416, 5.7056111));
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                        markerOptions.title("My position");
+                        marker = mMap.addMarker(markerOptions);
+                    }
+
                 } else {
                     Log.d(TAG, "Current location is null. Using defaults.");
                     Log.e(TAG, "Exception: %s", task.getException());
@@ -144,6 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .title(String.valueOf(estate.getPrice())));
             marker.setIcon(BitmapDescriptorFactory.defaultMarker());
             marker.setTag(estate.getEstateId());
+            Log.e("t", String.valueOf(estate.getEstateId()));
 
 
 
@@ -170,8 +181,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        Intent intent = new Intent(this, DetailEstateActivity.class);
-        String ref = marker.getTag().toString();
+        Intent intent = new Intent(getApplicationContext(), DetailEstateActivity.class);
+        //String ref = marker.getTag().toString();
+        String ref = String.valueOf(marker.getTag());
         intent.putExtra("estate_map_id", ref);
         startActivity(intent);
         return false;

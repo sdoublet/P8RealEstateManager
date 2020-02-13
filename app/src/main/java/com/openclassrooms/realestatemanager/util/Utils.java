@@ -35,11 +35,11 @@ public class Utils {
      * @return
      */
     public static int convertDollarToEuro(int dollars){
-        return (int) Math.round(dollars * MoneyPref.getInstance().getDollar());
+        return (int) Math.round(dollars * SharePreferencesHelper.getInstance().getDollar());
     }
 
     // convert euros to dollars
-    public static int convertEuroToDollar(int euros){return (int)Math.round(euros/MoneyPref.getInstance().getDollar());}
+    public static int convertEuroToDollar(int euros){return (int)Math.round(euros/SharePreferencesHelper.getInstance().getDollar());}
 
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié

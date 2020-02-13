@@ -22,9 +22,9 @@ import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
-import com.openclassrooms.realestatemanager.util.AgentId;
 import com.openclassrooms.realestatemanager.util.Divider;
 import com.openclassrooms.realestatemanager.util.ItemClickSupport;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class EstateActivity extends AppCompatActivity implements View.OnClickLis
     private EstateAdapter adapter;
     EstateDao estateDao;
     private boolean isClicked = false;
-    private long AGENT_ID = AgentId.getInstance().getAgentId();
+    private long AGENT_ID = SharePreferencesHelper.getInstance().getAgentId();
     List<Picture> pictureIdd = new ArrayList<>();
     List<Picture> pictureList = new ArrayList<>();
     public static final String perms = Manifest.permission.READ_EXTERNAL_STORAGE;

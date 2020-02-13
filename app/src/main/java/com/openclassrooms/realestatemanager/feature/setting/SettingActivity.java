@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivitySettingBinding;
-import com.openclassrooms.realestatemanager.util.MoneyPref;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class SettingActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("euro", MODE_PRIVATE);
         euro = sharedPreferences.getBoolean("euro", false);
         binding.euro.setChecked(euro);
-        String euro = String.valueOf(MoneyPref.getInstance().getDollar() + " €");
+        String euro = String.valueOf(SharePreferencesHelper.getInstance().getDollar() + " €");
         binding.euroValue.setText(euro);
         dollarsEuro();
 
@@ -36,7 +36,7 @@ public class SettingActivity extends AppCompatActivity {
             binding.euro.setText("euros");
             binding.euro.setTextColor(getResources().getColor(R.color.colorAccent));
             binding.euro.setTextSize(20);
-            MoneyPref.getInstance().setEuro(true);
+            SharePreferencesHelper.getInstance().setEuro(true);
         } else {
             binding.euro.setText("dollars");
             binding.euro.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -48,11 +48,11 @@ public class SettingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     buttonView.setText("euros");
-                    MoneyPref.getInstance().setEuro(true);
+                    SharePreferencesHelper.getInstance().setEuro(true);
                     sharedPreferences.edit().putBoolean("euro", true).apply();
                 } else {
                     buttonView.setText("dollars");
-                    MoneyPref.getInstance().setEuro(false);
+                    SharePreferencesHelper.getInstance().setEuro(false);
                     sharedPreferences.edit().putBoolean("euro", false).apply();
                 }
             }

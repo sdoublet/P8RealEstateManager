@@ -15,7 +15,7 @@ import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.User;
-import com.openclassrooms.realestatemanager.util.AgentId;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
 
   private ActivityProfileBinding binding;
   private EstateViewModel estateViewModel;
-  private long AGENT_ID = AgentId.getInstance().getAgentId();
+  private long AGENT_ID = SharePreferencesHelper.getInstance().getAgentId();
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     Glide.with(this).load(getDrawable(R.drawable.photo_seb)).circleCrop().into(binding.photoProfile);// take photo since db
     configureViewModel();
     this.setData(AGENT_ID);
-    Log.e("agentId", String.valueOf(AgentId.getInstance().getAgentId()));
+    Log.e("agentId", String.valueOf(SharePreferencesHelper.getInstance().getAgentId()));
 
   }
 

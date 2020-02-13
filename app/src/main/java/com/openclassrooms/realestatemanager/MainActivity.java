@@ -30,8 +30,7 @@ import com.openclassrooms.realestatemanager.feature.credit_simulator.CreditSimul
 import com.openclassrooms.realestatemanager.feature.home.MainFragment;
 import com.openclassrooms.realestatemanager.feature.show_property.EstateActivity;
 import com.openclassrooms.realestatemanager.feature.user_profile.ProfileActivity;
-import com.openclassrooms.realestatemanager.util.AgentId;
-import com.openclassrooms.realestatemanager.util.MoneyPref;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import io.reactivex.disposables.Disposable;
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getDataSinceViewmodel(){
-            estateViewModel.getUser(AgentId.getInstance().getAgentId()).observe(this, this::setHeaderData);
+            estateViewModel.getUser(SharePreferencesHelper.getInstance().getAgentId()).observe(this, this::setHeaderData);
     }
 
     private void setHeaderData(User user){
@@ -187,14 +186,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = getSharedPreferences("euro", MODE_PRIVATE);
         boolean euro = sharedPreferences.getBoolean("euro", false);
         if (euro){
-            MoneyPref.getInstance().setEuro(true);
+            SharePreferencesHelper.getInstance().setEuro(true);
         }else {
-            MoneyPref.getInstance().setEuro(false);
+            SharePreferencesHelper.getInstance().setEuro(false);
         }
     }
     private void getPreferencesUser(){
         sharedPreferences = getSharedPreferences("PREFS", MODE_PRIVATE);
-        AgentId.getInstance().setAgentId(sharedPreferences.getLong("PREFS", 1));
+        SharePreferencesHelper.getInstance().setAgentId(sharedPreferences.getLong("PREFS", 1));
     }
 
 
@@ -207,10 +206,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (usd.getRates().getEUR()!=null){
             euroValue = usd.getRates().getEUR();
             Log.e("dollar", String.valueOf(euroValue));
-            MoneyPref.getInstance().setDollar(euroValue);
+            SharePreferencesHelper.getInstance().setDollar(euroValue);
         }else
         {
-            MoneyPref.getInstance().setDollar(0.90);
+            SharePreferencesHelper.getInstance().setDollar(0.90);
             Log.e("dollar", "does'nt work");
         }
 

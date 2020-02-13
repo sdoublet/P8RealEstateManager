@@ -41,8 +41,8 @@ import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
 import com.openclassrooms.realestatemanager.util.ItemClickSupport;
-import com.openclassrooms.realestatemanager.util.MoneyPref;
 import com.openclassrooms.realestatemanager.util.PopupActivity;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.util.ArrayList;
@@ -78,6 +78,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
 
         if (estateId == 0) {
             allId = Long.parseLong(getIntent().getStringExtra(ESTATE_FROM_MAP));
+            Log.e("idFromMap", String.valueOf(allId));
         } else {
             allId = estateId;
         }
@@ -107,7 +108,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
     private void configureViewModel() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.estateViewModel = ViewModelProviders.of(this, viewModelFactory).get(EstateViewModel.class);
-        //this.estateViewModel.intit(AGENT_ID);
+
     }
 
     //----------------
@@ -227,7 +228,7 @@ public class DetailEstateActivity extends AppCompatActivity implements OnMapRead
         binding.editDescriptionDetail.setText(estate.getDescription());
         binding.tvMedia.setText(estate.getCity().toUpperCase());
         // show price in dollars or euros
-        if (!MoneyPref.getInstance().isEuro()) {
+        if (!SharePreferencesHelper.getInstance().isEuro()) {
             binding.tvPriceDetail.setText(Utils.stringFromatPrice(estate.getPrice()) + " $");
 
         } else {

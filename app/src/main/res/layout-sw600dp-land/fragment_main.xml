@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="agency"
             type="com.openclassrooms.realestatemanager.models.EstateAgency" />
+
         <variable
             name="handlers"
             type="com.openclassrooms.realestatemanager.feature.home.MainFragment" />
@@ -26,6 +28,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
 
             <ImageView
 
@@ -61,14 +64,15 @@
                 android:textColor="@color/goldLight"
                 android:textSize="25sp" />
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@{agency.adress}"
+                android:text="@{agency.name}"
                 android:textColor="@color/goldLight"
-                android:textSize="15sp" />
+                android:textSize="25sp" />
+
 
         </LinearLayout>
 
@@ -87,7 +91,7 @@
                 android:id="@+id/choice_area"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:orientation="vertical"
                 android:weightSum="4">
 
@@ -141,6 +145,126 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@color/goldLight"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:text="Your stats and info"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/dollar_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="25dp"
+                    android:text="Dollar value:"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nb_estate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nb_sold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nb_flat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nb_house"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nb_duplex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nb_triplex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/last_entry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/last_sold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/most_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
                 android:orientation="vertical"
                 android:weightSum="3">
 
@@ -154,17 +278,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
                         android:layout_margin="2dp"
-                        android:textColor="@color/goldLight"
-                        android:text="Last entry" />
+                        android:gravity="center_horizontal"
+                        android:text="Last entry"
+                        android:textColor="@color/goldLight" />
 
                     <ImageView
                         android:id="@+id/img_last_entry"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        />
+                        android:scaleType="centerCrop" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -178,14 +301,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textColor="@color/goldLight"
-                        android:text="Last sold" />
+                        android:text="Last sold"
+                        android:textColor="@color/goldLight" />
 
                     <ImageView
                         android:id="@+id/most_visited"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop" />
 
                 </LinearLayout>
 
@@ -200,14 +323,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textColor="@color/goldLight"
-                        android:text="Most value" />
+                        android:text="Most value"
+                        android:textColor="@color/goldLight" />
 
                     <ImageView
                         android:id="@+id/last_visited"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop" />
 
                 </LinearLayout>
 

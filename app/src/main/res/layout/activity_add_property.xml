@@ -78,7 +78,7 @@
                 android:id="@+id/add_photo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@color/blackLight"
+                android:background="@color/colorAccent"
                 android:src="@drawable/ic_add_a_photo"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_description"
                 app:layout_constraintLeft_toLeftOf="parent"

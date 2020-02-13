@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,14 +31,13 @@ import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.EstateViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.api.googleMap.ApiGeocoding;
-import com.openclassrooms.realestatemanager.api.googleMap.Result;
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding;
 import com.openclassrooms.realestatemanager.api.geolocation.LocationStream;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Estate;
 import com.openclassrooms.realestatemanager.models.Picture;
-import com.openclassrooms.realestatemanager.util.AgentId;
+import com.openclassrooms.realestatemanager.util.SharePreferencesHelper;
 import com.openclassrooms.realestatemanager.util.Utils;
 
 import java.io.File;
@@ -70,21 +68,17 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private ActivityAddPropertyBinding binding;
     private Estate estate;
     private Disposable disposable;
-    private Result apiResult;
     private ApiGeocoding geocoding;
     private String photoPath = null;
     private Bitmap image;
-    private Long estateId;
-    private int nbPictures;
+    private int estateId;
     private List<Picture> pictureList;
-    private ScaleGestureDetector scaleGestureDetector;
-    private boolean mainPhoto;
     private Uri photoUri;
 
 
     //FOR DATA
     private EstateViewModel estateViewModel;
-    private static long AGENT_ID = AgentId.getInstance().getAgentId();
+    private static long AGENT_ID = SharePreferencesHelper.getInstance().getAgentId();
 
     //FILE PURPOSE
     // public static final String FOLDERNAME=  "estateFolder";
@@ -102,7 +96,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
 
         //Configure ViewModel
         this.configureViewModel();
-        // estateViewModel.getAllPictures().observe(this, this::updateData);
+
         addPhoto();
 
         //Save data on db
@@ -120,40 +114,29 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void save() {
         binding.buttonSave.setOnClickListener(v -> {
             checkPermissions();
-            //configureViewModel();
-            //createEstate();
+
             String address = binding.editAddress.getText().toString() + " " + binding.editZipCode.getText().toString() + " "
                     + binding.editCity.getText().toString() + ", " + Utils.localeCountry(getApplicationContext());
             // get lat lng
             executeHttpRequestWithretrofit(address);
-            //add * picture in list
-            //  savePhotoInDb(0);
-//                Log.e("estateiidd", String.valueOf(estateId));
-            Log.e("agentId", String.valueOf(AGENT_ID));
-           // estateViewModel.getAllEstates().observe(this, this::allEstate);
+
 
         });
-        //c ici le pbm
-        //estateViewModel.getLastEstate().observe(this, this::takeLastEntry);
-    }
-
-    private void getAllEstates(){
-        estateViewModel.getAllEstates().observe(this, this::allEstate);
 
     }
-    private void allEstate(List<Estate> estates) {
-        Log.e("help", String.valueOf(estates.size()));
-        if (estates.size() > 0) {
-            estateViewModel.getLastEstate().observe(this, this::takeLastEntry);
 
-        }
+    // Get last estate in db to take the last estateId to save photo in db
+    private void    getLastEstateId(){
+        estateViewModel.getLastEstate().observe(this, this::setLastEstateId);
+
     }
- // it's for why????????????????????
-    public void takeLastEntry(int lastId) {
-        Log.e("last", String.valueOf(lastId));
-        estateId = (long) lastId;
-        savePhotoInDb(estateId);
+    private void setLastEstateId(int estateId) {
+        Log.e("estateId", String.valueOf(estateId));
+        this.estateId = estateId;
+        Log.e("newEstate", String.valueOf(this.estateId));
+        //savePhotoInDb(estateId);
     }
+
 
 
 
@@ -164,30 +147,17 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     private void addPhoto() {
         checkCameraPermissions();
         checkPermissions();
-        binding.addPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog alertDialog;
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
-                builder.setTitle("Camera or Gallery?").
-                        setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                getPhotoSinceGallery();
-                            }
-                        }).
-                        setNegativeButton("Camera", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                takePhoto();
-                            }
-                        });
-                alertDialog = builder.create();
-                alertDialog.show();
-                alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
-                alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+        binding.addPhoto.setOnClickListener(v -> {
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.Theme_MaterialComponents_Dialog);
+            builder.setTitle("Camera or Gallery?").
+                    setPositiveButton("Gallery", (dialog, which) -> getPhotoSinceGallery()).
+                    setNegativeButton("Camera", (dialog, which) -> takePhoto());
+            alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+            alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
 
-            }
         });
     }
 
@@ -243,6 +213,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             estateViewModel.createPicture(picture);
             Log.e("AddP", String.valueOf(picture.getPhotoId())+" " +  pictureList.size() + " " + estateId);
         }
+        estateViewModel.getAllPicturesFromEstate(estateId).observe(this, pictures -> Log.e("photoDb", pictures.size() + ""));
     }
 
 
@@ -427,6 +398,7 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
         }
         //savePhotoInDb(estateId);
 
+
     }
 
 
@@ -470,8 +442,9 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onComplete() {
                 Log.e("TAG", "on complete");
-                getAllEstates();
                 createEstate();
+                getLastEstateId();
+                finish();
 
             }
         });
@@ -546,6 +519,8 @@ public class AddPropertyActivity extends AppCompatActivity implements AdapterVie
     protected void onDestroy() {
         super.onDestroy();
         disposeWhenDestroy();
+        savePhotoInDb(estateId);
+       Log.e("destroyId", String.valueOf(estateId));
     }
 
 
